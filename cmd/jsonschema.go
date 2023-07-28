@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/0xPolygonHermez/zkevm-node/config"
+	"github.com/0xPolygon/supernets2-node/config"
 	"github.com/urfave/cli/v2"
 )
 
