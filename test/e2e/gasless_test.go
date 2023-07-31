@@ -2,7 +2,6 @@ package e2e
 
 import (
 	"context"
-	"fmt"
 	"math/big"
 	"os/exec"
 	"testing"
@@ -24,9 +23,6 @@ func TestEthTransferGasless(t *testing.T) {
 		t.Skip()
 	}
 	// Edit config
-	out, err := exec.Command("pwd").CombinedOutput()
-	fmt.Println(string(out))
-	require.NoError(t, err)
 	const path = "../../test/config/test.node.config.toml"
 	require.NoError(t,
 		exec.Command("sed", "-i", "s/DefaultMinGasPriceAllowed = 1000000000/DefaultMinGasPriceAllowed = 0/g", path).Run(),
@@ -47,7 +43,7 @@ func TestEthTransferGasless(t *testing.T) {
 	ctx := context.Background()
 	defer func() { require.NoError(t, operations.Teardown()) }()
 
-	err = operations.Teardown()
+	err := operations.Teardown()
 	require.NoError(t, err)
 	opsCfg := operations.GetDefaultOperationsConfig()
 	opsCfg.State.MaxCumulativeGasUsed = 80000000000
