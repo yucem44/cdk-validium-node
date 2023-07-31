@@ -45,6 +45,9 @@ type mocks struct {
 //	this Check partially point 2: Use previous batch stored in memory to avoid getting from database
 func Test_Given_PermissionlessNode_When_SyncronizeAgainSameBatch_Then_UseTheOneInMemoryInstaeadOfGettingFromDb(t *testing.T) {
 	genesis, cfg, m := setupGenericTest(t)
+	m.Etherman.
+		On("GetCurrentDataCommittee").
+		Return(&etherman.DataCommittee{}, nil)
 	sync_interface, err := NewSynchronizer(false, m.Etherman, m.State, m.Pool, m.EthTxManager, m.ZKEVMClient, nil, *genesis, *cfg, nil)
 	require.NoError(t, err)
 	sync, ok := sync_interface.(*ClientSynchronizer)
@@ -68,6 +71,9 @@ func Test_Given_PermissionlessNode_When_SyncronizeAgainSameBatch_Then_UseTheOneI
 //	this Check partially point 2: Store last batch in memory (CurrentTrustedBatch)
 func Test_Given_PermissionlessNode_When_SyncronizeFirstTimeABatch_Then_StoreItInALocalVar(t *testing.T) {
 	genesis, cfg, m := setupGenericTest(t)
+	m.Etherman.
+		On("GetCurrentDataCommittee").
+		Return(&etherman.DataCommittee{}, nil)
 	sync_interface, err := NewSynchronizer(false, m.Etherman, m.State, m.Pool, m.EthTxManager, m.ZKEVMClient, nil, *genesis, *cfg, nil)
 	require.NoError(t, err)
 	sync, ok := sync_interface.(*ClientSynchronizer)
