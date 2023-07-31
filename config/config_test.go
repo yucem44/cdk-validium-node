@@ -246,7 +246,7 @@ func Test_Defaults(t *testing.T) {
 		},
 		{
 			path:          "NetworkConfig.L1Config.DataCommitteeAddr",
-			expectedValue: common.HexToAddress("0x91a7b8c589939aFd6837Daae6511c154f3c96248"),
+			expectedValue: common.HexToAddress("0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6"),
 		},
 		{
 			path:          "Etherman.MultiGasProvider",
