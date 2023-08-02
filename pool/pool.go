@@ -303,6 +303,11 @@ func (p *Pool) IsTxPending(ctx context.Context, hash common.Hash) (bool, error) 
 	return p.storage.IsTxPending(ctx, hash)
 }
 
+// CheckPolicy checks if an address is allowed by policy name
+func (p *Pool) CheckPolicy(ctx context.Context, policy PolicyName, address common.Address) (bool, error) {
+	return p.storage.CheckPolicy(ctx, policy, address)
+}
+
 func (p *Pool) validateTx(ctx context.Context, poolTx Transaction) error {
 	// Make sure the transaction is signed properly.
 	if err := state.CheckSignature(poolTx.Transaction); err != nil {
