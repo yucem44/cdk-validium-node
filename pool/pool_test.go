@@ -1788,7 +1788,6 @@ func Test_AddTx_NonceTooHigh(t *testing.T) {
 }
 
 func Test_PolicyAcl(t *testing.T) {
-
 	initOrResetDB(t)
 
 	poolSqlDB, err := db.NewSQLDB(poolDBCfg)
@@ -1845,7 +1844,6 @@ func Test_PolicyAcl(t *testing.T) {
 			require.False(t, allow)
 		}
 	}
-
 }
 
 func setupPool(t *testing.T, cfg pool.Config, s *pgpoolstorage.PostgresPoolStorage, st *state.State, chainID uint64, ctx context.Context, eventLog *event.EventLog) *pool.Pool {
