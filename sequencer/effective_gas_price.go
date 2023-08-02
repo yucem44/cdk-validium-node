@@ -6,9 +6,9 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/0xPolygon/supernets2-node/event"
-	"github.com/0xPolygon/supernets2-node/log"
-	"github.com/0xPolygon/supernets2-node/state"
+	"github.com/0xPolygonHermez/zkevm-node/event"
+	"github.com/0xPolygonHermez/zkevm-node/log"
+	"github.com/0xPolygonHermez/zkevm-node/state"
 )
 
 // CalculateTxBreakEvenGasPrice calculates the break even gas price for a transaction

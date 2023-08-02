@@ -3,7 +3,7 @@ package etherman
 import (
 	"time"
 
-	"github.com/0xPolygon/supernets2-node/etherman/smartcontracts/supernets2"
+	"github.com/0xPolygonHermez/zkevm-node/etherman/smartcontracts/supernets2"
 	"github.com/ethereum/go-ethereum/common"
 )
 

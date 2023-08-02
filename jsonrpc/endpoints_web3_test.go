@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	zkevm "github.com/0xPolygon/supernets2-node"
+	zkevm "github.com/0xPolygonHermez/zkevm-node"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

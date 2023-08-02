@@ -8,11 +8,11 @@ import (
 
 	common "github.com/ethereum/go-ethereum/common"
 
-	etherman "github.com/0xPolygon/supernets2-node/etherman"
+	etherman "github.com/0xPolygonHermez/zkevm-node/etherman"
 
 	mock "github.com/stretchr/testify/mock"
 
-	state "github.com/0xPolygon/supernets2-node/state"
+	state "github.com/0xPolygonHermez/zkevm-node/state"
 
 	types "github.com/ethereum/go-ethereum/core/types"
 )

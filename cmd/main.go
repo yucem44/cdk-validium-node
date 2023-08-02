@@ -5,9 +5,9 @@ import (
 	"os"
 
 	"github.com/0xPolygon/supernets2-node"
-	"github.com/0xPolygon/supernets2-node/config"
-	"github.com/0xPolygon/supernets2-node/jsonrpc"
-	"github.com/0xPolygon/supernets2-node/log"
+	"github.com/0xPolygonHermez/zkevm-node/config"
+	"github.com/0xPolygonHermez/zkevm-node/jsonrpc"
+	"github.com/0xPolygonHermez/zkevm-node/log"
 	"github.com/urfave/cli/v2"
 )
 

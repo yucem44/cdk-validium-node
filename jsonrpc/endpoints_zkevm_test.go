@@ -9,9 +9,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/0xPolygon/supernets2-node/hex"
-	"github.com/0xPolygon/supernets2-node/jsonrpc/types"
-	"github.com/0xPolygon/supernets2-node/state"
+	"github.com/0xPolygonHermez/zkevm-node/hex"
+	"github.com/0xPolygonHermez/zkevm-node/jsonrpc/types"
+	"github.com/0xPolygonHermez/zkevm-node/state"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	ethTypes "github.com/ethereum/go-ethereum/core/types"

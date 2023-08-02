@@ -8,9 +8,9 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/0xPolygon/supernets2-node/etherman"
-	"github.com/0xPolygon/supernets2-node/jsonrpc/types"
-	"github.com/0xPolygon/supernets2-node/state"
+	"github.com/0xPolygonHermez/zkevm-node/etherman"
+	"github.com/0xPolygonHermez/zkevm-node/jsonrpc/types"
+	"github.com/0xPolygonHermez/zkevm-node/state"
 	"github.com/ethereum/go-ethereum/common"
 	ethTypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"

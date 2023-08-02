@@ -1,8 +1,8 @@
 package vectors
 
 import (
-	"github.com/0xPolygon/supernets2-node/merkletree"
-	"github.com/0xPolygon/supernets2-node/state"
+	"github.com/0xPolygonHermez/zkevm-node/merkletree"
+	"github.com/0xPolygonHermez/zkevm-node/state"
 )
 
 // StateTransitionTestCaseV2 holds the metadata needed to run a state transition test

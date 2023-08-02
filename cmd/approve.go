@@ -5,9 +5,9 @@ import (
 	"math/big"
 	"strings"
 
-	"github.com/0xPolygon/supernets2-node/config"
-	"github.com/0xPolygon/supernets2-node/encoding"
-	"github.com/0xPolygon/supernets2-node/log"
+	"github.com/0xPolygonHermez/zkevm-node/config"
+	"github.com/0xPolygonHermez/zkevm-node/encoding"
+	"github.com/0xPolygonHermez/zkevm-node/log"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/urfave/cli/v2"
 )

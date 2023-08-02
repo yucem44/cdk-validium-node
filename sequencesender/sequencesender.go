@@ -7,12 +7,12 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/0xPolygon/supernets2-node/etherman/types"
-	"github.com/0xPolygon/supernets2-node/ethtxmanager"
-	"github.com/0xPolygon/supernets2-node/event"
-	"github.com/0xPolygon/supernets2-node/log"
-	"github.com/0xPolygon/supernets2-node/sequencer/metrics"
-	"github.com/0xPolygon/supernets2-node/state"
+	"github.com/0xPolygonHermez/zkevm-node/etherman/types"
+	"github.com/0xPolygonHermez/zkevm-node/ethtxmanager"
+	"github.com/0xPolygonHermez/zkevm-node/event"
+	"github.com/0xPolygonHermez/zkevm-node/log"
+	"github.com/0xPolygonHermez/zkevm-node/sequencer/metrics"
+	"github.com/0xPolygonHermez/zkevm-node/state"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/jackc/pgx/v4"
 )

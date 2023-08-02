@@ -17,10 +17,10 @@ import (
 	"github.com/0xPolygon/supernets2-data-availability/config"
 	cTypes "github.com/0xPolygon/supernets2-node/config/types"
 	"github.com/0xPolygon/supernets2-node/db"
-	"github.com/0xPolygon/supernets2-node/etherman/smartcontracts/supernets2datacommittee"
 	"github.com/0xPolygon/supernets2-node/jsonrpc"
-	"github.com/0xPolygon/supernets2-node/log"
-	"github.com/0xPolygon/supernets2-node/test/operations"
+	"github.com/0xPolygonHermez/zkevm-node/etherman/smartcontracts/supernets2datacommittee"
+	"github.com/0xPolygonHermez/zkevm-node/log"
+	"github.com/0xPolygonHermez/zkevm-node/test/operations"
 	"github.com/ethereum/go-ethereum"
 	eTypes "github.com/ethereum/go-ethereum/core/types"
 

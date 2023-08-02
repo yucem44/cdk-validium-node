@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	zkevm "github.com/0xPolygon/supernets2-node"
+	zkevm "github.com/0xPolygonHermez/zkevm-node"
 	"github.com/hermeznetwork/tracerr"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
