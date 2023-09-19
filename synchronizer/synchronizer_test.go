@@ -37,20 +37,17 @@ type mocks struct {
 	DataCommitteeClientFactory *dataCommitteeClientFactoryMock
 }
 
-//func Test_Given_StartingSynchronizer_When_CallFirstTimeExecutor_Then_StoreProverID(t *testing.T) {
-//}
-
 // Feature #2220 and  #2239: Optimize Trusted state synchronization
 //
 //	this Check partially point 2: Use previous batch stored in memory to avoid getting from database
-func Test_Given_PermissionlessNode_When_SyncronizeAgainSameBatch_Then_UseTheOneInMemoryInstaeadOfGettingFromDb(t *testing.T) {
+func TestGivenPermissionlessNodeWhenSyncronizeAgainSameBatchThenUseTheOneInMemoryInstaeadOfGettingFromDb(t *testing.T) {
 	genesis, cfg, m := setupGenericTest(t)
 	m.Etherman.
 		On("GetCurrentDataCommittee").
 		Return(&etherman.DataCommittee{}, nil)
 	sync_interface, err := NewSynchronizer(false, m.Etherman, m.State, m.Pool, m.EthTxManager, m.ZKEVMClient, nil, *genesis, *cfg, nil)
 	require.NoError(t, err)
-	sync, ok := sync_interface.(*ClientSynchronizer)
+	sync, ok := syncInterface.(*ClientSynchronizer)
 	require.EqualValues(t, true, ok, "Can't convert to underlaying struct the interface of syncronizer")
 	lastBatchNumber := uint64(10)
 	batch10With1Tx := createBatch(t, lastBatchNumber, 1)
@@ -69,14 +66,14 @@ func Test_Given_PermissionlessNode_When_SyncronizeAgainSameBatch_Then_UseTheOneI
 // Feature #2220 and  #2239: Optimize Trusted state synchronization
 //
 //	this Check partially point 2: Store last batch in memory (CurrentTrustedBatch)
-func Test_Given_PermissionlessNode_When_SyncronizeFirstTimeABatch_Then_StoreItInALocalVar(t *testing.T) {
+func TestGivenPermissionlessNodeWhenSyncronizeFirstTimeABatchThenStoreItInALocalVar(t *testing.T) {
 	genesis, cfg, m := setupGenericTest(t)
 	m.Etherman.
 		On("GetCurrentDataCommittee").
 		Return(&etherman.DataCommittee{}, nil)
-	sync_interface, err := NewSynchronizer(false, m.Etherman, m.State, m.Pool, m.EthTxManager, m.ZKEVMClient, nil, *genesis, *cfg, nil)
+	syncInterface, err := NewSynchronizer(false, m.Etherman, m.State, m.Pool, m.EthTxManager, m.ZKEVMClient, nil, *genesis, *cfg, nil)
 	require.NoError(t, err)
-	sync, ok := sync_interface.(*ClientSynchronizer)
+	sync, ok := syncInterface.(*ClientSynchronizer)
 	require.EqualValues(t, true, ok, "Can't convert to underlaying struct the interface of syncronizer")
 	lastBatchNumber := uint64(10)
 	batch10With1Tx := createBatch(t, lastBatchNumber, 1)
