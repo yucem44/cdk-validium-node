@@ -45,7 +45,7 @@ func TestGivenPermissionlessNodeWhenSyncronizeAgainSameBatchThenUseTheOneInMemor
 	m.Etherman.
 		On("GetCurrentDataCommittee").
 		Return(&etherman.DataCommittee{}, nil)
-	sync_interface, err := NewSynchronizer(false, m.Etherman, m.State, m.Pool, m.EthTxManager, m.ZKEVMClient, nil, *genesis, *cfg, nil)
+	syncInterface, err := NewSynchronizer(false, m.Etherman, m.State, m.Pool, m.EthTxManager, m.ZKEVMClient, nil, *genesis, *cfg, nil)
 	require.NoError(t, err)
 	sync, ok := syncInterface.(*ClientSynchronizer)
 	require.EqualValues(t, true, ok, "Can't convert to underlaying struct the interface of syncronizer")
