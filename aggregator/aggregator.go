@@ -2,6 +2,7 @@ package aggregator
 
 import (
 	"context"
+	"crypto/ecdsa"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -21,7 +22,11 @@ import (
 	"github.com/0xPolygon/cdk-validium-node/ethtxmanager"
 	"github.com/0xPolygon/cdk-validium-node/log"
 	"github.com/0xPolygon/cdk-validium-node/state"
+	"github.com/0xPolygon/silencer/client"
+	"github.com/0xPolygon/silencer/tx"
+	rpcTypes "github.com/0xPolygonHermez/zkevm-node/jsonrpc/types"
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/jackc/pgx/v4"
 	"google.golang.org/grpc"
 	grpchealth "google.golang.org/grpc/health/grpc_health_v1"
@@ -57,21 +62,25 @@ type Aggregator struct {
 	TimeCleanupLockedProofs types.Duration
 	StateDBMutex            *sync.Mutex
 	TimeSendFinalProofMutex *sync.RWMutex
+	SilencerClient          client.ClientInterface
 
-	finalProof     chan finalProofMsg
-	verifyingProof bool
+	sequencerPrivateKey *ecdsa.PrivateKey
+	finalProof          chan finalProofMsg
+	verifyingProof      bool
 
 	srv  *grpc.Server
 	ctx  context.Context
 	exit context.CancelFunc
 }
 
-// New creates a new aggregator.
+// New creates a new aggregator. The sequencerPrivateKey is only needed when cfg.SetlementBackend == Silencer
 func New(
 	cfg Config,
 	stateInterface stateInterface,
 	ethTxManager ethTxManager,
 	etherman etherman,
+	silencerClient client.ClientInterface,
+	sequencerPrivateKey *ecdsa.PrivateKey,
 ) (Aggregator, error) {
 	var profitabilityChecker aggregatorTxProfitabilityChecker
 	switch cfg.TxProfitabilityCheckerType {
@@ -81,11 +90,30 @@ func New(
 		profitabilityChecker = NewTxProfitabilityCheckerAcceptAll(stateInterface, cfg.IntervalAfterWhichBatchConsolidateAnyway.Duration)
 	}
 
+	if cfg.SetlementBackend == Silencer {
+		if sequencerPrivateKey == nil {
+			return Aggregator{}, fmt.Errorf("the private key of the sequencer needs to be provided")
+		}
+		sequencerAddr, err := etherman.GetSequencerAddr()
+		if err != nil {
+			return Aggregator{}, err
+		}
+		actualAddr := crypto.PubkeyToAddress(sequencerPrivateKey.PublicKey)
+		if sequencerAddr != actualAddr {
+			return Aggregator{}, fmt.Errorf(
+				"the private key of the sequencer needs to be provided. Provided private key is for addr %s but sequencer addr is %s",
+				actualAddr.Hex(), sequencerAddr.Hex(),
+			)
+		}
+	}
+
 	a := Aggregator{
 		cfg: cfg,
 
 		State:                   stateInterface,
 		EthTxManager:            ethTxManager,
+		SilencerClient:          silencerClient,
+		sequencerPrivateKey:     sequencerPrivateKey,
 		Ethman:                  etherman,
 		ProfitabilityChecker:    profitabilityChecker,
 		StateDBMutex:            &sync.Mutex{},
@@ -234,7 +262,7 @@ func (a *Aggregator) Channel(stream prover.AggregatorService_ChannelServer) erro
 
 // This function waits to receive a final proof from a prover. Once it receives
 // the proof, it performs these steps in order:
-// - send the final proof to L1
+// - send the final proof to the setlement backend
 // - wait for the synchronizer to catch up
 // - clean up the cache of recursive proofs
 func (a *Aggregator) sendFinalProof() {
@@ -266,27 +294,19 @@ func (a *Aggregator) sendFinalProof() {
 
 			log.Infof("Final proof inputs: NewLocalExitRoot [%#x], NewStateRoot [%#x]", inputs.NewLocalExitRoot, inputs.NewStateRoot)
 
-			// add batch verification to be monitored
-			sender := common.HexToAddress(a.cfg.SenderAddress)
-			to, data, err := a.Ethman.BuildTrustedVerifyBatchesTxData(proof.BatchNumber-1, proof.BatchNumberFinal, &inputs)
-			if err != nil {
-				log.Errorf("Error estimating batch verification to add to eth tx manager: %v", err)
-				a.handleFailureToAddVerifyBatchToBeMonitored(ctx, proof)
+			if a.cfg.SetlementBackend == L1 {
+				if success := a.settleProofToL1(ctx, proof, inputs); !success {
+					continue
+				}
+			} else if a.cfg.SetlementBackend == Silencer {
+				if success := a.settleProofToSilencer(ctx, proof, inputs); !success {
+					continue
+				}
+			} else {
+				log.Errorf("Invalid settlement backed for the ZKPs: %s", a.cfg.SetlementBackend)
+				a.endProofVerification()
 				continue
 			}
-			monitoredTxID := buildMonitoredTxID(proof.BatchNumber, proof.BatchNumberFinal)
-			err = a.EthTxManager.Add(ctx, ethTxManagerOwner, monitoredTxID, sender, to, nil, data, nil)
-			if err != nil {
-				log := log.WithFields("tx", monitoredTxID)
-				log.Errorf("Error to add batch verification tx to eth tx manager: %v", err)
-				a.handleFailureToAddVerifyBatchToBeMonitored(ctx, proof)
-				continue
-			}
-
-			// process monitored batch verifications before starting a next cycle
-			a.EthTxManager.ProcessPendingMonitoredTxs(ctx, ethTxManagerOwner, func(result ethtxmanager.MonitoredTxResult, dbTx pgx.Tx) {
-				a.handleMonitoredTxResult(result)
-			}, nil)
 
 			a.resetVerifyProofTime()
 			a.endProofVerification()
@@ -294,7 +314,75 @@ func (a *Aggregator) sendFinalProof() {
 	}
 }
 
+func (a *Aggregator) settleProofToL1(ctx context.Context, proof *state.Proof, inputs ethmanTypes.FinalProofInputs) (success bool) {
+	// add batch verification to be monitored
+	sender := common.HexToAddress(a.cfg.SenderAddress)
+	to, data, err := a.Ethman.BuildTrustedVerifyBatchesTxData(proof.BatchNumber-1, proof.BatchNumberFinal, &inputs)
+	if err != nil {
+		log.Errorf("Error estimating batch verification to add to eth tx manager: %v", err)
+		a.handleFailureToAddVerifyBatchToBeMonitored(ctx, proof)
+		return false
+	}
+	monitoredTxID := buildMonitoredTxID(proof.BatchNumber, proof.BatchNumberFinal)
+	err = a.EthTxManager.Add(ctx, ethTxManagerOwner, monitoredTxID, sender, to, nil, data, nil)
+	if err != nil {
+		log := log.WithFields("tx", monitoredTxID)
+		log.Errorf("Error to add batch verification tx to eth tx manager: %v", err)
+		a.handleFailureToAddVerifyBatchToBeMonitored(ctx, proof)
+		return false
+	}
+
+	// process monitored batch verifications before starting a next cycle
+	a.EthTxManager.ProcessPendingMonitoredTxs(ctx, ethTxManagerOwner, func(result ethtxmanager.MonitoredTxResult, dbTx pgx.Tx) {
+		a.handleMonitoredTxResult(result)
+	}, nil)
+	return true
+}
+
+func (a *Aggregator) settleProofToSilencer(ctx context.Context, proof *state.Proof, inputs ethmanTypes.FinalProofInputs) (success bool) {
+	l1Contract := a.Ethman.GetL1ContractAddress()
+	tx := tx.Tx{
+		L1Contract:        l1Contract,
+		LastVerifiedBatch: rpcTypes.ArgUint64(proof.BatchNumber - 1),
+		NewVerifiedBatch:  rpcTypes.ArgUint64(proof.BatchNumberFinal),
+		ZKP: tx.Proof{
+			NewStateRoot:     rpcTypes.ArgHash(common.BytesToHash(inputs.NewStateRoot)),
+			NewLocalExitRoot: rpcTypes.ArgHash(common.BytesToHash(inputs.NewLocalExitRoot)),
+			Proof:            rpcTypes.ArgBytes(inputs.FinalProof.Proof),
+		},
+	}
+	signedTx, err := tx.Sign(a.sequencerPrivateKey)
+	if err != nil {
+		log.Errorf("failed to sign tx: %v", err)
+		a.handleFailureToSendToSilencer(ctx, proof)
+		return false
+	}
+	txHash, err := a.SilencerClient.SendTx(*signedTx)
+	if err != nil {
+		log.Errorf("failed to send tx to the interop: %v", err)
+		a.handleFailureToSendToSilencer(ctx, proof)
+		return false
+	}
+	log.Infof("tx %s sent to the silencer, waiting to be mined", txHash.Hex())
+	if err := a.SilencerClient.WaitTxToBeMined(txHash, a.cfg.SilencerTxTimeout.Duration); err != nil {
+		log.Errorf("interop dodn't mine the tx: %v", err)
+		a.handleFailureToSendToSilencer(ctx, proof)
+		return false
+	}
+	return true
+}
+
 func (a *Aggregator) handleFailureToAddVerifyBatchToBeMonitored(ctx context.Context, proof *state.Proof) {
+	log := log.WithFields("proofId", proof.ProofID, "batches", fmt.Sprintf("%d-%d", proof.BatchNumber, proof.BatchNumberFinal))
+	proof.GeneratingSince = nil
+	err := a.State.UpdateGeneratedProof(ctx, proof, nil)
+	if err != nil {
+		log.Errorf("Failed updating proof state (false): %v", err)
+	}
+	a.endProofVerification()
+}
+
+func (a *Aggregator) handleFailureToSendToSilencer(ctx context.Context, proof *state.Proof) {
 	log := log.WithFields("proofId", proof.ProofID, "batches", fmt.Sprintf("%d-%d", proof.BatchNumber, proof.BatchNumberFinal))
 	proof.GeneratingSince = nil
 	err := a.State.UpdateGeneratedProof(ctx, proof, nil)

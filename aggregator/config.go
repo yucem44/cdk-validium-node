@@ -28,6 +28,13 @@ func (t *TokenAmountWithDecimals) UnmarshalText(data []byte) error {
 	return nil
 }
 
+type SetlementBackend string
+
+const (
+	Silencer SetlementBackend = "silencer"
+	L1       SetlementBackend = "l1"
+)
+
 // Config represents the configuration of the aggregator
 type Config struct {
 	// Host for the grpc server
@@ -73,4 +80,10 @@ type Config struct {
 	// which a proof in generating state is considered to be stuck and
 	// allowed to be cleared.
 	GeneratingProofCleanupThreshold string `mapstructure:"GeneratingProofCleanupThreshold"`
+
+	// SetlementBackend indicates where ZKPs are settled. It can be "l1" or "silencer"
+	SetlementBackend SetlementBackend `mapstructure:"SetlementBackend"`
+
+	// SilencerTxTimeout is the interval time to wait for a tx to be mined from the silencer
+	SilencerTxTimeout types.Duration `mapstructure:"ProofStatePollingInterval"`
 }

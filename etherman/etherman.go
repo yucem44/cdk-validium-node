@@ -1251,3 +1251,11 @@ func (etherMan *Client) generateRandomAuth() (bind.TransactOpts, error) {
 
 	return *auth, nil
 }
+
+func (etherMan *Client) GetSequencerAddr() (common.Address, error) {
+	return etherMan.CDKValidium.TrustedSequencer(&bind.CallOpts{Pending: false})
+}
+
+func (etherMan *Client) GetL1ContractAddress() common.Address {
+	return etherMan.l1Cfg.CDKValidiumAddr
+}

@@ -412,7 +412,7 @@ func createSequenceSender(cfg config.Config, pool *pool.Pool, etmStorage *ethtxm
 }
 
 func runAggregator(ctx context.Context, c aggregator.Config, etherman *etherman.Client, ethTxManager *ethtxmanager.Client, st *state.State) {
-	agg, err := aggregator.New(c, st, ethTxManager, etherman)
+	agg, err := aggregator.New(c, st, ethTxManager, etherman, nil, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
