@@ -50,6 +50,8 @@ github.com/0xPolygon/silencer v0.0.0-20230921153217-331db005779d h1:wzkLcq272EGN
 github.com/0xPolygon/silencer v0.0.0-20230921153217-331db005779d/go.mod h1:kjUG8xNvZFpRDbavKgMDu8sxzErCSF9XrpImApLm4OQ=
 github.com/0xPolygon/silencer v0.0.0-20230921160454-2097b64b187a h1:mYrgeyNUPtpQreKhNLyH+62WDpl3BNMu9gEzIgYnsVE=
 github.com/0xPolygon/silencer v0.0.0-20230921160454-2097b64b187a/go.mod h1:kjUG8xNvZFpRDbavKgMDu8sxzErCSF9XrpImApLm4OQ=
+github.com/0xPolygon/silencer v0.0.0-20230921162309-804944a44b98 h1:Djd2seTzbcjMZK1QcZKP492eoDvMZ/z+tMJLzWuu36Q=
+github.com/0xPolygon/silencer v0.0.0-20230921162309-804944a44b98/go.mod h1:kjUG8xNvZFpRDbavKgMDu8sxzErCSF9XrpImApLm4OQ=
 github.com/0xPolygonHermez/zkevm-node v0.3.0 h1:/yLpmk1RT7/G9V7gffm3eTSv4jXms2RKvJydD8d6rM8=
 github.com/0xPolygonHermez/zkevm-node v0.3.0/go.mod h1:fGAoEyEiAsAOHNvTjTk+06Zc1zBrFQ1TalYzkfx4yKM=
 github.com/AndreasBriese/bbloom v0.0.0-20190306092124-e2d15f34fcf9/go.mod h1:bOvUY6CB00SOBii9/FifXqc0awNKxLFCL/+pkDPuyl8=

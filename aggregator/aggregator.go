@@ -345,7 +345,7 @@ func (a *Aggregator) settleProofToSilencer(ctx context.Context, proof *state.Pro
 		L1Contract:        l1Contract,
 		LastVerifiedBatch: rpcTypes.ArgUint64(proof.BatchNumber - 1),
 		NewVerifiedBatch:  rpcTypes.ArgUint64(proof.BatchNumberFinal),
-		ZKP: tx.Proof{
+		ZKP: tx.ZKP{
 			NewStateRoot:     rpcTypes.ArgHash(common.BytesToHash(inputs.NewStateRoot)),
 			NewLocalExitRoot: rpcTypes.ArgHash(common.BytesToHash(inputs.NewLocalExitRoot)),
 			Proof:            rpcTypes.ArgBytes(inputs.FinalProof.Proof),
