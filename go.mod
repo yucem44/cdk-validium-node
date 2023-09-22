@@ -147,7 +147,7 @@ require (
 
 require (
 	github.com/0xPolygon/cdk-data-availability v0.0.0-20230920141507-405e1d638f0b
-	github.com/0xPolygon/silencer v0.0.0-20230922120629-90d0b8781bad
+	github.com/0xPolygon/silencer v0.0.0-20230922161655-ac10717442f8
 	github.com/golang/protobuf v1.5.3
 	github.com/prometheus/client_golang v1.16.0
 )

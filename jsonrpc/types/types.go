@@ -132,11 +132,6 @@ func encodeToHex(b []byte) []byte {
 // shorter than 64 bytes, like 0x00
 type ArgHash common.Hash
 
-// MarshalText marshals into text
-func (b *ArgHash) MarshalText() ([]byte, error) {
-	return encodeToHex(b.Hash().Bytes()), nil
-}
-
 // UnmarshalText unmarshals from text
 func (arg *ArgHash) UnmarshalText(input []byte) error {
 	if !hex.IsValid(string(input)) {

@@ -341,14 +341,16 @@ func (a *Aggregator) settleProofToL1(ctx context.Context, proof *state.Proof, in
 
 func (a *Aggregator) settleProofToSilencer(ctx context.Context, proof *state.Proof, inputs ethmanTypes.FinalProofInputs) (success bool) {
 	l1Contract := a.Ethman.GetL1ContractAddress()
+	proofStrNo0x := strings.TrimPrefix(inputs.FinalProof.Proof, "0x")
+	proofBytes := common.Hex2Bytes(proofStrNo0x)
 	tx := tx.Tx{
 		L1Contract:        l1Contract,
 		LastVerifiedBatch: rpcTypes.ArgUint64(proof.BatchNumber - 1),
 		NewVerifiedBatch:  rpcTypes.ArgUint64(proof.BatchNumberFinal),
 		ZKP: tx.ZKP{
-			NewStateRoot:     rpcTypes.ArgHash(common.BytesToHash(inputs.NewStateRoot)),
-			NewLocalExitRoot: rpcTypes.ArgHash(common.BytesToHash(inputs.NewLocalExitRoot)),
-			Proof:            rpcTypes.ArgBytes(inputs.FinalProof.Proof),
+			NewStateRoot:     common.BytesToHash(inputs.NewStateRoot),
+			NewLocalExitRoot: common.BytesToHash(inputs.NewLocalExitRoot),
+			Proof:            rpcTypes.ArgBytes(proofBytes),
 		},
 	}
 	signedTx, err := tx.Sign(a.sequencerPrivateKey)
@@ -357,6 +359,7 @@ func (a *Aggregator) settleProofToSilencer(ctx context.Context, proof *state.Pro
 		a.handleFailureToSendToSilencer(ctx, proof)
 		return false
 	}
+	log.Debug("final proof signedTx: ", signedTx.Tx.ZKP.Proof.Hex())
 	txHash, err := a.SilencerClient.SendTx(*signedTx)
 	if err != nil {
 		log.Errorf("failed to send tx to the interop: %v", err)
@@ -365,10 +368,11 @@ func (a *Aggregator) settleProofToSilencer(ctx context.Context, proof *state.Pro
 	}
 	log.Infof("tx %s sent to the silencer, waiting to be mined", txHash.Hex())
 	if err := a.SilencerClient.WaitTxToBeMined(txHash, a.cfg.SilencerTxTimeout.Duration); err != nil {
-		log.Errorf("interop dodn't mine the tx: %v", err)
+		log.Errorf("interop didn't mine the tx: %v", err)
 		a.handleFailureToSendToSilencer(ctx, proof)
 		return false
 	}
+	// TODO: wait for synchronizer to catch up
 	return true
 }
 
