@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"crypto/ecdsa"
 	"errors"
 	"fmt"
 	"net"
@@ -35,6 +36,7 @@ import (
 	"github.com/0xPolygon/cdk-validium-node/state"
 	"github.com/0xPolygon/cdk-validium-node/state/runtime/executor"
 	"github.com/0xPolygon/cdk-validium-node/synchronizer"
+	silencerClient "github.com/0xPolygon/silencer/client"
 	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/urfave/cli/v2"
@@ -412,7 +414,19 @@ func createSequenceSender(cfg config.Config, pool *pool.Pool, etmStorage *ethtxm
 }
 
 func runAggregator(ctx context.Context, c aggregator.Config, etherman *etherman.Client, ethTxManager *ethtxmanager.Client, st *state.State) {
-	agg, err := aggregator.New(c, st, ethTxManager, etherman, nil, nil)
+	var silCli *silencerClient.Client
+	var sequencerPrivateKey *ecdsa.PrivateKey
+	if c.SetlementBackend == aggregator.Silencer {
+		var err error
+		silCli = silencerClient.New(c.SilencerURL)
+		_, sequencerPrivateKey, err = etherman.LoadAuthFromKeyStore(
+			c.SequencerPrivateKey.Path, c.SequencerPrivateKey.Password,
+		)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+	agg, err := aggregator.New(c, st, ethTxManager, etherman, silCli, sequencerPrivateKey)
 	if err != nil {
 		log.Fatal(err)
 	}

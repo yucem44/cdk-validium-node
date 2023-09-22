@@ -86,4 +86,10 @@ type Config struct {
 
 	// SilencerTxTimeout is the interval time to wait for a tx to be mined from the silencer
 	SilencerTxTimeout types.Duration `mapstructure:"ProofStatePollingInterval"`
+
+	// SilencerURL url of the silencer service
+	SilencerURL string `mapstructure:"SilencerURL"`
+
+	// PrivateKey of the sequencer, used to authorize txs sent to the silencer
+	SequencerPrivateKey types.KeystoreFileConfig `mapstructure:"SequencerPrivateKey"`
 }
