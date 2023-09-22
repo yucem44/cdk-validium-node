@@ -5,9 +5,9 @@ import (
 	"strconv"
 	"time"
 
+	zkevm "github.com/0xPolygon/cdk-validium-node"
 	"github.com/0xPolygon/cdk-validium-node/config"
 	"github.com/0xPolygon/cdk-validium-node/log"
-	"github.com/0xPolygonHermez/zkevm-node"
 	pg "github.com/habx/pg-commands"
 	"github.com/urfave/cli/v2"
 )

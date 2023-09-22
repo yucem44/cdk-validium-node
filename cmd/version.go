@@ -3,11 +3,11 @@ package main
 import (
 	"os"
 
-	"github.com/0xPolygonHermez/zkevm-node"
+	cdkvalidiumnode "github.com/0xPolygon/cdk-validium-node"
 	"github.com/urfave/cli/v2"
 )
 
 func versionCmd(*cli.Context) error {
-	zkevm.PrintVersion(os.Stdout)
+	cdkvalidiumnode.PrintVersion(os.Stdout)
 	return nil
 }
