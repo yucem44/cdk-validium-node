@@ -367,6 +367,7 @@ func (a *Aggregator) settleProofToSilencer(ctx context.Context, proof *state.Pro
 		return false
 	}
 	log.Infof("tx %s sent to the silencer, waiting to be mined", txHash.Hex())
+	log.Debugf("Timeout set to %f seconds", a.cfg.SilencerTxTimeout.Duration.Seconds())
 	if err := a.SilencerClient.WaitTxToBeMined(txHash, a.cfg.SilencerTxTimeout.Duration); err != nil {
 		log.Errorf("interop didn't mine the tx: %v", err)
 		a.handleFailureToSendToSilencer(ctx, proof)

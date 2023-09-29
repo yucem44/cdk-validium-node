@@ -85,7 +85,7 @@ type Config struct {
 	SetlementBackend SetlementBackend `mapstructure:"SetlementBackend"`
 
 	// SilencerTxTimeout is the interval time to wait for a tx to be mined from the silencer
-	SilencerTxTimeout types.Duration `mapstructure:"ProofStatePollingInterval"`
+	SilencerTxTimeout types.Duration `mapstructure:"SilencerTxTimeout"`
 
 	// SilencerURL url of the silencer service
 	SilencerURL string `mapstructure:"SilencerURL"`
