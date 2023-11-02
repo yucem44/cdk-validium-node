@@ -129,7 +129,7 @@ ProofStatePollingInterval = "5s"
 CleanupLockedProofsInterval = "2m"
 GeneratingProofCleanupThreshold = "10m"
 SetlementBackend = "l1"
-SilencerTxTimeout = "30m"
+BeethovenTxTimeout = "30m"
 
 [L2GasPriceSuggester]
 Type = "follower"

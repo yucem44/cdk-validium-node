@@ -31,8 +31,8 @@ func (t *TokenAmountWithDecimals) UnmarshalText(data []byte) error {
 type SetlementBackend string
 
 const (
-	Silencer SetlementBackend = "silencer"
-	L1       SetlementBackend = "l1"
+	Beethoven SetlementBackend = "beethoven"
+	L1        SetlementBackend = "l1"
 )
 
 // Config represents the configuration of the aggregator
@@ -81,15 +81,15 @@ type Config struct {
 	// allowed to be cleared.
 	GeneratingProofCleanupThreshold string `mapstructure:"GeneratingProofCleanupThreshold"`
 
-	// SetlementBackend indicates where ZKPs are settled. It can be "l1" or "silencer"
+	// SetlementBackend indicates where ZKPs are settled. It can be "l1" or "beethoven"
 	SetlementBackend SetlementBackend `mapstructure:"SetlementBackend"`
 
-	// SilencerTxTimeout is the interval time to wait for a tx to be mined from the silencer
-	SilencerTxTimeout types.Duration `mapstructure:"SilencerTxTimeout"`
+	// BeethovenTxTimeout is the interval time to wait for a tx to be mined from the beethoven
+	BeethovenTxTimeout types.Duration `mapstructure:"BeethovenTxTimeout"`
 
-	// SilencerURL url of the silencer service
-	SilencerURL string `mapstructure:"SilencerURL"`
+	// BeethovenURL url of the beethoven service
+	BeethovenURL string `mapstructure:"BeethovenURL"`
 
-	// PrivateKey of the sequencer, used to authorize txs sent to the silencer
+	// PrivateKey of the sequencer, used to authorize txs sent to the beethoven
 	SequencerPrivateKey types.KeystoreFileConfig `mapstructure:"SequencerPrivateKey"`
 }

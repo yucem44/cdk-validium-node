@@ -14,6 +14,8 @@ import (
 	"time"
 	"unicode"
 
+	"github.com/0xPolygon/beethoven/client"
+	"github.com/0xPolygon/beethoven/tx"
 	"github.com/0xPolygon/cdk-validium-node/aggregator/metrics"
 	"github.com/0xPolygon/cdk-validium-node/aggregator/prover"
 	"github.com/0xPolygon/cdk-validium-node/config/types"
@@ -23,8 +25,6 @@ import (
 	rpcTypes "github.com/0xPolygon/cdk-validium-node/jsonrpc/types"
 	"github.com/0xPolygon/cdk-validium-node/log"
 	"github.com/0xPolygon/cdk-validium-node/state"
-	"github.com/0xPolygon/silencer/client"
-	"github.com/0xPolygon/silencer/tx"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/jackc/pgx/v4"
@@ -62,7 +62,7 @@ type Aggregator struct {
 	TimeCleanupLockedProofs types.Duration
 	StateDBMutex            *sync.Mutex
 	TimeSendFinalProofMutex *sync.RWMutex
-	SilencerClient          client.ClientInterface
+	BeethovenClient         client.ClientInterface
 
 	sequencerPrivateKey *ecdsa.PrivateKey
 	finalProof          chan finalProofMsg
@@ -73,13 +73,13 @@ type Aggregator struct {
 	exit context.CancelFunc
 }
 
-// New creates a new aggregator. The sequencerPrivateKey is only needed when cfg.SetlementBackend == Silencer
+// New creates a new aggregator. The sequencerPrivateKey is only needed when cfg.SetlementBackend == Beethoven
 func New(
 	cfg Config,
 	stateInterface stateInterface,
 	ethTxManager ethTxManager,
 	etherman etherman,
-	silencerClient client.ClientInterface,
+	beethovenClient client.ClientInterface,
 	sequencerPrivateKey *ecdsa.PrivateKey,
 ) (Aggregator, error) {
 	var profitabilityChecker aggregatorTxProfitabilityChecker
@@ -90,7 +90,7 @@ func New(
 		profitabilityChecker = NewTxProfitabilityCheckerAcceptAll(stateInterface, cfg.IntervalAfterWhichBatchConsolidateAnyway.Duration)
 	}
 
-	if cfg.SetlementBackend == Silencer {
+	if cfg.SetlementBackend == Beethoven {
 		if sequencerPrivateKey == nil {
 			return Aggregator{}, fmt.Errorf("the private key of the sequencer needs to be provided")
 		}
@@ -112,7 +112,7 @@ func New(
 
 		State:                   stateInterface,
 		EthTxManager:            ethTxManager,
-		SilencerClient:          silencerClient,
+		BeethovenClient:         beethovenClient,
 		sequencerPrivateKey:     sequencerPrivateKey,
 		Ethman:                  etherman,
 		ProfitabilityChecker:    profitabilityChecker,
@@ -298,8 +298,8 @@ func (a *Aggregator) sendFinalProof() {
 				if success := a.settleProofToL1(ctx, proof, inputs); !success {
 					continue
 				}
-			} else if a.cfg.SetlementBackend == Silencer {
-				if success := a.settleProofToSilencer(ctx, proof, inputs); !success {
+			} else if a.cfg.SetlementBackend == Beethoven {
+				if success := a.settleProofToBeethoven(ctx, proof, inputs); !success {
 					continue
 				}
 			} else {
@@ -339,7 +339,7 @@ func (a *Aggregator) settleProofToL1(ctx context.Context, proof *state.Proof, in
 	return true
 }
 
-func (a *Aggregator) settleProofToSilencer(ctx context.Context, proof *state.Proof, inputs ethmanTypes.FinalProofInputs) (success bool) {
+func (a *Aggregator) settleProofToBeethoven(ctx context.Context, proof *state.Proof, inputs ethmanTypes.FinalProofInputs) (success bool) {
 	l1Contract := a.Ethman.GetL1ContractAddress()
 	proofStrNo0x := strings.TrimPrefix(inputs.FinalProof.Proof, "0x")
 	proofBytes := common.Hex2Bytes(proofStrNo0x)
@@ -356,21 +356,23 @@ func (a *Aggregator) settleProofToSilencer(ctx context.Context, proof *state.Pro
 	signedTx, err := tx.Sign(a.sequencerPrivateKey)
 	if err != nil {
 		log.Errorf("failed to sign tx: %v", err)
-		a.handleFailureToSendToSilencer(ctx, proof)
+		a.handleFailureToSendToBeethoven(ctx, proof)
 		return false
 	}
 	log.Debug("final proof signedTx: ", signedTx.Tx.ZKP.Proof.Hex())
-	txHash, err := a.SilencerClient.SendTx(*signedTx)
+	txHash, err := a.BeethovenClient.SendTx(*signedTx)
 	if err != nil {
 		log.Errorf("failed to send tx to the interop: %v", err)
-		a.handleFailureToSendToSilencer(ctx, proof)
+		a.handleFailureToSendToBeethoven(ctx, proof)
 		return false
 	}
-	log.Infof("tx %s sent to the silencer, waiting to be mined", txHash.Hex())
-	log.Debugf("Timeout set to %f seconds", a.cfg.SilencerTxTimeout.Duration.Seconds())
-	if err := a.SilencerClient.WaitTxToBeMined(txHash, a.cfg.SilencerTxTimeout.Duration); err != nil {
+	log.Infof("tx %s sent to beethoven, waiting to be mined", txHash.Hex())
+	log.Debugf("Timeout set to %f seconds", a.cfg.BeethovenTxTimeout.Duration.Seconds())
+	waitCtx, cancelFunc := context.WithDeadline(ctx, time.Now().Add(a.cfg.BeethovenTxTimeout.Duration))
+	defer cancelFunc()
+	if err := a.BeethovenClient.WaitTxToBeMined(txHash, waitCtx); err != nil {
 		log.Errorf("interop didn't mine the tx: %v", err)
-		a.handleFailureToSendToSilencer(ctx, proof)
+		a.handleFailureToSendToBeethoven(ctx, proof)
 		return false
 	}
 	// TODO: wait for synchronizer to catch up
@@ -387,7 +389,7 @@ func (a *Aggregator) handleFailureToAddVerifyBatchToBeMonitored(ctx context.Cont
 	a.endProofVerification()
 }
 
-func (a *Aggregator) handleFailureToSendToSilencer(ctx context.Context, proof *state.Proof) {
+func (a *Aggregator) handleFailureToSendToBeethoven(ctx context.Context, proof *state.Proof) {
 	log := log.WithFields("proofId", proof.ProofID, "batches", fmt.Sprintf("%d-%d", proof.BatchNumber, proof.BatchNumberFinal))
 	proof.GeneratingSince = nil
 	err := a.State.UpdateGeneratedProof(ctx, proof, nil)

@@ -1,6 +1,8 @@
 module github.com/0xPolygon/cdk-validium-node
 
-go 1.19
+go 1.21
+
+toolchain go1.21.3
 
 require (
 	github.com/didip/tollbooth/v6 v6.1.2
@@ -146,8 +148,8 @@ require (
 )
 
 require (
+	github.com/0xPolygon/beethoven v0.0.0-20231102103256-d9bfce54835e
 	github.com/0xPolygon/cdk-data-availability v0.0.0-20230920141507-405e1d638f0b
-	github.com/0xPolygon/silencer v0.0.0-20230929121532-629b491ae017
 	github.com/golang/protobuf v1.5.3
 	github.com/prometheus/client_golang v1.16.0
 )

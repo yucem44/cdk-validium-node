@@ -1,12 +1,12 @@
 # CONTAINER FOR BUILDING BINARY
-FROM golang:1.19 AS build
+FROM golang:1.21 AS build
 
 # INSTALL DEPENDENCIES
 ADD id_rsa /root/.ssh/id_rsa
 RUN chmod 700 /root/.ssh/id_rsa
 RUN echo "Host github.com\n\tStrictHostKeyChecking no\n" >> /root/.ssh/config
 RUN git config --global --add url."git@github.com:".insteadOf "https://github.com/"
-ENV GOPRIVATE=github.com/0xPolygon/silencer
+ENV GOPRIVATE=github.com/0xPolygon/beethoven
 RUN go install github.com/gobuffalo/packr/v2/packr2@v2.8.3
 COPY go.mod go.sum /src/
 RUN cd /src && go mod download
