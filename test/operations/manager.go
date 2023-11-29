@@ -25,6 +25,7 @@ import (
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
+	"github.com/jackc/pgx/v4"
 )
 
 const (
@@ -39,6 +40,8 @@ const (
 	DefaultMaxCumulativeGasUsed              = 800000
 	DefaultL1CDKValidiumSmartContract        = "0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82"
 	DefaultL1DataCommitteeContract           = "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6"
+	DefaultL1RollupManagerSmartContract = "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e"
+	DefaultL1PolSmartContract           = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
 	DefaultL1NetworkURL                      = "http://localhost:8545"
 	DefaultL1NetworkWebSocketURL             = "ws://localhost:8546"
 	DefaultL1ChainID                  uint64 = 1337
@@ -78,6 +81,7 @@ type SequenceSenderConfig struct {
 type Config struct {
 	State          *state.Config
 	SequenceSender *SequenceSenderConfig
+	Genesis        state.Genesis
 }
 
 // Manager controls operations and has knowledge about how to set up and tear
@@ -92,20 +96,21 @@ type Manager struct {
 
 // NewManager returns a manager ready to be used and a potential error caused
 // during its creation (which can come from the setup of the db connection).
-func NewManager(ctx context.Context, cfg *Config) (*Manager, error) {
+func NewManager(ctx context.Context, cfg *Config,) (*Manager, error) {
 	// Init database instance
 	initOrResetDB()
+
+	st, err := initState(*cfg.State)
+	if err != nil {
+		return nil, err
+	}
 
 	opsman := &Manager{
 		cfg:  cfg,
 		ctx:  ctx,
 		wait: NewWait(),
+		st:   st,
 	}
-	st, err := initState(cfg.State.MaxCumulativeGasUsed)
-	if err != nil {
-		return nil, err
-	}
-	opsman.st = st
 
 	return opsman, nil
 }
@@ -138,7 +143,7 @@ func (m *Manager) CheckConsolidatedRoot(expectedRoot string) error {
 }
 
 // SetGenesisAccountsBalance creates the genesis block in the state.
-func (m *Manager) SetGenesisAccountsBalance(genesisAccounts map[string]big.Int) error {
+func (m *Manager) SetGenesisAccountsBalance(genesisBlockNumber uint64, genesisAccounts map[string]big.Int) error {
 	var genesisActions []*state.GenesisAction
 	for address, balanceValue := range genesisAccounts {
 		action := &state.GenesisAction{
@@ -149,12 +154,12 @@ func (m *Manager) SetGenesisAccountsBalance(genesisAccounts map[string]big.Int) 
 		genesisActions = append(genesisActions, action)
 	}
 
-	return m.SetGenesis(genesisActions)
+	return m.SetGenesis(genesisBlockNumber, genesisActions)
 }
 
-func (m *Manager) SetGenesis(genesisActions []*state.GenesisAction) error {
+func (m *Manager) SetGenesis(genesisBlockNumber uint64, genesisActions []*state.GenesisAction) error {
 	genesisBlock := state.Block{
-		BlockNumber: 102,
+		BlockNumber: genesisBlockNumber,
 		BlockHash:   state.ZeroHash,
 		ParentHash:  state.ZeroHash,
 		ReceivedAt:  time.Now(),
@@ -168,7 +173,7 @@ func (m *Manager) SetGenesis(genesisActions []*state.GenesisAction) error {
 		return err
 	}
 
-	_, err = m.st.SetGenesis(m.ctx, genesisBlock, genesis, dbTx)
+	_, err = m.st.SetGenesis(m.ctx, genesisBlock, genesis, metrics.SynchronizerCallerLabel, dbTx)
 
 	errCommit := dbTx.Commit(m.ctx)
 	if errCommit != nil {
@@ -179,19 +184,19 @@ func (m *Manager) SetGenesis(genesisActions []*state.GenesisAction) error {
 }
 
 // SetForkID sets the initial forkID in db for testing purposes
-func (m *Manager) SetForkID(forkID uint64) error {
+func (m *Manager) SetForkID(blockNum uint64, forkID uint64) error {
 	dbTx, err := m.st.BeginStateTransaction(m.ctx)
 	if err != nil {
 		return err
 	}
 
 	// Add initial forkID
-	fID := state.ForkIDInterval {
-		FromBatchNumber: 1, 
+	fID := state.ForkIDInterval{
+		FromBatchNumber: 1,
 		ToBatchNumber:   math.MaxUint64,
 		ForkId:          forkID,
 		Version:         "forkID",
-		BlockNumber:     102,
+		BlockNumber:     blockNum,
 	}
 	err = m.st.AddForkIDInterval(m.ctx, fID, dbTx)
 
@@ -365,8 +370,8 @@ func (m *Manager) Setup() error {
 		return err
 	}
 
-	// Approve matic
-	err = ApproveMatic()
+	// Approve pol
+	err = ApprovePol()
 	if err != nil {
 		return err
 	}
@@ -389,8 +394,8 @@ func (m *Manager) SetupWithPermissionless() error {
 		return err
 	}
 
-	// Approve matic
-	err = ApproveMatic()
+	// Approve Pol
+	err = ApprovePol()
 	if err != nil {
 		return err
 	}
@@ -464,21 +469,22 @@ func TeardownPermissionless() error {
 	return nil
 }
 
-func initState(maxCumulativeGasUsed uint64) (*state.State, error) {
+func initState(cfg state.Config) (*state.State, error) {
 	sqlDB, err := db.NewSQLDB(stateDBCfg)
 	if err != nil {
 		return nil, err
 	}
 
+	stateCfg := state.Config{
+		MaxCumulativeGasUsed: cfg.MaxCumulativeGasUsed,
+		ChainID: cfg.ChainID,
+	}
+
 	ctx := context.Background()
-	stateDb := state.NewPostgresStorage(sqlDB)
+	stateDb := state.NewPostgresStorage(stateCfg, sqlDB)
 	executorClient, _, _ := executor.NewExecutorClient(ctx, executorConfig)
 	stateDBClient, _, _ := merkletree.NewMTDBServiceClient(ctx, merkleTreeConfig)
 	stateTree := merkletree.NewStateTree(stateDBClient)
-
-	stateCfg := state.Config{
-		MaxCumulativeGasUsed: maxCumulativeGasUsed,
-	}
 
 	eventStorage, err := nileventstorage.NewNilEventStorage()
 	if err != nil {
@@ -488,6 +494,53 @@ func initState(maxCumulativeGasUsed uint64) (*state.State, error) {
 
 	st := state.NewState(stateCfg, stateDb, executorClient, stateTree, eventLog)
 	return st, nil
+}
+
+func (m *Manager) BeginStateTransaction() (pgx.Tx, error) {
+	return m.st.BeginStateTransaction(m.ctx)
+}
+
+func (m *Manager) SetInitialBatch(genesis state.Genesis, dbTx pgx.Tx) error {
+	log.Debug("Setting initial transaction batch 1")
+	// Process FirstTransaction included in batch 1
+	batchL2Data := common.Hex2Bytes(genesis.FirstBatchData.Transactions[2:])
+	processCtx := state.ProcessingContext{
+		BatchNumber:    1,
+		Coinbase:       genesis.FirstBatchData.Sequencer,
+		Timestamp:      time.Unix(int64(genesis.FirstBatchData.Timestamp), 0),
+		GlobalExitRoot: genesis.FirstBatchData.GlobalExitRoot,
+		BatchL2Data:    &batchL2Data,
+	}
+	_, _, _, err := m.st.ProcessAndStoreClosedBatch(m.ctx, processCtx, batchL2Data, dbTx, stateMetrics.SynchronizerCallerLabel)
+	if err != nil {
+		log.Error("error storing batch 1. Error: ", err)
+		return err
+	}
+
+	// Virtualize Batch and add sequence
+	virtualBatch1 := state.VirtualBatch{
+		BatchNumber:   1,
+		TxHash:        state.ZeroHash,
+		Coinbase:      genesis.FirstBatchData.Sequencer,
+		BlockNumber:   genesis.GenesisBlockNum,
+		SequencerAddr: genesis.FirstBatchData.Sequencer,
+	}
+	err = m.st.AddVirtualBatch(m.ctx, &virtualBatch1, dbTx)
+	if err != nil {
+		log.Errorf("error storing virtualBatch. BatchNumber: %d, BlockNumber: %d, error: %v", virtualBatch1.BatchNumber, genesis.GenesisBlockNum, err)
+		return err
+	}
+	// Insert the sequence to allow the aggregator verify the sequence batches
+	seq := state.Sequence{
+		FromBatchNumber: 1,
+		ToBatchNumber:   1,
+	}
+	err = m.st.AddSequence(m.ctx, seq, dbTx)
+	if err != nil {
+		log.Errorf("error adding sequence. Sequence: %+v", seq)
+		return err
+	}
+	return nil
 }
 
 // StartNetwork starts the L1 network container
@@ -548,9 +601,9 @@ func (m *Manager) StopPermissionlessNodeForcedToSYncThroughDAC() error {
 	return StopComponent("permissionless-dac")
 }
 
-// ApproveMatic runs the approving matic command
-func ApproveMatic() error {
-	return StartComponent("approve-matic")
+// ApprovePol runs the approving Pol command
+func ApprovePol() error {
+	return StartComponent("approve-pol")
 }
 
 func stopNode() error {
@@ -619,7 +672,7 @@ func RunMakeTarget(target string) error {
 // GetDefaultOperationsConfig provides a default configuration to run the environment
 func GetDefaultOperationsConfig() *Config {
 	return &Config{
-		State: &state.Config{MaxCumulativeGasUsed: DefaultMaxCumulativeGasUsed},
+		State: &state.Config{MaxCumulativeGasUsed: DefaultMaxCumulativeGasUsed, ChainID: 1001},
 		SequenceSender: &SequenceSenderConfig{
 			WaitPeriodSendSequence:                   DefaultWaitPeriodSendSequence,
 			LastBatchVirtualizationTimeMaxWaitPeriod: DefaultWaitPeriodSendSequence,

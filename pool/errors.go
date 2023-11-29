@@ -65,12 +65,12 @@ var (
 	// ErrGasPrice is returned if the transaction has specified lower gas price than the minimum allowed.
 	ErrGasPrice = errors.New("gas price too low")
 
-	// ErrSenderDisallowedSendTx is returned when transactions by sender are is disallowed by policy
-	ErrSenderDisallowedSendTx = errors.New("sender disallowed send_tx by policy")
+	// ErrReceivedZeroL1GasPrice is returned if the L1 gas price is 0.
+	ErrReceivedZeroL1GasPrice = errors.New("received L1 gas price 0")
 
-	// ErrContractDisallowedSendTx is returned when transactions to contract are is disallowed by policy
-	ErrContractDisallowedSendTx = errors.New("contract disallowed send_tx by policy")
+	// ErrInvalidIP is returned if the IP address is invalid.
+	ErrInvalidIP = errors.New("invalid IP address")
 
-	// ErrSenderDisallowedDeploy is returned when deploy transactions are disallowed by policy
-	ErrSenderDisallowedDeploy = errors.New("sender disallowed deploy by policy")
+	// ErrOutOfCounters is returned if the pool is out of counters.
+	ErrOutOfCounters = errors.New("out of counters")
 )

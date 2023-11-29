@@ -36,7 +36,7 @@ var (
 	executorMock  = new(StateMock)
 	workerMock    = new(WorkerMock)
 	dbTxMock      = new(DbTxMock)
-	bc            = batchConstraints{
+	bc            = state.BatchConstraintsCfg{
 		MaxTxsPerBatch:       300,
 		MaxBatchBytesSize:    120000,
 		MaxCumulativeGasUsed: 30000000,
@@ -323,7 +323,7 @@ func TestFinalizer_handleProcessTransactionResponse(t *testing.T) {
 				<-done                              // wait for the goroutine to finish
 				f.pendingTransactionsToStoreWG.Wait()
 				require.Len(t, storedTxs, 1)
-				actualTx := storedTxs[0]
+				actualTx := storedTxs[0] //nolint:gosec
 				assertEqualTransactionToStore(t, tc.expectedStoredTx, actualTx)
 			} else {
 				require.Empty(t, storedTxs)

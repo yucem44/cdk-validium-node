@@ -9,6 +9,7 @@
 | - [genesisBlockNumber](#genesisBlockNumber ) | No      | integer         | No         | -          | L1: block number of the genesis block                                       |
 | - [genesis](#genesis )                       | No      | array of object | No         | -          | L2:  List of states contracts used to populate merkle tree at initial state |
 | - [L1Config](#L1Config )                     | No      | object          | No         | -          | L1: configuration of the network                                            |
+| - [firstBatchData](#firstBatchData )         | No      | object          | No         | -          | Data of the first batch after the genesis(Batch 1)                          |
 
 ## <a name="root"></a>1. `root`
 
@@ -70,14 +71,11 @@
 
 **Type:** : `object`
 
-| Property                                 | Pattern | Type   | Deprecated | Definition | Title/Description |
-| ---------------------------------------- | ------- | ------ | ---------- | ---------- | ----------------- |
-| - [.*](#genesis_items_storage_pattern1 ) | Yes     | string | No         | -          | -                 |
+| Property                                           | Pattern | Type   | Deprecated | Definition | Title/Description |
+| -------------------------------------------------- | ------- | ------ | ---------- | ---------- | ----------------- |
+| - [](#genesis_items_storage_additionalProperties ) | No      | string | No         | -          | -                 |
 
-##### <a name="genesis_items_storage_pattern1"></a>3.1.5.1. Pattern  `genesis.genesis items.storage..*`
-> All properties whose name matches the regular expression
-```.*``` ([Test](https://regex101.com/?regex=.%2A))
-must respect the following conditions
+##### <a name="genesis_items_storage_additionalProperties"></a>3.1.5.1. `genesis.genesis items.storage.additionalProperties`
 
 **Type:** : `string`
 
@@ -106,17 +104,50 @@ must respect the following conditions
 ### <a name="L1Config_cdkValidiumAddress"></a>4.2. `L1Config.cdkValidiumAddress`
 
 **Type:** : `array of integer`
-**Description:** Address of the L1 contract
+**Description:** ZkEVMAddr Address of the L1 contract polygonZkEVMAddress
 
-### <a name="L1Config_maticTokenAddress"></a>4.3. `L1Config.maticTokenAddress`
-
-**Type:** : `array of integer`
-**Description:** Address of the L1 Matic token Contract
-
-### <a name="L1Config_polygonZkEVMGlobalExitRootAddress"></a>4.4. `L1Config.polygonZkEVMGlobalExitRootAddress`
+### <a name="L1Config_polygonRollupManagerAddress"></a>4.3. `L1Config.polygonRollupManagerAddress`
 
 **Type:** : `array of integer`
-**Description:** Address of the L1 GlobalExitRootManager contract
+**Description:** RollupManagerAddr Address of the L1 contract
+
+### <a name="L1Config_polTokenAddress"></a>4.4. `L1Config.polTokenAddress`
+
+**Type:** : `array of integer`
+**Description:** PolAddr Address of the L1 Pol token Contract
+
+### <a name="L1Config_polygonZkEVMGlobalExitRootAddress"></a>4.5. `L1Config.polygonZkEVMGlobalExitRootAddress`
+
+**Type:** : `array of integer`
+**Description:** GlobalExitRootManagerAddr Address of the L1 GlobalExitRootManager contract
+
+## <a name="firstBatchData"></a>5. `[firstBatchData]`
+
+**Type:** : `object`
+**Description:** Data of the first batch after the genesis(Batch 1)
+
+| Property                                            | Pattern | Type             | Deprecated | Definition | Title/Description |
+| --------------------------------------------------- | ------- | ---------------- | ---------- | ---------- | ----------------- |
+| - [transactions](#firstBatchData_transactions )     | No      | string           | No         | -          | -                 |
+| - [globalExitRoot](#firstBatchData_globalExitRoot ) | No      | array of integer | No         | -          | -                 |
+| - [timestamp](#firstBatchData_timestamp )           | No      | integer          | No         | -          | -                 |
+| - [sequencer](#firstBatchData_sequencer )           | No      | array of integer | No         | -          | -                 |
+
+### <a name="firstBatchData_transactions"></a>5.1. `firstBatchData.transactions`
+
+**Type:** : `string`
+
+### <a name="firstBatchData_globalExitRoot"></a>5.2. `firstBatchData.globalExitRoot`
+
+**Type:** : `array of integer`
+
+### <a name="firstBatchData_timestamp"></a>5.3. `firstBatchData.timestamp`
+
+**Type:** : `integer`
+
+### <a name="firstBatchData_sequencer"></a>5.4. `firstBatchData.sequencer`
+
+**Type:** : `array of integer`
 
 ### <a name="L1Config_cdkDataCommitteeContract"></a>4.5. `L1Config.cdkDataCommitteeContract`
 

@@ -64,7 +64,7 @@ func approveTokens(ctx *cli.Context) error {
 		return err
 	}
 
-	tx, err := etherman.ApproveMatic(ctx.Context, auth.From, amount, c.NetworkConfig.L1Config.CDKValidiumAddr)
+	tx, err := etherman.ApprovePol(ctx.Context, auth.From, amount, c.NetworkConfig.L1Config.CDKValidiumAddr)
 	if err != nil {
 		return err
 	}

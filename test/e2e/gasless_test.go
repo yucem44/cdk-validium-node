@@ -77,6 +77,7 @@ func TestEthTransferGasless(t *testing.T) {
 	gasLimit, err := client.EstimateGas(ctx, ethereum.CallMsg{From: auth.From, To: &toAddress, Value: amount})
 	require.NoError(t, err)
 
+	// Force gas price to be 0
 	gasPrice := big.NewInt(0)
 	nonce, err := client.PendingNonceAt(ctx, auth.From)
 	require.NoError(t, err)

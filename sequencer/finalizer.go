@@ -44,7 +44,7 @@ type finalizer struct {
 	dbManager               dbManagerInterface
 	executor                stateInterface
 	batch                   *WipBatch
-	batchConstraints        batchConstraints
+	batchConstraints        state.BatchConstraintsCfg
 	processRequest          state.ProcessRequest
 	sharedResourcesMux      *sync.RWMutex
 	lastGERHash             common.Hash
@@ -114,7 +114,7 @@ func newFinalizer(
 	sequencerAddr common.Address,
 	isSynced func(ctx context.Context) bool,
 	closingSignalCh ClosingSignalCh,
-	batchConstraints batchConstraints,
+	batchConstraints state.BatchConstraintsCfg,
 	eventLog *event.EventLog,
 ) *finalizer {
 	f := finalizer{
@@ -735,8 +735,9 @@ func (f *finalizer) handleForcedTxsProcessResp(ctx context.Context, request stat
 		// Handle Transaction Error
 		if txResp.RomError != nil {
 			romErr := executor.RomErrorCode(txResp.RomError)
-			if executor.IsIntrinsicError(romErr) {
-				// If we have an intrinsic error, we should continue processing the batch, but skip the transaction
+			if executor.IsIntrinsicError(romErr) || romErr == executor.RomError_ROM_ERROR_INVALID_RLP {
+				// If we have an intrinsic error or the RLP is invalid
+				// we should continue processing the batch, but skip the transaction
 				log.Errorf("handleForcedTxsProcessResp: ROM error: %s", txResp.RomError)
 				continue
 			}
@@ -1006,12 +1007,16 @@ func (f *finalizer) processForcedBatch(ctx context.Context, lastBatchNumberInSta
 
 	if len(response.Responses) > 0 && !response.IsRomOOCError {
 		for _, txResponse := range response.Responses {
-			sender, err := state.GetSender(txResponse.Tx)
-			if err != nil {
-				log.Warnf("failed trying to add forced tx (%s) to worker. Error getting sender from tx, Err: %v", txResponse.TxHash, err)
-				continue
+			if !errors.Is(txResponse.RomError, executor.RomErr(executor.RomError_ROM_ERROR_INVALID_RLP)) {
+				sender, err := state.GetSender(txResponse.Tx)
+				if err != nil {
+					log.Warnf("failed trying to add forced tx (%s) to worker. Error getting sender from tx, Err: %v", txResponse.TxHash, err)
+					continue
+				}
+				f.worker.AddForcedTx(txResponse.TxHash, sender)
+			} else {
+				log.Warnf("ROM_ERROR_INVALID_RLP error received from executor for forced batch %d", forcedBatch.ForcedBatchNumber)
 			}
-			f.worker.AddForcedTx(txResponse.TxHash, sender)
 		}
 
 		f.handleForcedTxsProcessResp(ctx, request, response, stateRoot)
@@ -1315,7 +1320,7 @@ func (f *finalizer) getConstraintThresholdUint32(input uint32) uint32 {
 }
 
 // getUsedBatchResources returns the used resources in the batch
-func getUsedBatchResources(constraints batchConstraints, remainingResources state.BatchResources) state.BatchResources {
+func getUsedBatchResources(constraints state.BatchConstraintsCfg, remainingResources state.BatchResources) state.BatchResources {
 	return state.BatchResources{
 		ZKCounters: state.ZKCounters{
 			CumulativeGasUsed:    constraints.MaxCumulativeGasUsed - remainingResources.ZKCounters.CumulativeGasUsed,

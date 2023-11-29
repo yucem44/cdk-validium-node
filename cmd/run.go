@@ -35,6 +35,29 @@ import (
 	"github.com/0xPolygon/cdk-validium-node/state"
 	"github.com/0xPolygon/cdk-validium-node/state/runtime/executor"
 	"github.com/0xPolygon/cdk-validium-node/synchronizer"
+	datastreamerlog "github.com/0xPolygonHermez/zkevm-data-streamer/log"
+	"github.com/0xPolygonHermez/zkevm-node"
+	"github.com/0xPolygonHermez/zkevm-node/aggregator"
+	"github.com/0xPolygonHermez/zkevm-node/config"
+	"github.com/0xPolygonHermez/zkevm-node/db"
+	"github.com/0xPolygonHermez/zkevm-node/etherman"
+	"github.com/0xPolygonHermez/zkevm-node/ethtxmanager"
+	"github.com/0xPolygonHermez/zkevm-node/event"
+	"github.com/0xPolygonHermez/zkevm-node/event/nileventstorage"
+	"github.com/0xPolygonHermez/zkevm-node/event/pgeventstorage"
+	"github.com/0xPolygonHermez/zkevm-node/gasprice"
+	"github.com/0xPolygonHermez/zkevm-node/jsonrpc"
+	"github.com/0xPolygonHermez/zkevm-node/jsonrpc/client"
+	"github.com/0xPolygonHermez/zkevm-node/log"
+	"github.com/0xPolygonHermez/zkevm-node/merkletree"
+	"github.com/0xPolygonHermez/zkevm-node/metrics"
+	"github.com/0xPolygonHermez/zkevm-node/pool"
+	"github.com/0xPolygonHermez/zkevm-node/pool/pgpoolstorage"
+	"github.com/0xPolygonHermez/zkevm-node/sequencer"
+	"github.com/0xPolygonHermez/zkevm-node/sequencesender"
+	"github.com/0xPolygonHermez/zkevm-node/state"
+	"github.com/0xPolygonHermez/zkevm-node/state/runtime/executor"
+	"github.com/0xPolygonHermez/zkevm-node/synchronizer"
 	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/urfave/cli/v2"
@@ -63,11 +86,11 @@ func start(cliCtx *cli.Context) error {
 	if !cliCtx.Bool(config.FlagMigrations) {
 		for _, comp := range components {
 			if comp == SYNCHRONIZER {
-				runStateMigrations(c.StateDB)
+				runStateMigrations(c.State.DB)
 			}
 		}
 	}
-	checkStateMigrations(c.StateDB)
+	checkStateMigrations(c.State.DB)
 
 	var (
 		eventLog                      *event.EventLog
@@ -99,7 +122,7 @@ func start(cliCtx *cli.Context) error {
 	eventLog = event.NewEventLog(c.EventLog, eventStorage)
 
 	// Core State DB
-	stateSqlDB, err := db.NewSQLDB(c.StateDB)
+	stateSqlDB, err := db.NewSQLDB(c.State.DB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -129,7 +152,7 @@ func start(cliCtx *cli.Context) error {
 	c.Aggregator.ForkId = currentForkID
 	log.Infof("Chain ID read from POE SC = %v", l2ChainID)
 
-	ethTxManagerStorage, err := ethtxmanager.NewPostgresStorage(c.StateDB)
+	ethTxManagerStorage, err := ethtxmanager.NewPostgresStorage(c.State.DB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -159,6 +182,11 @@ func start(cliCtx *cli.Context) error {
 			}
 			go runAggregator(cliCtx.Context, c.Aggregator, etherman, etm, st)
 		case SEQUENCER:
+			c.Sequencer.StreamServer.Log = datastreamerlog.Config{
+				Environment: datastreamerlog.LogEnvironment(c.Log.Environment),
+				Level:       c.Log.Level,
+				Outputs:     c.Log.Outputs,
+			}
 			ev.Component = event.Component_Sequencer
 			ev.Description = "Running sequencer"
 			err := eventLog.LogEvent(cliCtx.Context, ev)
@@ -166,7 +194,7 @@ func start(cliCtx *cli.Context) error {
 				log.Fatal(err)
 			}
 			if poolInstance == nil {
-				poolInstance = createPool(c.Pool, l2ChainID, st, eventLog)
+				poolInstance = createPool(c.Pool, c.State.Batch.Constraints, l2ChainID, st, eventLog)
 			}
 			seq := createSequencer(*c, poolInstance, ethTxManagerStorage, st, eventLog)
 			go seq.Start(cliCtx.Context)
@@ -178,7 +206,7 @@ func start(cliCtx *cli.Context) error {
 				log.Fatal(err)
 			}
 			if poolInstance == nil {
-				poolInstance = createPool(c.Pool, l2ChainID, st, eventLog)
+				poolInstance = createPool(c.Pool, c.State.Batch.Constraints, l2ChainID, st, eventLog)
 			}
 			seqSender := createSequenceSender(*c, poolInstance, ethTxManagerStorage, st, eventLog)
 			go seqSender.Start(cliCtx.Context)
@@ -190,12 +218,13 @@ func start(cliCtx *cli.Context) error {
 				log.Fatal(err)
 			}
 			if poolInstance == nil {
-				poolInstance = createPool(c.Pool, l2ChainID, st, eventLog)
+				poolInstance = createPool(c.Pool, c.State.Batch.Constraints, l2ChainID, st, eventLog)
 			}
 			if c.RPC.EnableL2SuggestedGasPricePolling {
 				// Needed for rejecting transactions with too low gas price
 				poolInstance.StartPollingMinSuggestedGasPrice(cliCtx.Context)
 			}
+			poolInstance.StartRefreshingBlockedAddressesPeriodically()
 			apis := map[string]bool{}
 			for _, a := range cliCtx.StringSlice(config.FlagHTTPAPI) {
 				apis[a] = true
@@ -209,7 +238,7 @@ func start(cliCtx *cli.Context) error {
 				log.Fatal(err)
 			}
 			if poolInstance == nil {
-				poolInstance = createPool(c.Pool, l2ChainID, st, eventLog)
+				poolInstance = createPool(c.Pool, c.State.Batch.Constraints, l2ChainID, st, eventLog)
 			}
 			go runSynchronizer(*c, etherman, etm, st, poolInstance, eventLog)
 		case ETHTXMANAGER:
@@ -229,7 +258,7 @@ func start(cliCtx *cli.Context) error {
 				log.Fatal(err)
 			}
 			if poolInstance == nil {
-				poolInstance = createPool(c.Pool, l2ChainID, st, eventLog)
+				poolInstance = createPool(c.Pool, c.State.Batch.Constraints, l2ChainID, st, eventLog)
 			}
 			go runL2GasPriceSuggester(c.L2GasPriceSuggester, st, poolInstance, etherman)
 		}
@@ -272,11 +301,7 @@ func runMigrations(c db.Config, name string) {
 }
 
 func newEtherman(c config.Config) (*etherman.Client, error) {
-	etherman, err := etherman.NewClient(c.Etherman, c.NetworkConfig.L1Config)
-	if err != nil {
-		return nil, err
-	}
-	return etherman, nil
+	return etherman.NewClient(c.Etherman, c.NetworkConfig.L1Config)
 }
 
 func runSynchronizer(cfg config.Config, etherman *etherman.Client, ethTxManager *ethtxmanager.Client, st *state.State, pool *pool.Pool, eventLog *event.EventLog) {
@@ -296,9 +321,20 @@ func runSynchronizer(cfg config.Config, etherman *etherman.Client, ethTxManager 
 	}
 	zkEVMClient := client.NewClient(trustedSequencerURL)
 
+	etherManForL1 := []synchronizer.EthermanInterface{}
+	// If synchronizer are using sequential mode, we only need one etherman client
+	if cfg.Synchronizer.UseParallelModeForL1Synchronization {
+		for i := 0; i < int(cfg.Synchronizer.L1ParallelSynchronization.NumberOfParallelOfEthereumClients); i++ {
+			eth, err := newEtherman(cfg)
+			if err != nil {
+				log.Fatal(err)
+			}
+			etherManForL1 = append(etherManForL1, eth)
+		}
+	}
 	sy, err := synchronizer.NewSynchronizer(
-		cfg.IsTrustedSequencer, etherman, st, pool, ethTxManager,
-		zkEVMClient, eventLog, cfg.NetworkConfig.Genesis, cfg.Synchronizer,
+		cfg.IsTrustedSequencer, etherman, etherManForL1, st, pool, ethTxManager,
+		zkEVMClient, eventLog, cfg.NetworkConfig.Genesis, cfg.Synchronizer, cfg.Log.Environment == "development",
 		&dataCommitteeClient.ClientFactory{},
 	)
 	if err != nil {
@@ -312,7 +348,8 @@ func runSynchronizer(cfg config.Config, etherman *etherman.Client, ethTxManager 
 func runJSONRPCServer(c config.Config, etherman *etherman.Client, chainID uint64, pool *pool.Pool, st *state.State, apis map[string]bool) {
 	var err error
 	storage := jsonrpc.NewStorage()
-	c.RPC.MaxCumulativeGasUsed = c.Sequencer.MaxCumulativeGasUsed
+	c.RPC.MaxCumulativeGasUsed = c.State.Batch.Constraints.MaxCumulativeGasUsed
+	c.RPC.L2Coinbase = c.SequenceSender.L2Coinbase
 	if !c.IsTrustedSequencer {
 		if c.RPC.SequencerNodeURI == "" {
 			log.Debug("getting trusted sequencer URL from smc")
@@ -380,7 +417,7 @@ func createSequencer(cfg config.Config, pool *pool.Pool, etmStorage *ethtxmanage
 
 	ethTxManager := ethtxmanager.New(cfg.EthTxManager, etherman, etmStorage, st)
 
-	seq, err := sequencer.New(cfg.Sequencer, pool, st, etherman, ethTxManager, eventLog)
+	seq, err := sequencer.New(cfg.Sequencer, cfg.State.Batch, pool, st, etherman, ethTxManager, eventLog)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -447,7 +484,7 @@ func waitSignal(cancelFuncs []context.CancelFunc) {
 }
 
 func newState(ctx context.Context, c *config.Config, l2ChainID uint64, forkIDIntervals []state.ForkIDInterval, sqlDB *pgxpool.Pool, eventLog *event.EventLog, needsExecutor, needsStateTree bool) *state.State {
-	stateDb := state.NewPostgresStorage(sqlDB)
+	stateDb := state.NewPostgresStorage(c.State, sqlDB)
 
 	// Executor
 	var executorClient executor.ExecutorServiceClient
@@ -463,26 +500,29 @@ func newState(ctx context.Context, c *config.Config, l2ChainID uint64, forkIDInt
 	}
 
 	stateCfg := state.Config{
-		MaxCumulativeGasUsed:         c.Sequencer.MaxCumulativeGasUsed,
+		MaxCumulativeGasUsed:         c.State.Batch.Constraints.MaxCumulativeGasUsed,
 		ChainID:                      l2ChainID,
 		ForkIDIntervals:              forkIDIntervals,
 		MaxResourceExhaustedAttempts: c.Executor.MaxResourceExhaustedAttempts,
 		WaitOnResourceExhaustion:     c.Executor.WaitOnResourceExhaustion,
 		ForkUpgradeBatchNumber:       c.ForkUpgradeBatchNumber,
 		ForkUpgradeNewForkId:         c.ForkUpgradeNewForkId,
+		MaxLogsCount:                 c.RPC.MaxLogsCount,
+		MaxLogsBlockRange:            c.RPC.MaxLogsBlockRange,
+		MaxNativeBlockHashBlockRange: c.RPC.MaxNativeBlockHashBlockRange,
 	}
 
 	st := state.NewState(stateCfg, stateDb, executorClient, stateTree, eventLog)
 	return st
 }
 
-func createPool(cfgPool pool.Config, l2ChainID uint64, st *state.State, eventLog *event.EventLog) *pool.Pool {
+func createPool(cfgPool pool.Config, constraintsCfg state.BatchConstraintsCfg, l2ChainID uint64, st *state.State, eventLog *event.EventLog) *pool.Pool {
 	runPoolMigrations(cfgPool.DB)
 	poolStorage, err := pgpoolstorage.NewPostgresPoolStorage(cfgPool.DB)
 	if err != nil {
 		log.Fatal(err)
 	}
-	poolInstance := pool.NewPool(cfgPool, poolStorage, st, l2ChainID, eventLog)
+	poolInstance := pool.NewPool(cfgPool, constraintsCfg, poolStorage, st, l2ChainID, eventLog)
 	return poolInstance
 }
 

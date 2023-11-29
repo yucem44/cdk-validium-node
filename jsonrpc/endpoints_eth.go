@@ -8,6 +8,9 @@ import (
 	"math/big"
 	"net/http"
 	"strings"
+	"sync"
+	"sync/atomic"
+	"time"
 
 	"github.com/0xPolygon/cdk-validium-node/hex"
 	"github.com/0xPolygon/cdk-validium-node/jsonrpc/client"
@@ -67,9 +70,9 @@ func (e *EthEndpoints) BlockNumber() (interface{}, types.Error) {
 func (e *EthEndpoints) Call(arg *types.TxArgs, blockArg *types.BlockNumberOrHash) (interface{}, types.Error) {
 	return e.txMan.NewDbTxScope(e.state, func(ctx context.Context, dbTx pgx.Tx) (interface{}, types.Error) {
 		if arg == nil {
-			return RPCErrorResponse(types.InvalidParamsErrorCode, "missing value for required argument 0", nil)
+			return RPCErrorResponse(types.InvalidParamsErrorCode, "missing value for required argument 0", nil, false)
 		} else if blockArg == nil {
-			return RPCErrorResponse(types.InvalidParamsErrorCode, "missing value for required argument 1", nil)
+			return RPCErrorResponse(types.InvalidParamsErrorCode, "missing value for required argument 1", nil, false)
 		}
 		block, respErr := e.getBlockByArg(ctx, blockArg, dbTx)
 		if respErr != nil {
@@ -90,7 +93,7 @@ func (e *EthEndpoints) Call(arg *types.TxArgs, blockArg *types.BlockNumberOrHash
 		if arg.Gas == nil || uint64(*arg.Gas) <= 0 {
 			header, err := e.state.GetL2BlockHeaderByNumber(ctx, block.NumberU64(), dbTx)
 			if err != nil {
-				return RPCErrorResponse(types.DefaultErrorCode, "failed to get block header", err)
+				return RPCErrorResponse(types.DefaultErrorCode, "failed to get block header", err, true)
 			}
 
 			gas := types.ArgUint64(header.GasLimit)
@@ -100,12 +103,12 @@ func (e *EthEndpoints) Call(arg *types.TxArgs, blockArg *types.BlockNumberOrHash
 		defaultSenderAddress := common.HexToAddress(DefaultSenderAddress)
 		sender, tx, err := arg.ToTransaction(ctx, e.state, e.cfg.MaxCumulativeGasUsed, block.Root(), defaultSenderAddress, dbTx)
 		if err != nil {
-			return RPCErrorResponse(types.DefaultErrorCode, "failed to convert arguments into an unsigned transaction", err)
+			return RPCErrorResponse(types.DefaultErrorCode, "failed to convert arguments into an unsigned transaction", err, false)
 		}
 
 		result, err := e.state.ProcessUnsignedTransaction(ctx, tx, sender, blockToProcess, true, dbTx)
 		if err != nil {
-			return RPCErrorResponse(types.DefaultErrorCode, "failed to execute the unsigned transaction", err)
+			return RPCErrorResponse(types.DefaultErrorCode, "failed to execute the unsigned transaction", err, true)
 		}
 
 		if result.Reverted() {
@@ -125,6 +128,32 @@ func (e *EthEndpoints) ChainId() (interface{}, types.Error) { //nolint:revive
 	return hex.EncodeUint64(e.chainID), nil
 }
 
+// Coinbase Returns the client coinbase address.
+func (e *EthEndpoints) Coinbase() (interface{}, types.Error) { //nolint:revive
+	if e.cfg.SequencerNodeURI != "" {
+		return e.getCoinbaseFromSequencerNode()
+	}
+	return e.cfg.L2Coinbase.String(), nil
+}
+
+func (e *EthEndpoints) getCoinbaseFromSequencerNode() (interface{}, types.Error) {
+	res, err := client.JSONRPCCall(e.cfg.SequencerNodeURI, "eth_coinbase")
+	if err != nil {
+		return RPCErrorResponse(types.DefaultErrorCode, "failed to get coinbase from sequencer node", err, true)
+	}
+
+	if res.Error != nil {
+		return RPCErrorResponse(res.Error.Code, res.Error.Message, nil, false)
+	}
+
+	var coinbaseAddress common.Address
+	err = json.Unmarshal(res.Result, &coinbaseAddress)
+	if err != nil {
+		return RPCErrorResponse(types.DefaultErrorCode, "failed to read coinbase from sequencer node", err, true)
+	}
+	return coinbaseAddress.String(), nil
+}
+
 // EstimateGas generates and returns an estimate of how much gas is necessary to
 // allow the transaction to complete.
 // The transaction will not be added to the blockchain.
@@ -134,7 +163,7 @@ func (e *EthEndpoints) ChainId() (interface{}, types.Error) { //nolint:revive
 func (e *EthEndpoints) EstimateGas(arg *types.TxArgs, blockArg *types.BlockNumberOrHash) (interface{}, types.Error) {
 	return e.txMan.NewDbTxScope(e.state, func(ctx context.Context, dbTx pgx.Tx) (interface{}, types.Error) {
 		if arg == nil {
-			return RPCErrorResponse(types.InvalidParamsErrorCode, "missing value for required argument 0", nil)
+			return RPCErrorResponse(types.InvalidParamsErrorCode, "missing value for required argument 0", nil, false)
 		}
 
 		block, respErr := e.getBlockByArg(ctx, blockArg, dbTx)
@@ -156,7 +185,7 @@ func (e *EthEndpoints) EstimateGas(arg *types.TxArgs, blockArg *types.BlockNumbe
 		defaultSenderAddress := common.HexToAddress(DefaultSenderAddress)
 		sender, tx, err := arg.ToTransaction(ctx, e.state, e.cfg.MaxCumulativeGasUsed, block.Root(), defaultSenderAddress, dbTx)
 		if err != nil {
-			return RPCErrorResponse(types.DefaultErrorCode, "failed to convert arguments into an unsigned transaction", err)
+			return RPCErrorResponse(types.DefaultErrorCode, "failed to convert arguments into an unsigned transaction", err, false)
 		}
 
 		gasEstimation, returnValue, err := e.state.EstimateGas(tx, sender, blockToProcess, dbTx)
@@ -165,10 +194,7 @@ func (e *EthEndpoints) EstimateGas(arg *types.TxArgs, blockArg *types.BlockNumbe
 			copy(data, returnValue)
 			return nil, types.NewRPCErrorWithData(types.RevertedErrorCode, err.Error(), &data)
 		} else if err != nil {
-			return nil, types.NewRPCErrorWithData(types.DefaultErrorCode, err.Error(), nil)
-		}
-		if err != nil {
-			return RPCErrorResponse(types.DefaultErrorCode, err.Error(), nil)
+			return RPCErrorResponse(types.DefaultErrorCode, err.Error(), nil, true)
 		}
 		return hex.EncodeUint64(gasEstimation), nil
 	})
@@ -190,17 +216,17 @@ func (e *EthEndpoints) GasPrice() (interface{}, types.Error) {
 func (e *EthEndpoints) getPriceFromSequencerNode() (interface{}, types.Error) {
 	res, err := client.JSONRPCCall(e.cfg.SequencerNodeURI, "eth_gasPrice")
 	if err != nil {
-		return RPCErrorResponse(types.DefaultErrorCode, "failed to get gas price from sequencer node", err)
+		return RPCErrorResponse(types.DefaultErrorCode, "failed to get gas price from sequencer node", err, true)
 	}
 
 	if res.Error != nil {
-		return RPCErrorResponse(res.Error.Code, res.Error.Message, nil)
+		return RPCErrorResponse(res.Error.Code, res.Error.Message, nil, false)
 	}
 
 	var gasPrice types.ArgUint64
 	err = json.Unmarshal(res.Result, &gasPrice)
 	if err != nil {
-		return RPCErrorResponse(types.DefaultErrorCode, "failed to read gas price from sequencer node", err)
+		return RPCErrorResponse(types.DefaultErrorCode, "failed to read gas price from sequencer node", err, true)
 	}
 	return gasPrice, nil
 }
@@ -217,7 +243,7 @@ func (e *EthEndpoints) GetBalance(address types.ArgAddress, blockArg *types.Bloc
 		if errors.Is(err, state.ErrNotFound) {
 			return hex.EncodeUint64(0), nil
 		} else if err != nil {
-			return RPCErrorResponse(types.DefaultErrorCode, "failed to get balance from state", err)
+			return RPCErrorResponse(types.DefaultErrorCode, "failed to get balance from state", err, true)
 		}
 
 		return hex.EncodeBig(balance), nil
@@ -267,7 +293,7 @@ func (e *EthEndpoints) GetBlockByHash(hash types.ArgHash, fullTx bool) (interfac
 		if errors.Is(err, state.ErrNotFound) {
 			return nil, nil
 		} else if err != nil {
-			return RPCErrorResponse(types.DefaultErrorCode, "failed to get block by hash from state", err)
+			return RPCErrorResponse(types.DefaultErrorCode, "failed to get block by hash from state", err, true)
 		}
 
 		txs := block.Transactions()
@@ -275,14 +301,14 @@ func (e *EthEndpoints) GetBlockByHash(hash types.ArgHash, fullTx bool) (interfac
 		for _, tx := range txs {
 			receipt, err := e.state.GetTransactionReceipt(ctx, tx.Hash(), dbTx)
 			if err != nil {
-				return RPCErrorResponse(types.DefaultErrorCode, fmt.Sprintf("couldn't load receipt for tx %v", tx.Hash().String()), err)
+				return RPCErrorResponse(types.DefaultErrorCode, fmt.Sprintf("couldn't load receipt for tx %v", tx.Hash().String()), err, true)
 			}
 			receipts = append(receipts, *receipt)
 		}
 
 		rpcBlock, err := types.NewBlock(block, receipts, fullTx, false)
 		if err != nil {
-			return RPCErrorResponse(types.DefaultErrorCode, fmt.Sprintf("couldn't build block response for block by hash %v", hash.Hash()), err)
+			return RPCErrorResponse(types.DefaultErrorCode, fmt.Sprintf("couldn't build block response for block by hash %v", hash.Hash()), err, true)
 		}
 
 		return rpcBlock, nil
@@ -295,7 +321,7 @@ func (e *EthEndpoints) GetBlockByNumber(number types.BlockNumber, fullTx bool) (
 		if number == types.PendingBlockNumber {
 			lastBlock, err := e.state.GetLastL2Block(ctx, dbTx)
 			if err != nil {
-				return RPCErrorResponse(types.DefaultErrorCode, "couldn't load last block from state to compute the pending block", err)
+				return RPCErrorResponse(types.DefaultErrorCode, "couldn't load last block from state to compute the pending block", err, true)
 			}
 			header := ethTypes.CopyHeader(lastBlock.Header())
 			header.ParentHash = lastBlock.Hash()
@@ -305,7 +331,7 @@ func (e *EthEndpoints) GetBlockByNumber(number types.BlockNumber, fullTx bool) (
 			block := ethTypes.NewBlockWithHeader(header)
 			rpcBlock, err := types.NewBlock(block, nil, fullTx, false)
 			if err != nil {
-				return RPCErrorResponse(types.DefaultErrorCode, "couldn't build the pending block response", err)
+				return RPCErrorResponse(types.DefaultErrorCode, "couldn't build the pending block response", err, true)
 			}
 
 			return rpcBlock, nil
@@ -320,7 +346,7 @@ func (e *EthEndpoints) GetBlockByNumber(number types.BlockNumber, fullTx bool) (
 		if errors.Is(err, state.ErrNotFound) {
 			return nil, nil
 		} else if err != nil {
-			return RPCErrorResponse(types.DefaultErrorCode, fmt.Sprintf("couldn't load block from state by number %v", blockNumber), err)
+			return RPCErrorResponse(types.DefaultErrorCode, fmt.Sprintf("couldn't load block from state by number %v", blockNumber), err, true)
 		}
 
 		txs := block.Transactions()
@@ -328,14 +354,14 @@ func (e *EthEndpoints) GetBlockByNumber(number types.BlockNumber, fullTx bool) (
 		for _, tx := range txs {
 			receipt, err := e.state.GetTransactionReceipt(ctx, tx.Hash(), dbTx)
 			if err != nil {
-				return RPCErrorResponse(types.DefaultErrorCode, fmt.Sprintf("couldn't load receipt for tx %v", tx.Hash().String()), err)
+				return RPCErrorResponse(types.DefaultErrorCode, fmt.Sprintf("couldn't load receipt for tx %v", tx.Hash().String()), err, true)
 			}
 			receipts = append(receipts, *receipt)
 		}
 
 		rpcBlock, err := types.NewBlock(block, receipts, fullTx, false)
 		if err != nil {
-			return RPCErrorResponse(types.DefaultErrorCode, fmt.Sprintf("couldn't build block response for block by number %v", blockNumber), err)
+			return RPCErrorResponse(types.DefaultErrorCode, fmt.Sprintf("couldn't build block response for block by number %v", blockNumber), err, true)
 		}
 
 		return rpcBlock, nil
@@ -355,7 +381,7 @@ func (e *EthEndpoints) GetCode(address types.ArgAddress, blockArg *types.BlockNu
 		if errors.Is(err, state.ErrNotFound) {
 			return "0x", nil
 		} else if err != nil {
-			return RPCErrorResponse(types.DefaultErrorCode, "failed to get code", err)
+			return RPCErrorResponse(types.DefaultErrorCode, "failed to get code", err, true)
 		}
 
 		return types.ArgBytes(code), nil
@@ -372,9 +398,9 @@ func (e *EthEndpoints) GetCompilers() (interface{}, types.Error) {
 func (e *EthEndpoints) GetFilterChanges(filterID string) (interface{}, types.Error) {
 	filter, err := e.storage.GetFilter(filterID)
 	if errors.Is(err, ErrNotFound) {
-		return RPCErrorResponse(types.DefaultErrorCode, "filter not found", err)
+		return RPCErrorResponse(types.DefaultErrorCode, "filter not found", err, false)
 	} else if err != nil {
-		return RPCErrorResponse(types.DefaultErrorCode, "failed to get filter from storage", err)
+		return RPCErrorResponse(types.DefaultErrorCode, "failed to get filter from storage", err, true)
 	}
 
 	switch filter.Type {
@@ -382,7 +408,7 @@ func (e *EthEndpoints) GetFilterChanges(filterID string) (interface{}, types.Err
 		{
 			res, err := e.state.GetL2BlockHashesSince(context.Background(), filter.LastPoll, nil)
 			if err != nil {
-				return RPCErrorResponse(types.DefaultErrorCode, "failed to get block hashes", err)
+				return RPCErrorResponse(types.DefaultErrorCode, "failed to get block hashes", err, true)
 			}
 			rpcErr := e.updateFilterLastPoll(filter.ID)
 			if rpcErr != nil {
@@ -397,7 +423,7 @@ func (e *EthEndpoints) GetFilterChanges(filterID string) (interface{}, types.Err
 		{
 			res, err := e.pool.GetPendingTxHashesSince(context.Background(), filter.LastPoll)
 			if err != nil {
-				return RPCErrorResponse(types.DefaultErrorCode, "failed to get pending transaction hashes", err)
+				return RPCErrorResponse(types.DefaultErrorCode, "failed to get pending transaction hashes", err, true)
 			}
 			rpcErr := e.updateFilterLastPoll(filter.ID)
 			if rpcErr != nil {
@@ -439,7 +465,7 @@ func (e *EthEndpoints) GetFilterLogs(filterID string) (interface{}, types.Error)
 	if errors.Is(err, ErrNotFound) {
 		return nil, nil
 	} else if err != nil {
-		return RPCErrorResponse(types.DefaultErrorCode, "failed to get filter from storage", err)
+		return RPCErrorResponse(types.DefaultErrorCode, "failed to get filter from storage", err, true)
 	}
 
 	if filter.Type != FilterTypeLog {
@@ -460,24 +486,21 @@ func (e *EthEndpoints) GetLogs(filter LogFilter) (interface{}, types.Error) {
 }
 
 func (e *EthEndpoints) internalGetLogs(ctx context.Context, dbTx pgx.Tx, filter LogFilter) (interface{}, types.Error) {
-	var err error
-	var fromBlock uint64 = 0
-	if filter.FromBlock != nil {
-		var rpcErr types.Error
-		fromBlock, rpcErr = filter.FromBlock.GetNumericBlockNumber(ctx, e.state, e.etherman, dbTx)
-		if rpcErr != nil {
-			return nil, rpcErr
-		}
-	}
-
-	toBlock, rpcErr := filter.ToBlock.GetNumericBlockNumber(ctx, e.state, e.etherman, dbTx)
+	fromBlockNumber, toBlockNumber, rpcErr := filter.GetNumericBlockNumbers(ctx, e.cfg, e.state, e.etherman, dbTx)
 	if rpcErr != nil {
 		return nil, rpcErr
 	}
 
-	logs, err := e.state.GetLogs(ctx, fromBlock, toBlock, filter.Addresses, filter.Topics, filter.BlockHash, filter.Since, dbTx)
-	if err != nil {
-		return RPCErrorResponse(types.DefaultErrorCode, "failed to get logs from state", err)
+	var err error
+	logs, err := e.state.GetLogs(ctx, fromBlockNumber, toBlockNumber, filter.Addresses, filter.Topics, filter.BlockHash, filter.Since, dbTx)
+	if errors.Is(err, state.ErrMaxLogsCountLimitExceeded) {
+		errMsg := fmt.Sprintf(state.ErrMaxLogsCountLimitExceeded.Error(), e.cfg.MaxLogsCount)
+		return RPCErrorResponse(types.InvalidParamsErrorCode, errMsg, nil, false)
+	} else if errors.Is(err, state.ErrMaxLogsBlockRangeLimitExceeded) {
+		errMsg := fmt.Sprintf(state.ErrMaxLogsBlockRangeLimitExceeded.Error(), e.cfg.MaxLogsBlockRange)
+		return RPCErrorResponse(types.InvalidParamsErrorCode, errMsg, nil, false)
+	} else if err != nil {
+		return RPCErrorResponse(types.DefaultErrorCode, "failed to get logs from state", err, true)
 	}
 
 	result := make([]types.Log, 0, len(logs))
@@ -493,7 +516,7 @@ func (e *EthEndpoints) GetStorageAt(address types.ArgAddress, storageKeyStr stri
 	storageKey := types.ArgHash{}
 	err := storageKey.UnmarshalText([]byte(storageKeyStr))
 	if err != nil {
-		return RPCErrorResponse(types.DefaultErrorCode, "unable to decode storage key: hex string invalid", nil)
+		return RPCErrorResponse(types.DefaultErrorCode, "unable to decode storage key: hex string invalid", nil, false)
 	}
 
 	return e.txMan.NewDbTxScope(e.state, func(ctx context.Context, dbTx pgx.Tx) (interface{}, types.Error) {
@@ -506,7 +529,7 @@ func (e *EthEndpoints) GetStorageAt(address types.ArgAddress, storageKeyStr stri
 		if errors.Is(err, state.ErrNotFound) {
 			return types.ArgBytesPtr(common.Hash{}.Bytes()), nil
 		} else if err != nil {
-			return RPCErrorResponse(types.DefaultErrorCode, "failed to get storage value from state", err)
+			return RPCErrorResponse(types.DefaultErrorCode, "failed to get storage value from state", err, true)
 		}
 
 		return types.ArgBytesPtr(common.BigToHash(value).Bytes()), nil
@@ -521,19 +544,19 @@ func (e *EthEndpoints) GetTransactionByBlockHashAndIndex(hash types.ArgHash, ind
 		if errors.Is(err, state.ErrNotFound) {
 			return nil, nil
 		} else if err != nil {
-			return RPCErrorResponse(types.DefaultErrorCode, "failed to get transaction", err)
+			return RPCErrorResponse(types.DefaultErrorCode, "failed to get transaction", err, true)
 		}
 
 		receipt, err := e.state.GetTransactionReceipt(ctx, tx.Hash(), dbTx)
 		if errors.Is(err, state.ErrNotFound) {
 			return nil, nil
 		} else if err != nil {
-			return RPCErrorResponse(types.DefaultErrorCode, "failed to get transaction receipt", err)
+			return RPCErrorResponse(types.DefaultErrorCode, "failed to get transaction receipt", err, true)
 		}
 
 		res, err := types.NewTransaction(*tx, receipt, false)
 		if err != nil {
-			return RPCErrorResponse(types.DefaultErrorCode, "failed to build transaction response", err)
+			return RPCErrorResponse(types.DefaultErrorCode, "failed to build transaction response", err, true)
 		}
 
 		return res, nil
@@ -554,19 +577,19 @@ func (e *EthEndpoints) GetTransactionByBlockNumberAndIndex(number *types.BlockNu
 		if errors.Is(err, state.ErrNotFound) {
 			return nil, nil
 		} else if err != nil {
-			return RPCErrorResponse(types.DefaultErrorCode, "failed to get transaction", err)
+			return RPCErrorResponse(types.DefaultErrorCode, "failed to get transaction", err, true)
 		}
 
 		receipt, err := e.state.GetTransactionReceipt(ctx, tx.Hash(), dbTx)
 		if errors.Is(err, state.ErrNotFound) {
 			return nil, nil
 		} else if err != nil {
-			return RPCErrorResponse(types.DefaultErrorCode, "failed to get transaction receipt", err)
+			return RPCErrorResponse(types.DefaultErrorCode, "failed to get transaction receipt", err, true)
 		}
 
 		res, err := types.NewTransaction(*tx, receipt, false)
 		if err != nil {
-			return RPCErrorResponse(types.DefaultErrorCode, "failed to build transaction response", err)
+			return RPCErrorResponse(types.DefaultErrorCode, "failed to build transaction response", err, true)
 		}
 
 		return res, nil
@@ -579,19 +602,19 @@ func (e *EthEndpoints) GetTransactionByHash(hash types.ArgHash) (interface{}, ty
 		// try to get tx from state
 		tx, err := e.state.GetTransactionByHash(ctx, hash.Hash(), dbTx)
 		if err != nil && !errors.Is(err, state.ErrNotFound) {
-			return RPCErrorResponse(types.DefaultErrorCode, "failed to load transaction by hash from state", err)
+			return RPCErrorResponse(types.DefaultErrorCode, "failed to load transaction by hash from state", err, true)
 		}
 		if tx != nil {
 			receipt, err := e.state.GetTransactionReceipt(ctx, hash.Hash(), dbTx)
 			if errors.Is(err, state.ErrNotFound) {
-				return RPCErrorResponse(types.DefaultErrorCode, "transaction receipt not found", err)
+				return RPCErrorResponse(types.DefaultErrorCode, "transaction receipt not found", err, false)
 			} else if err != nil {
-				return RPCErrorResponse(types.DefaultErrorCode, "failed to load transaction receipt from state", err)
+				return RPCErrorResponse(types.DefaultErrorCode, "failed to load transaction receipt from state", err, true)
 			}
 
 			res, err := types.NewTransaction(*tx, receipt, false)
 			if err != nil {
-				return RPCErrorResponse(types.DefaultErrorCode, "failed to build transaction response", err)
+				return RPCErrorResponse(types.DefaultErrorCode, "failed to build transaction response", err, true)
 			}
 
 			return res, nil
@@ -605,13 +628,13 @@ func (e *EthEndpoints) GetTransactionByHash(hash types.ArgHash) (interface{}, ty
 		if errors.Is(err, pool.ErrNotFound) {
 			return nil, nil
 		} else if err != nil {
-			return RPCErrorResponse(types.DefaultErrorCode, "failed to load transaction by hash from pool", err)
+			return RPCErrorResponse(types.DefaultErrorCode, "failed to load transaction by hash from pool", err, true)
 		}
 		if poolTx.Status == pool.TxStatusPending {
 			tx = &poolTx.Transaction
 			res, err := types.NewTransaction(*tx, nil, false)
 			if err != nil {
-				return RPCErrorResponse(types.DefaultErrorCode, "failed to build transaction response", err)
+				return RPCErrorResponse(types.DefaultErrorCode, "failed to build transaction response", err, true)
 			}
 			return res, nil
 		}
@@ -622,17 +645,17 @@ func (e *EthEndpoints) GetTransactionByHash(hash types.ArgHash) (interface{}, ty
 func (e *EthEndpoints) getTransactionByHashFromSequencerNode(hash common.Hash) (interface{}, types.Error) {
 	res, err := client.JSONRPCCall(e.cfg.SequencerNodeURI, "eth_getTransactionByHash", hash.String())
 	if err != nil {
-		return RPCErrorResponse(types.DefaultErrorCode, "failed to get tx from sequencer node", err)
+		return RPCErrorResponse(types.DefaultErrorCode, "failed to get tx from sequencer node", err, true)
 	}
 
 	if res.Error != nil {
-		return RPCErrorResponse(res.Error.Code, res.Error.Message, nil)
+		return RPCErrorResponse(res.Error.Code, res.Error.Message, nil, false)
 	}
 
 	var tx *types.Transaction
 	err = json.Unmarshal(res.Result, &tx)
 	if err != nil {
-		return RPCErrorResponse(types.DefaultErrorCode, "failed to read tx from sequencer node", err)
+		return RPCErrorResponse(types.DefaultErrorCode, "failed to read tx from sequencer node", err, true)
 	}
 	return tx, nil
 }
@@ -659,7 +682,7 @@ func (e *EthEndpoints) GetTransactionCount(address types.ArgAddress, blockArg *t
 				}
 				pendingNonce, err = e.pool.GetNonce(ctx, address.Address())
 				if err != nil {
-					return RPCErrorResponse(types.DefaultErrorCode, "failed to count pending transactions", err)
+					return RPCErrorResponse(types.DefaultErrorCode, "failed to count pending transactions", err, true)
 				}
 			}
 		}
@@ -669,7 +692,7 @@ func (e *EthEndpoints) GetTransactionCount(address types.ArgAddress, blockArg *t
 		if errors.Is(err, state.ErrNotFound) {
 			return hex.EncodeUint64(0), nil
 		} else if err != nil {
-			return RPCErrorResponse(types.DefaultErrorCode, "failed to count transactions", err)
+			return RPCErrorResponse(types.DefaultErrorCode, "failed to count transactions", err, true)
 		}
 
 		if pendingNonce > nonce {
@@ -683,17 +706,17 @@ func (e *EthEndpoints) GetTransactionCount(address types.ArgAddress, blockArg *t
 func (e *EthEndpoints) getTransactionCountFromSequencerNode(address common.Address, number *types.BlockNumber) (interface{}, types.Error) {
 	res, err := client.JSONRPCCall(e.cfg.SequencerNodeURI, "eth_getTransactionCount", address.String(), number.StringOrHex())
 	if err != nil {
-		return RPCErrorResponse(types.DefaultErrorCode, "failed to get nonce from sequencer node", err)
+		return RPCErrorResponse(types.DefaultErrorCode, "failed to get nonce from sequencer node", err, true)
 	}
 
 	if res.Error != nil {
-		return RPCErrorResponse(res.Error.Code, res.Error.Message, nil)
+		return RPCErrorResponse(res.Error.Code, res.Error.Message, nil, false)
 	}
 
 	var nonce types.ArgUint64
 	err = json.Unmarshal(res.Result, &nonce)
 	if err != nil {
-		return RPCErrorResponse(types.DefaultErrorCode, "failed to read nonce from sequencer node", err)
+		return RPCErrorResponse(types.DefaultErrorCode, "failed to read nonce from sequencer node", err, true)
 	}
 	return nonce, nil
 }
@@ -704,7 +727,7 @@ func (e *EthEndpoints) GetBlockTransactionCountByHash(hash types.ArgHash) (inter
 	return e.txMan.NewDbTxScope(e.state, func(ctx context.Context, dbTx pgx.Tx) (interface{}, types.Error) {
 		c, err := e.state.GetL2BlockTransactionCountByHash(ctx, hash.Hash(), dbTx)
 		if err != nil {
-			return RPCErrorResponse(types.DefaultErrorCode, "failed to count transactions", err)
+			return RPCErrorResponse(types.DefaultErrorCode, "failed to count transactions", err, true)
 		}
 
 		return types.ArgUint64(c), nil
@@ -721,7 +744,7 @@ func (e *EthEndpoints) GetBlockTransactionCountByNumber(number *types.BlockNumbe
 			}
 			c, err := e.pool.CountPendingTransactions(ctx)
 			if err != nil {
-				return RPCErrorResponse(types.DefaultErrorCode, "failed to count pending transactions", err)
+				return RPCErrorResponse(types.DefaultErrorCode, "failed to count pending transactions", err, true)
 			}
 			return types.ArgUint64(c), nil
 		}
@@ -734,7 +757,7 @@ func (e *EthEndpoints) GetBlockTransactionCountByNumber(number *types.BlockNumbe
 
 		c, err := e.state.GetL2BlockTransactionCountByNumber(ctx, blockNumber, dbTx)
 		if err != nil {
-			return RPCErrorResponse(types.DefaultErrorCode, "failed to count transactions", err)
+			return RPCErrorResponse(types.DefaultErrorCode, "failed to count transactions", err, true)
 		}
 
 		return types.ArgUint64(c), nil
@@ -744,17 +767,17 @@ func (e *EthEndpoints) GetBlockTransactionCountByNumber(number *types.BlockNumbe
 func (e *EthEndpoints) getBlockTransactionCountByNumberFromSequencerNode(number *types.BlockNumber) (interface{}, types.Error) {
 	res, err := client.JSONRPCCall(e.cfg.SequencerNodeURI, "eth_getBlockTransactionCountByNumber", number.StringOrHex())
 	if err != nil {
-		return RPCErrorResponse(types.DefaultErrorCode, "failed to get tx count by block number from sequencer node", err)
+		return RPCErrorResponse(types.DefaultErrorCode, "failed to get tx count by block number from sequencer node", err, true)
 	}
 
 	if res.Error != nil {
-		return RPCErrorResponse(res.Error.Code, res.Error.Message, nil)
+		return RPCErrorResponse(res.Error.Code, res.Error.Message, nil, false)
 	}
 
 	var count types.ArgUint64
 	err = json.Unmarshal(res.Result, &count)
 	if err != nil {
-		return RPCErrorResponse(types.DefaultErrorCode, "failed to read tx count by block number from sequencer node", err)
+		return RPCErrorResponse(types.DefaultErrorCode, "failed to read tx count by block number from sequencer node", err, true)
 	}
 	return count, nil
 }
@@ -766,19 +789,19 @@ func (e *EthEndpoints) GetTransactionReceipt(hash types.ArgHash) (interface{}, t
 		if errors.Is(err, state.ErrNotFound) {
 			return nil, nil
 		} else if err != nil {
-			return RPCErrorResponse(types.DefaultErrorCode, "failed to get tx from state", err)
+			return RPCErrorResponse(types.DefaultErrorCode, "failed to get tx from state", err, true)
 		}
 
 		r, err := e.state.GetTransactionReceipt(ctx, hash.Hash(), dbTx)
 		if errors.Is(err, state.ErrNotFound) {
 			return nil, nil
 		} else if err != nil {
-			return RPCErrorResponse(types.DefaultErrorCode, "failed to get tx receipt from state", err)
+			return RPCErrorResponse(types.DefaultErrorCode, "failed to get tx receipt from state", err, true)
 		}
 
 		receipt, err := types.NewReceipt(*tx, r)
 		if err != nil {
-			return RPCErrorResponse(types.DefaultErrorCode, "failed to build the receipt response", err)
+			return RPCErrorResponse(types.DefaultErrorCode, "failed to build the receipt response", err, true)
 		}
 
 		return receipt, nil
@@ -793,10 +816,10 @@ func (e *EthEndpoints) NewBlockFilter() (interface{}, types.Error) {
 }
 
 // internal
-func (e *EthEndpoints) newBlockFilter(wsConn *websocket.Conn) (interface{}, types.Error) {
+func (e *EthEndpoints) newBlockFilter(wsConn *atomic.Pointer[websocket.Conn]) (interface{}, types.Error) {
 	id, err := e.storage.NewBlockFilter(wsConn)
 	if err != nil {
-		return RPCErrorResponse(types.DefaultErrorCode, "failed to create new block filter", err)
+		return RPCErrorResponse(types.DefaultErrorCode, "failed to create new block filter", err, true)
 	}
 
 	return id, nil
@@ -806,16 +829,25 @@ func (e *EthEndpoints) newBlockFilter(wsConn *websocket.Conn) (interface{}, type
 // to notify when the state changes (logs). To check if the state
 // has changed, call eth_getFilterChanges.
 func (e *EthEndpoints) NewFilter(filter LogFilter) (interface{}, types.Error) {
-	return e.newFilter(nil, filter)
+	return e.txMan.NewDbTxScope(e.state, func(ctx context.Context, dbTx pgx.Tx) (interface{}, types.Error) {
+		return e.newFilter(ctx, nil, filter, dbTx)
+	})
 }
 
 // internal
-func (e *EthEndpoints) newFilter(wsConn *websocket.Conn, filter LogFilter) (interface{}, types.Error) {
+func (e *EthEndpoints) newFilter(ctx context.Context, wsConn *atomic.Pointer[websocket.Conn], filter LogFilter, dbTx pgx.Tx) (interface{}, types.Error) {
+	if filter.ShouldFilterByBlockRange() {
+		_, _, rpcErr := filter.GetNumericBlockNumbers(ctx, e.cfg, e.state, e.etherman, nil)
+		if rpcErr != nil {
+			return nil, rpcErr
+		}
+	}
+
 	id, err := e.storage.NewLogFilter(wsConn, filter)
 	if errors.Is(err, ErrFilterInvalidPayload) {
-		return RPCErrorResponse(types.InvalidParamsErrorCode, err.Error(), nil)
+		return RPCErrorResponse(types.InvalidParamsErrorCode, err.Error(), nil, false)
 	} else if err != nil {
-		return RPCErrorResponse(types.DefaultErrorCode, "failed to create new log filter", err)
+		return RPCErrorResponse(types.DefaultErrorCode, "failed to create new log filter", err, true)
 	}
 
 	return id, nil
@@ -829,7 +861,7 @@ func (e *EthEndpoints) NewPendingTransactionFilter() (interface{}, types.Error) 
 }
 
 // internal
-func (e *EthEndpoints) newPendingTransactionFilter(wsConn *websocket.Conn) (interface{}, types.Error) {
+func (e *EthEndpoints) newPendingTransactionFilter(wsConn *atomic.Pointer[websocket.Conn]) (interface{}, types.Error) {
 	return nil, types.NewRPCError(types.DefaultErrorCode, "not supported yet")
 	// id, err := e.storage.NewPendingTransactionFilter(wsConn)
 	// if err != nil {
@@ -868,11 +900,11 @@ func (e *EthEndpoints) SendRawTransaction(httpRequest *http.Request, input strin
 func (e *EthEndpoints) relayTxToSequencerNode(input string) (interface{}, types.Error) {
 	res, err := client.JSONRPCCall(e.cfg.SequencerNodeURI, "eth_sendRawTransaction", input)
 	if err != nil {
-		return RPCErrorResponse(types.DefaultErrorCode, "failed to relay tx to the sequencer node", err)
+		return RPCErrorResponse(types.DefaultErrorCode, "failed to relay tx to the sequencer node", err, true)
 	}
 
 	if res.Error != nil {
-		return RPCErrorResponse(res.Error.Code, res.Error.Message, nil)
+		return RPCErrorResponse(res.Error.Code, res.Error.Message, nil, false)
 	}
 
 	txHash := res.Result
@@ -883,12 +915,13 @@ func (e *EthEndpoints) relayTxToSequencerNode(input string) (interface{}, types.
 func (e *EthEndpoints) tryToAddTxToPool(input, ip string) (interface{}, types.Error) {
 	tx, err := hexToTx(input)
 	if err != nil {
-		return RPCErrorResponse(types.InvalidParamsErrorCode, "invalid tx input", err)
+		return RPCErrorResponse(types.InvalidParamsErrorCode, "invalid tx input", err, false)
 	}
-
 	log.Infof("adding TX to the pool: %v", tx.Hash().Hex())
 	if err := e.pool.AddTx(context.Background(), *tx, ip); err != nil {
-		return RPCErrorResponse(types.DefaultErrorCode, err.Error(), nil)
+		// it's not needed to log the error here, because we check and log if needed
+		// for each specific case during the "pool.AddTx" internal steps
+		return RPCErrorResponse(types.DefaultErrorCode, err.Error(), nil, false)
 	}
 	log.Infof("TX added to the pool: %v", tx.Hash().Hex())
 
@@ -901,7 +934,7 @@ func (e *EthEndpoints) UninstallFilter(filterID string) (interface{}, types.Erro
 	if errors.Is(err, ErrNotFound) {
 		return false, nil
 	} else if err != nil {
-		return RPCErrorResponse(types.DefaultErrorCode, "failed to uninstall filter", err)
+		return RPCErrorResponse(types.DefaultErrorCode, "failed to uninstall filter", err, true)
 	}
 
 	return true, nil
@@ -915,12 +948,12 @@ func (e *EthEndpoints) Syncing() (interface{}, types.Error) {
 		if errors.Is(err, state.ErrStateNotSynchronized) {
 			return nil, types.NewRPCErrorWithData(types.DefaultErrorCode, state.ErrStateNotSynchronized.Error(), nil)
 		} else if err != nil {
-			return RPCErrorResponse(types.DefaultErrorCode, "failed to get last block number from state", err)
+			return RPCErrorResponse(types.DefaultErrorCode, "failed to get last block number from state", err, true)
 		}
 
 		syncInfo, err := e.state.GetSyncingInfo(ctx, dbTx)
 		if err != nil {
-			return RPCErrorResponse(types.DefaultErrorCode, "failed to get syncing info from state", err)
+			return RPCErrorResponse(types.DefaultErrorCode, "failed to get syncing info from state", err, true)
 		}
 
 		if syncInfo.CurrentBlockNumber >= syncInfo.LastBlockNumberSeen {
@@ -995,16 +1028,18 @@ func (e *EthEndpoints) updateFilterLastPoll(filterID string) types.Error {
 // The node will return a subscription id.
 // For each event that matches the subscription a notification with relevant
 // data is sent together with the subscription id.
-func (e *EthEndpoints) Subscribe(wsConn *websocket.Conn, name string, logFilter *LogFilter) (interface{}, types.Error) {
+func (e *EthEndpoints) Subscribe(wsConn *atomic.Pointer[websocket.Conn], name string, logFilter *LogFilter) (interface{}, types.Error) {
 	switch name {
 	case "newHeads":
 		return e.newBlockFilter(wsConn)
 	case "logs":
-		var lf LogFilter
-		if logFilter != nil {
-			lf = *logFilter
-		}
-		return e.newFilter(wsConn, lf)
+		return e.txMan.NewDbTxScope(e.state, func(ctx context.Context, dbTx pgx.Tx) (interface{}, types.Error) {
+			var lf LogFilter
+			if logFilter != nil {
+				lf = *logFilter
+			}
+			return e.newFilter(ctx, wsConn, lf, dbTx)
+		})
 	case "pendingTransactions", "newPendingTransactions":
 		return e.newPendingTransactionFilter(wsConn)
 	case "syncing":
@@ -1021,70 +1056,155 @@ func (e *EthEndpoints) Unsubscribe(wsConn *websocket.Conn, filterID string) (int
 
 // uninstallFilterByWSConn uninstalls the filters connected to the
 // provided web socket connection
-func (e *EthEndpoints) uninstallFilterByWSConn(wsConn *websocket.Conn) error {
+func (e *EthEndpoints) uninstallFilterByWSConn(wsConn *atomic.Pointer[websocket.Conn]) error {
 	return e.storage.UninstallFilterByWSConn(wsConn)
 }
 
 // onNewL2Block is triggered when the state triggers the event for a new l2 block
 func (e *EthEndpoints) onNewL2Block(event state.NewL2BlockEvent) {
+	log.Debugf("[onNewL2Block] new l2 block event detected for block %v", event.Block.NumberU64())
+	wg := sync.WaitGroup{}
+
+	wg.Add(1)
+	go e.notifyNewHeads(&wg, event)
+
+	wg.Add(1)
+	go e.notifyNewLogs(&wg, event)
+
+	wg.Wait()
+}
+
+func (e *EthEndpoints) notifyNewHeads(wg *sync.WaitGroup, event state.NewL2BlockEvent) {
+	defer wg.Done()
+	start := time.Now()
 	blockFilters, err := e.storage.GetAllBlockFiltersWithWSConn()
 	if err != nil {
 		log.Errorf("failed to get all block filters with web sockets connections: %v", err)
 	} else {
+		b, err := types.NewBlock(&event.Block, nil, false, false)
+		if err != nil {
+			log.Errorf("failed to build block response to subscription: %v", err)
+			return
+		}
+		data, err := json.Marshal(b)
+		if err != nil {
+			log.Errorf("failed to marshal block response to subscription: %v", err)
+			return
+		}
 		for _, filter := range blockFilters {
-			b, err := types.NewBlock(&event.Block, nil, false, false)
-			if err != nil {
-				log.Errorf("failed to build block response to subscription: %v", err)
-			} else {
-				e.sendSubscriptionResponse(filter, b)
-			}
+			e.sendSubscriptionResponse(filter, data)
 		}
 	}
+	log.Debugf("[notifyNewHeads] new l2 block event for block %v took %vms to send all the messages for block filters", event.Block.NumberU64(), time.Since(start).Milliseconds())
+}
 
+func (e *EthEndpoints) notifyNewLogs(wg *sync.WaitGroup, event state.NewL2BlockEvent) {
+	defer wg.Done()
+	start := time.Now()
 	logFilters, err := e.storage.GetAllLogFiltersWithWSConn()
 	if err != nil {
 		log.Errorf("failed to get all log filters with web sockets connections: %v", err)
 	} else {
 		for _, filter := range logFilters {
-			changes, err := e.GetFilterChanges(filter.ID)
-			if err != nil {
+			filterParameters := filter.Parameters.(LogFilter)
+			bn := types.BlockNumber(event.Block.NumberU64())
+
+			// if from and to blocks are new, set it to the current block to make
+			// the query faster
+			if filterParameters.FromBlock == nil && filterParameters.ToBlock == nil {
+				filterParameters.FromBlock = &bn
+				filterParameters.ToBlock = &bn
+			} else {
+				// if the filter has a fromBlock value set
+				// and the event block number is smaller than the
+				// from block, skip this filter
+				if filterParameters.FromBlock != nil {
+					fromBlock, rpcErr := filterParameters.FromBlock.GetNumericBlockNumber(context.Background(), e.state, e.etherman, nil)
+					if rpcErr != nil {
+						log.Errorf(rpcErr.Error(), filter.ID, err)
+						continue
+					}
+					if fromBlock > event.Block.NumberU64() {
+						continue
+					}
+					// otherwise set the from block to a fixed number
+					// to avoid querying it again in the next step
+					fixedFromBlock := types.BlockNumber(fromBlock)
+					filterParameters.FromBlock = &fixedFromBlock
+				}
+
+				// if the filter has a toBlock value set
+				// and the event block number is greater than the
+				// to block, skip this filter
+				if filterParameters.ToBlock != nil {
+					toBlock, rpcErr := filterParameters.ToBlock.GetNumericBlockNumber(context.Background(), e.state, e.etherman, nil)
+					if rpcErr != nil {
+						log.Errorf(rpcErr.Error(), filter.ID, err)
+						continue
+					}
+					if toBlock > event.Block.NumberU64() {
+						continue
+					}
+					// otherwise set the to block to a fixed number
+					// to avoid querying it again in the next step
+					fixedToBlock := types.BlockNumber(toBlock)
+					filterParameters.ToBlock = &fixedToBlock
+				}
+			}
+
+			// get new logs for this specific filter
+			changes, err := e.internalGetLogs(context.Background(), nil, filterParameters)
+			if errors.Is(err, state.ErrMaxLogsCountLimitExceeded) {
+				log.Infof("failed to get filters changes for filter %v, the filter seems to be returning more results than allowed and was removed: %v", filter.ID, err)
+				err := e.storage.UninstallFilter(filter.ID)
+				if !errors.Is(err, ErrNotFound) && err != nil {
+					log.Errorf("failed to automatically uninstall filter %v: %v", filter.ID, err)
+				} else {
+					log.Infof("Filter %v automatically uninstalled", filter.ID)
+				}
+				continue
+			} else if err != nil {
 				log.Errorf("failed to get filters changes for filter %v with web sockets connections: %v", filter.ID, err)
 				continue
 			}
 
+			// if there are new logs for the filter, send it
 			if changes != nil {
 				ethLogs := changes.([]types.Log)
 				for _, ethLog := range ethLogs {
-					e.sendSubscriptionResponse(filter, ethLog)
+					data, err := json.Marshal(ethLog)
+					if err != nil {
+						log.Errorf("failed to marshal ethLog response to subscription: %v", err)
+					}
+					e.sendSubscriptionResponse(filter, data)
 				}
 			}
 		}
 	}
+	log.Debugf("[notifyNewLogs] new l2 block event for block %v took %vms to send all the messages for log filters", event.Block.NumberU64(), time.Since(start).Milliseconds())
 }
 
-func (e *EthEndpoints) sendSubscriptionResponse(filter *Filter, data interface{}) {
+func (e *EthEndpoints) sendSubscriptionResponse(filter *Filter, data []byte) {
 	const errMessage = "Unable to write WS message to filter %v, %s"
-	result, err := json.Marshal(data)
-	if err != nil {
-		log.Errorf(fmt.Sprintf(errMessage, filter.ID, err.Error()))
-	}
 
 	res := types.SubscriptionResponse{
 		JSONRPC: "2.0",
 		Method:  "eth_subscription",
 		Params: types.SubscriptionResponseParams{
 			Subscription: filter.ID,
-			Result:       result,
+			Result:       data,
 		},
 	}
 	message, err := json.Marshal(res)
 	if err != nil {
 		log.Errorf(fmt.Sprintf(errMessage, filter.ID, err.Error()))
+		return
 	}
 
-	err = filter.WsConn.WriteMessage(websocket.TextMessage, message)
+	err = filter.WsConn.Load().WriteMessage(websocket.TextMessage, message)
 	if err != nil {
 		log.Errorf(fmt.Sprintf(errMessage, filter.ID, err.Error()))
+		return
 	}
 	log.Debugf("WS message sent: %v", string(message))
 }
