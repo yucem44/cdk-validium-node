@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/0xPolygonHermez/zkevm-node"
+	zkevm "github.com/0xPolygon/cdk-validium-node"
 	"github.com/urfave/cli/v2"
 )
 

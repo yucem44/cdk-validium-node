@@ -10,7 +10,7 @@ import (
 
 	"github.com/0xPolygon/cdk-validium-node/etherman/smartcontracts/polygonrollupmanager"
 	"github.com/0xPolygon/cdk-validium-node/etherman/smartcontracts/polygonzkevm"
-	"github.com/0xPolygonHermez/zkevm-node/test/constants"
+	"github.com/0xPolygon/cdk-validium-node/test/constants"
 	"github.com/stretchr/testify/require"
 
 	"github.com/0xPolygon/cdk-validium-node/log"
@@ -140,7 +140,7 @@ func sendForcedBatchForVector(t *testing.T, txs []byte, opsman *operations.Manag
 	require.NoError(t, err)
 
 	// Create smc client
-	zkEvmAddr := common.HexToAddress(operations.DefaultL1ZkEVMSmartContract)
+	zkEvmAddr := common.HexToAddress(operations.DefaultL1CDKValidiumSmartContract)
 	zkEvm, err := polygonzkevm.NewPolygonzkevm(zkEvmAddr, ethClient)
 	require.NoError(t, err)
 

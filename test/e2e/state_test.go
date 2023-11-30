@@ -30,10 +30,6 @@ func TestStateTransition(t *testing.T) {
 	// Load test vectors
 	testCases, err := vectors.LoadStateTransitionTestCases("./../vectors/src/state-transition/no-data/general.json")
 	require.NoError(t, err)
-	genesisFileAsStr, err := config.LoadGenesisFileAsString("../config/test.genesis.config.json")
-	require.NoError(t, err)
-	genesisConfig, err := config.LoadGenesisFromJSONString(genesisFileAsStr)
-	require.NoError(t, err)
 
 	for _, testCase := range testCases {
 		t.Run(testCase.Description, func(t *testing.T) {
@@ -58,7 +54,7 @@ func TestStateTransition(t *testing.T) {
 			for _, gacc := range testCase.GenesisAccounts {
 				genesisAccounts[gacc.Address] = gacc.Balance.Int
 			}
-			require.NoError(t, opsman.SetGenesisAccountsBalance(genesisConfig.Genesis.GenesisBlockNum, genesisAccounts))
+			require.NoError(t, opsman.SetGenesisAccountsBalance(genesisAccounts))
 
 			// Check initial root
 			require.NoError(t, opsman.CheckVirtualRoot(testCase.ExpectedOldRoot))

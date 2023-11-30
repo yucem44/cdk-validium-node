@@ -879,7 +879,7 @@ func (e *EthEndpoints) SendRawTransaction(httpRequest *http.Request, input strin
 		return e.relayTxToSequencerNode(input)
 	} else {
 		if err := checkPolicy(context.Background(), e.pool, input); err != nil {
-			return RPCErrorResponse(types.AccessDeniedCode, err.Error(), nil)
+			return RPCErrorResponse(types.AccessDeniedCode, err.Error(), nil, true)
 		}
 
 		ip := ""

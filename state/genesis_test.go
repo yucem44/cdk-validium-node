@@ -14,6 +14,7 @@ import (
 	"github.com/0xPolygon/cdk-validium-node/state"
 	"github.com/0xPolygon/cdk-validium-node/test/dbutils"
 	"github.com/0xPolygon/cdk-validium-node/tools/genesis/genesisparser"
+	"github.com/ethereum/go-ethereum/common"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -98,7 +99,7 @@ func genesisCase(t *testing.T, tv genesisTestVectorReader) {
 	ctx := context.Background()
 	dbTx, err := testState.BeginStateTransaction(ctx)
 	require.NoError(t, err)
-	genesisRoot, err := testState.SetGenesis(ctx, state.Block{}, genesis, metrics.SynchronizerCallerLabel, dbTx)
+	genesisRoot, err := testState.SetGenesis(ctx, state.Block{}, genesis, dbTx)
 	require.NoError(t, err)
 	err = dbTx.Commit(ctx)
 	require.NoError(t, err)

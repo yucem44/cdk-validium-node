@@ -9,6 +9,7 @@ import (
 
 	"github.com/0xPolygon/cdk-validium-node/hex"
 	"github.com/0xPolygon/cdk-validium-node/jsonrpc/types"
+	"github.com/0xPolygon/cdk-validium-node/state"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/gorilla/websocket"
 	"github.com/jackc/pgx/v4"

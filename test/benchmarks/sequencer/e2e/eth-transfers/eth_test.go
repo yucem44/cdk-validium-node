@@ -5,7 +5,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/0xPolygon/cdk-validium-node/log"
 	"github.com/0xPolygon/cdk-validium-node/pool"
 	"github.com/0xPolygon/cdk-validium-node/test/benchmarks/sequencer/common/metrics"
 	"github.com/0xPolygon/cdk-validium-node/test/benchmarks/sequencer/common/params"

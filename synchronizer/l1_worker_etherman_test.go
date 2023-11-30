@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/0xPolygonHermez/zkevm-node/etherman"
+	"github.com/0xPolygon/cdk-validium-node/etherman"
 	"github.com/ethereum/go-ethereum/common"
 	ethTypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/stretchr/testify/mock"
@@ -23,7 +23,7 @@ func TestExploratoryWorker(t *testing.T) {
 
 	l1Config := etherman.L1Config{
 		L1ChainID:                 1337,
-		ZkEVMAddr:                 common.HexToAddress("0x8dAF17A20c9DBA35f005b6324F493785D239719d"),
+		CDKValidiumAddr:           common.HexToAddress("0x8dAF17A20c9DBA35f005b6324F493785D239719d"),
 		RollupManagerAddr:         common.HexToAddress("0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e"),
 		PolAddr:                   common.HexToAddress("0x5FbDB2315678afecb367f032d93F642f64180aa3"),
 		GlobalExitRootManagerAddr: common.HexToAddress("0x8A791620dd6260079BF849Dc5567aDC3F2FdC318"),

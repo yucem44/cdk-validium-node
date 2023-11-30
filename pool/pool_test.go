@@ -38,7 +38,7 @@ import (
 )
 
 const (
-	forkID6          = 6
+	forkID5          = 5
 	senderPrivateKey = "0x28b2b0318721be8c8339199172cd7cc8f5e273800a35616ec893083a4b32c02e"
 	senderAddress    = "0x617b3a3528F9cDd6630fd3301B9c8911F7Bf063D"
 )
@@ -53,12 +53,6 @@ var (
 				Type:    int(merkletree.LeafTypeBalance),
 				Value:   "90000000000000000000000000000000000000000000000000000000000",
 			},
-		},
-		FirstBatchData: &state.BatchData{
-			Transactions:   "0xf8c380808401c9c380942a3dd3eb832af982ec71669e178424b10dca2ede80b8a4d3476afe000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a40d5f56745a118d0906a34e69aec8c0db1cb8fa000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005ca1ab1e0000000000000000000000000000000000000000000000000000000005ca1ab1e1bff",
-			GlobalExitRoot: common.Hash{},
-			Timestamp:      1697640780,
-			Sequencer:      common.HexToAddress("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"),
 		},
 	}
 	cfg = pool.Config{
@@ -130,8 +124,7 @@ func Test_AddTx(t *testing.T) {
 	ctx := context.Background()
 	dbTx, err := st.BeginStateTransaction(ctx)
 	require.NoError(t, err)
-	genesis.FirstBatchData.Timestamp = uint64(time.Now().Unix())
-	_, err = st.SetGenesis(ctx, genesisBlock, genesis, metrics.SynchronizerCallerLabel, dbTx)
+	_, err = st.SetGenesis(ctx, genesisBlock, genesis, dbTx)
 	require.NoError(t, err)
 	require.NoError(t, dbTx.Commit(ctx))
 
@@ -208,13 +201,11 @@ func Test_AddTx_OversizedData(t *testing.T) {
 				Value:   "1000000000000000000000",
 			},
 		},
-		FirstBatchData: genesis.FirstBatchData,
 	}
 	ctx := context.Background()
 	dbTx, err := st.BeginStateTransaction(ctx)
 	require.NoError(t, err)
-	genesis.FirstBatchData.Timestamp = uint64(time.Now().Unix())
-	_, err = st.SetGenesis(ctx, genesisBlock, genesis, metrics.SynchronizerCallerLabel, dbTx)
+	_, err = st.SetGenesis(ctx, genesisBlock, genesis, dbTx)
 	require.NoError(t, err)
 	require.NoError(t, dbTx.Commit(ctx))
 
@@ -276,13 +267,11 @@ func Test_AddPreEIP155Tx(t *testing.T) {
 				Value:   "200000000000000000000",
 			},
 		},
-		FirstBatchData: genesis.FirstBatchData,
 	}
 	ctx := context.Background()
 	dbTx, err := st.BeginStateTransaction(ctx)
 	require.NoError(t, err)
-	genesis.FirstBatchData.Timestamp = uint64(time.Now().Unix())
-	_, err = st.SetGenesis(ctx, genesisBlock, genesis, metrics.SynchronizerCallerLabel, dbTx)
+	_, err = st.SetGenesis(ctx, genesisBlock, genesis, dbTx)
 	require.NoError(t, err)
 	require.NoError(t, dbTx.Commit(ctx))
 
@@ -295,7 +284,7 @@ func Test_AddPreEIP155Tx(t *testing.T) {
 	batchL2Data := "0xe580843b9aca00830186a0941275fbb540c8efc58b812ba83b0d0b8b9917ae98808464fbb77c6b39bdc5f8e458aba689f2a1ff8c543a94e4817bda40f3fe34080c4ab26c1e3c2fc2cda93bc32f0a79940501fd505dcf48d94abfde932ebf1417f502cb0d9de81bff"
 	b, err := hex.DecodeHex(batchL2Data)
 	require.NoError(t, err)
-	txs, _, _, err := state.DecodeTxs(b, forkID6)
+	txs, _, _, err := state.DecodeTxs(b, forkID5)
 	require.NoError(t, err)
 
 	tx := txs[0]
@@ -353,8 +342,7 @@ func Test_GetPendingTxs(t *testing.T) {
 	ctx := context.Background()
 	dbTx, err := st.BeginStateTransaction(ctx)
 	require.NoError(t, err)
-	genesis.FirstBatchData.Timestamp = uint64(time.Now().Unix())
-	_, err = st.SetGenesis(ctx, genesisBlock, genesis, metrics.SynchronizerCallerLabel, dbTx)
+	_, err = st.SetGenesis(ctx, genesisBlock, genesis, dbTx)
 	require.NoError(t, err)
 	require.NoError(t, dbTx.Commit(ctx))
 
@@ -414,8 +402,7 @@ func Test_GetPendingTxsZeroPassed(t *testing.T) {
 	ctx := context.Background()
 	dbTx, err := st.BeginStateTransaction(ctx)
 	require.NoError(t, err)
-	genesis.FirstBatchData.Timestamp = uint64(time.Now().Unix())
-	_, err = st.SetGenesis(ctx, genesisBlock, genesis, metrics.SynchronizerCallerLabel, dbTx)
+	_, err = st.SetGenesis(ctx, genesisBlock, genesis, dbTx)
 	require.NoError(t, err)
 	require.NoError(t, dbTx.Commit(ctx))
 
@@ -475,8 +462,7 @@ func Test_GetTopPendingTxByProfitabilityAndZkCounters(t *testing.T) {
 	}
 	dbTx, err := st.BeginStateTransaction(ctx)
 	require.NoError(t, err)
-	genesis.FirstBatchData.Timestamp = uint64(time.Now().Unix())
-	_, err = st.SetGenesis(ctx, genesisBlock, genesis, metrics.SynchronizerCallerLabel, dbTx)
+	_, err = st.SetGenesis(ctx, genesisBlock, genesis, dbTx)
 	require.NoError(t, err)
 	require.NoError(t, dbTx.Commit(ctx))
 
@@ -536,8 +522,7 @@ func Test_UpdateTxsStatus(t *testing.T) {
 	}
 	dbTx, err := st.BeginStateTransaction(ctx)
 	require.NoError(t, err)
-	genesis.FirstBatchData.Timestamp = uint64(time.Now().Unix())
-	_, err = st.SetGenesis(ctx, genesisBlock, genesis, metrics.SynchronizerCallerLabel, dbTx)
+	_, err = st.SetGenesis(ctx, genesisBlock, genesis, dbTx)
 	require.NoError(t, err)
 	require.NoError(t, dbTx.Commit(ctx))
 
@@ -628,8 +613,7 @@ func Test_UpdateTxStatus(t *testing.T) {
 	}
 	dbTx, err := st.BeginStateTransaction(ctx)
 	require.NoError(t, err)
-	genesis.FirstBatchData.Timestamp = uint64(time.Now().Unix())
-	_, err = st.SetGenesis(ctx, genesisBlock, genesis, metrics.SynchronizerCallerLabel, dbTx)
+	_, err = st.SetGenesis(ctx, genesisBlock, genesis, dbTx)
 	require.NoError(t, err)
 	require.NoError(t, dbTx.Commit(ctx))
 
@@ -682,10 +666,7 @@ func Test_SetAndGetGasPrice(t *testing.T) {
 
 	nBig, err := rand.Int(rand.Reader, big.NewInt(0).SetUint64(math.MaxUint64))
 	require.NoError(t, err)
-	expectedGasPrice := pool.GasPrices{
-		L2GasPrice: nBig.Uint64(),
-		L1GasPrice: nBig.Uint64(),
-	}
+	expectedGasPrice := pool.GasPrices{nBig.Uint64(), nBig.Uint64()}
 	ctx := context.Background()
 	err = p.SetGasPrices(ctx, expectedGasPrice.L2GasPrice, expectedGasPrice.L1GasPrice)
 	require.NoError(t, err)
@@ -769,8 +750,7 @@ func TestGetPendingTxSince(t *testing.T) {
 	ctx := context.Background()
 	dbTx, err := st.BeginStateTransaction(ctx)
 	require.NoError(t, err)
-	genesis.FirstBatchData.Timestamp = uint64(time.Now().Unix())
-	_, err = st.SetGenesis(ctx, genesisBlock, genesis, metrics.SynchronizerCallerLabel, dbTx)
+	_, err = st.SetGenesis(ctx, genesisBlock, genesis, dbTx)
 	require.NoError(t, err)
 	require.NoError(t, dbTx.Commit(ctx))
 
@@ -861,8 +841,8 @@ func Test_DeleteTransactionsByHashes(t *testing.T) {
 	}
 	dbTx, err := st.BeginStateTransaction(ctx)
 	require.NoError(t, err)
-	genesis.FirstBatchData.Timestamp = uint64(time.Now().Unix())
-	_, err = st.SetGenesis(ctx, genesisBlock, genesis, metrics.SynchronizerCallerLabel, dbTx)
+
+	_, err = st.SetGenesis(ctx, genesisBlock, genesis, dbTx)
 	require.NoError(t, err)
 	require.NoError(t, dbTx.Commit(ctx))
 
@@ -933,13 +913,11 @@ func Test_TryAddIncompatibleTxs(t *testing.T) {
 				Value:   initialBalance.String(),
 			},
 		},
-		FirstBatchData: genesis.FirstBatchData,
 	}
 	ctx := context.Background()
 	dbTx, err := st.BeginStateTransaction(ctx)
 	require.NoError(t, err)
-	genesis.FirstBatchData.Timestamp = uint64(time.Now().Unix())
-	_, err = st.SetGenesis(ctx, genesisBlock, genesis, metrics.SynchronizerCallerLabel, dbTx)
+	_, err = st.SetGenesis(ctx, genesisBlock, genesis, dbTx)
 	require.NoError(t, err)
 	require.NoError(t, dbTx.Commit(ctx))
 
@@ -1079,8 +1057,7 @@ func Test_AddTxWithIntrinsicGasTooLow(t *testing.T) {
 	ctx := context.Background()
 	dbTx, err := st.BeginStateTransaction(ctx)
 	require.NoError(t, err)
-	genesis.FirstBatchData.Timestamp = uint64(time.Now().Unix())
-	_, err = st.SetGenesis(ctx, genesisBlock, genesis, metrics.SynchronizerCallerLabel, dbTx)
+	_, err = st.SetGenesis(ctx, genesisBlock, genesis, dbTx)
 	require.NoError(t, err)
 	require.NoError(t, dbTx.Commit(ctx))
 
@@ -1255,13 +1232,11 @@ func Test_AddTx_GasPriceErr(t *testing.T) {
 						Value:   "1000000000000000000000",
 					},
 				},
-				FirstBatchData: genesis.FirstBatchData,
 			}
 			ctx := context.Background()
 			dbTx, err := st.BeginStateTransaction(ctx)
 			require.NoError(t, err)
-			genesis.FirstBatchData.Timestamp = uint64(time.Now().Unix())
-			_, err = st.SetGenesis(ctx, genesisBlock, genesis, metrics.SynchronizerCallerLabel, dbTx)
+			_, err = st.SetGenesis(ctx, genesisBlock, genesis, dbTx)
 			require.NoError(t, err)
 			require.NoError(t, dbTx.Commit(ctx))
 
@@ -1320,8 +1295,7 @@ func Test_AddRevertedTx(t *testing.T) {
 	ctx := context.Background()
 	dbTx, err := st.BeginStateTransaction(ctx)
 	require.NoError(t, err)
-	genesis.FirstBatchData.Timestamp = uint64(time.Now().Unix())
-	_, err = st.SetGenesis(ctx, genesisBlock, genesis, metrics.SynchronizerCallerLabel, dbTx)
+	_, err = st.SetGenesis(ctx, genesisBlock, genesis, dbTx)
 	require.NoError(t, err)
 	require.NoError(t, dbTx.Commit(ctx))
 
@@ -1396,13 +1370,12 @@ func Test_BlockedAddress(t *testing.T) {
 				Value:   "1000000000000000000000",
 			},
 		},
-		FirstBatchData: genesis.FirstBatchData,
 	}
 	ctx := context.Background()
 	dbTx, err := st.BeginStateTransaction(ctx)
 	require.NoError(t, err)
-	genesis.FirstBatchData.Timestamp = uint64(time.Now().Unix())
-	_, err = st.SetGenesis(ctx, genesisBlock, genesis, metrics.SynchronizerCallerLabel, dbTx)
+
+	_, err = st.SetGenesis(ctx, genesisBlock, genesis, dbTx)
 	require.NoError(t, err)
 	require.NoError(t, dbTx.Commit(ctx))
 
@@ -1534,13 +1507,11 @@ func Test_AddTx_GasOverBatchLimit(t *testing.T) {
 						Value:   "1000000000000000000000",
 					},
 				},
-				FirstBatchData: genesis.FirstBatchData,
 			}
 			ctx := context.Background()
 			dbTx, err := st.BeginStateTransaction(ctx)
 			require.NoError(t, err)
-			genesis.FirstBatchData.Timestamp = uint64(time.Now().Unix())
-			_, err = st.SetGenesis(ctx, genesisBlock, genesis, metrics.SynchronizerCallerLabel, dbTx)
+			_, err = st.SetGenesis(ctx, genesisBlock, genesis, dbTx)
 			require.NoError(t, err)
 			require.NoError(t, dbTx.Commit(ctx))
 
@@ -1610,13 +1581,11 @@ func Test_AddTx_AccountQueueLimit(t *testing.T) {
 				Value:   "1000000000000000000000",
 			},
 		},
-		FirstBatchData: genesis.FirstBatchData,
 	}
 	ctx := context.Background()
 	dbTx, err := st.BeginStateTransaction(ctx)
 	require.NoError(t, err)
-	genesis.FirstBatchData.Timestamp = uint64(time.Now().Unix())
-	_, err = st.SetGenesis(ctx, genesisBlock, genesis, metrics.SynchronizerCallerLabel, dbTx)
+	_, err = st.SetGenesis(ctx, genesisBlock, genesis, dbTx)
 	require.NoError(t, err)
 	require.NoError(t, dbTx.Commit(ctx))
 
@@ -1713,13 +1682,11 @@ func Test_AddTx_GlobalQueueLimit(t *testing.T) {
 	}
 	genesis := state.Genesis{
 		GenesisActions: genesisActions,
-		FirstBatchData: genesis.FirstBatchData,
 	}
 	ctx := context.Background()
 	dbTx, err := st.BeginStateTransaction(ctx)
 	require.NoError(t, err)
-	genesis.FirstBatchData.Timestamp = uint64(time.Now().Unix())
-	_, err = st.SetGenesis(ctx, genesisBlock, genesis, metrics.SynchronizerCallerLabel, dbTx)
+	_, err = st.SetGenesis(ctx, genesisBlock, genesis, dbTx)
 	require.NoError(t, err)
 	require.NoError(t, dbTx.Commit(ctx))
 
@@ -1801,13 +1768,11 @@ func Test_AddTx_NonceTooHigh(t *testing.T) {
 				Value:   "1000000000000000000000",
 			},
 		},
-		FirstBatchData: genesis.FirstBatchData,
 	}
 	ctx := context.Background()
 	dbTx, err := st.BeginStateTransaction(ctx)
 	require.NoError(t, err)
-	genesis.FirstBatchData.Timestamp = uint64(time.Now().Unix())
-	_, err = st.SetGenesis(ctx, genesisBlock, genesis, metrics.SynchronizerCallerLabel, dbTx)
+	_, err = st.SetGenesis(ctx, genesisBlock, genesis, dbTx)
 	require.NoError(t, err)
 	require.NoError(t, dbTx.Commit(ctx))
 
@@ -1877,8 +1842,7 @@ func Test_AddTx_IPValidation(t *testing.T) {
 			ctx := context.Background()
 			dbTx, err := st.BeginStateTransaction(ctx)
 			require.NoError(t, err)
-			genesis.FirstBatchData.Timestamp = uint64(time.Now().Unix())
-			_, err = st.SetGenesis(ctx, genesisBlock, genesis, metrics.SynchronizerCallerLabel, dbTx)
+			_, err = st.SetGenesis(ctx, genesisBlock, genesis, dbTx)
 			require.NoError(t, err)
 			require.NoError(t, dbTx.Commit(ctx))
 

@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/0xPolygonHermez/zkevm-node/etherman"
+	"github.com/0xPolygon/cdk-validium-node/etherman"
 	"github.com/stretchr/testify/assert"
 )
 

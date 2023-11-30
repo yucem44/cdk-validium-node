@@ -3,7 +3,7 @@
 package synchronizer
 
 import (
-	etherman "github.com/0xPolygonHermez/zkevm-node/etherman"
+	etherman "github.com/0xPolygon/cdk-validium-node/etherman"
 	common "github.com/ethereum/go-ethereum/common"
 
 	mock "github.com/stretchr/testify/mock"

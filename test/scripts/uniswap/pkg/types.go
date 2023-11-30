@@ -1,9 +1,9 @@
 package pkg
 
 import (
-	"github.com/0xPolygonHermez/zkevm-node/test/contracts/bin/ERC20"
-	"github.com/0xPolygonHermez/zkevm-node/test/contracts/bin/uniswap/v2/core/UniswapV2Factory"
-	"github.com/0xPolygonHermez/zkevm-node/test/contracts/bin/uniswap/v2/periphery/UniswapV2Router02"
+	"github.com/0xPolygon/cdk-validium-node/test/contracts/bin/ERC20"
+	"github.com/0xPolygon/cdk-validium-node/test/contracts/bin/uniswap/v2/core/UniswapV2Factory"
+	"github.com/0xPolygon/cdk-validium-node/test/contracts/bin/uniswap/v2/periphery/UniswapV2Router02"
 	"github.com/ethereum/go-ethereum/common"
 )
 

@@ -16,6 +16,8 @@ import (
 	"github.com/0xPolygon/cdk-validium-node/jsonrpc/mocks"
 	"github.com/0xPolygon/cdk-validium-node/jsonrpc/types"
 	"github.com/0xPolygon/cdk-validium-node/state"
+	"github.com/ethereum/go-ethereum/common"
+	ethTypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/ethereum/go-ethereum/trie"
 	"github.com/stretchr/testify/assert"

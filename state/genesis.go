@@ -24,8 +24,6 @@ type Genesis struct {
 	Root common.Hash
 	// Contracts to be deployed to L2
 	GenesisActions []*GenesisAction
-	// Data of the first batch after the genesis(Batch 1)
-	FirstBatchData *BatchData
 }
 
 // GenesisAction represents one of the values set on the SMT during genesis.
@@ -39,26 +37,18 @@ type GenesisAction struct {
 	Root            string `json:"root"`
 }
 
-// BatchData represents the data of the first batch that contains initial transaction
-type BatchData struct {
-	Transactions   string         `json:"transactions"`
-	GlobalExitRoot common.Hash    `json:"globalExitRoot"`
-	Timestamp      uint64         `json:"timestamp"`
-	Sequencer      common.Address `json:"sequencer"`
-}
-
 // SetGenesis populates state with genesis information
-func (s *State) SetGenesis(ctx context.Context, block Block, genesis Genesis, m metrics.CallerLabel, dbTx pgx.Tx) (common.Hash, error) {
+func (s *State) SetGenesis(ctx context.Context, block Block, genesis Genesis, dbTx pgx.Tx) ([]byte, error) {
 	var (
-		root             common.Hash
-		genesisStateRoot []byte
-		err              error
+		root    common.Hash
+		newRoot []byte
+		err     error
 	)
 	if dbTx == nil {
-		return common.Hash{}, ErrDBTxNil
+		return newRoot, ErrDBTxNil
 	}
 	if s.tree == nil {
-		return common.Hash{}, ErrStateTreeNil
+		return newRoot, ErrStateTreeNil
 	}
 
 	uuid := uuid.New().String()
@@ -69,65 +59,65 @@ func (s *State) SetGenesis(ctx context.Context, block Block, genesis Genesis, m 
 		case int(merkletree.LeafTypeBalance):
 			balance, err := encoding.DecodeBigIntHexOrDecimal(action.Value)
 			if err != nil {
-				return common.Hash{}, err
+				return newRoot, err
 			}
-			genesisStateRoot, _, err = s.tree.SetBalance(ctx, address, balance, genesisStateRoot, uuid)
+			newRoot, _, err = s.tree.SetBalance(ctx, address, balance, newRoot, uuid)
 			if err != nil {
-				return common.Hash{}, err
+				return newRoot, err
 			}
 		case int(merkletree.LeafTypeNonce):
 			nonce, err := encoding.DecodeBigIntHexOrDecimal(action.Value)
 			if err != nil {
-				return common.Hash{}, err
+				return newRoot, err
 			}
-			genesisStateRoot, _, err = s.tree.SetNonce(ctx, address, nonce, genesisStateRoot, uuid)
+			newRoot, _, err = s.tree.SetNonce(ctx, address, nonce, newRoot, uuid)
 			if err != nil {
-				return common.Hash{}, err
+				return newRoot, err
 			}
 		case int(merkletree.LeafTypeCode):
 			code, err := hex.DecodeHex(action.Bytecode)
 			if err != nil {
-				return common.Hash{}, fmt.Errorf("could not decode SC bytecode for address %q: %v", address, err)
+				return newRoot, fmt.Errorf("could not decode SC bytecode for address %q: %v", address, err)
 			}
-			genesisStateRoot, _, err = s.tree.SetCode(ctx, address, code, genesisStateRoot, uuid)
+			newRoot, _, err = s.tree.SetCode(ctx, address, code, newRoot, uuid)
 			if err != nil {
-				return common.Hash{}, err
+				return newRoot, err
 			}
 		case int(merkletree.LeafTypeStorage):
 			// Parse position and value
 			positionBI, err := encoding.DecodeBigIntHexOrDecimal(action.StoragePosition)
 			if err != nil {
-				return common.Hash{}, err
+				return newRoot, err
 			}
 			valueBI, err := encoding.DecodeBigIntHexOrDecimal(action.Value)
 			if err != nil {
-				return common.Hash{}, err
+				return newRoot, err
 			}
 			// Store
-			genesisStateRoot, _, err = s.tree.SetStorageAt(ctx, address, positionBI, valueBI, genesisStateRoot, uuid)
+			newRoot, _, err = s.tree.SetStorageAt(ctx, address, positionBI, valueBI, newRoot, uuid)
 			if err != nil {
-				return common.Hash{}, err
+				return newRoot, err
 			}
 		case int(merkletree.LeafTypeSCLength):
 			log.Debug("Skipped genesis action of type merkletree.LeafTypeSCLength, these actions will be handled as part of merkletree.LeafTypeCode actions")
 		default:
-			return common.Hash{}, fmt.Errorf("unknown genesis action type %q", action.Type)
+			return newRoot, fmt.Errorf("unknown genesis action type %q", action.Type)
 		}
 	}
 
-	root.SetBytes(genesisStateRoot)
+	root.SetBytes(newRoot)
 
 	// flush state db
 	err = s.tree.Flush(ctx, uuid)
 	if err != nil {
 		log.Errorf("error flushing state tree after genesis: %v", err)
-		return common.Hash{}, err
+		return newRoot, err
 	}
 
 	// store L1 block related to genesis batch
 	err = s.AddBlock(ctx, &block, dbTx)
 	if err != nil {
-		return common.Hash{}, err
+		return newRoot, err
 	}
 
 	// store genesis batch
@@ -145,7 +135,7 @@ func (s *State) SetGenesis(ctx context.Context, block Block, genesis Genesis, m 
 
 	err = s.storeGenesisBatch(ctx, batch, dbTx)
 	if err != nil {
-		return common.Hash{}, err
+		return newRoot, err
 	}
 
 	// mark the genesis batch as virtualized
@@ -157,7 +147,7 @@ func (s *State) SetGenesis(ctx context.Context, block Block, genesis Genesis, m 
 	}
 	err = s.AddVirtualBatch(ctx, virtualBatch, dbTx)
 	if err != nil {
-		return common.Hash{}, err
+		return newRoot, err
 	}
 
 	// mark the genesis batch as verified/consolidated
@@ -169,7 +159,7 @@ func (s *State) SetGenesis(ctx context.Context, block Block, genesis Genesis, m 
 	}
 	err = s.AddVerifiedBatch(ctx, verifiedBatch, dbTx)
 	if err != nil {
-		return common.Hash{}, err
+		return newRoot, err
 	}
 
 	// store L2 genesis block
@@ -187,9 +177,5 @@ func (s *State) SetGenesis(ctx context.Context, block Block, genesis Genesis, m 
 	l2Block := types.NewBlock(header, []*types.Transaction{}, []*types.Header{}, receipts, &trie.StackTrie{})
 	l2Block.ReceivedAt = block.ReceivedAt
 
-	err = s.AddL2Block(ctx, batch.BatchNumber, l2Block, receipts, MaxEffectivePercentage, dbTx)
-	if err != nil {
-		return common.Hash{}, err
-	}
-	return root, nil
+	return newRoot, s.AddL2Block(ctx, batch.BatchNumber, l2Block, receipts, MaxEffectivePercentage, dbTx)
 }

@@ -21,8 +21,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/0xPolygonHermez/zkevm-node"
-	"github.com/0xPolygonHermez/zkevm-node/log"
+	zkevm "github.com/0xPolygon/cdk-validium-node"
+	"github.com/0xPolygon/cdk-validium-node/log"
 )
 
 const (

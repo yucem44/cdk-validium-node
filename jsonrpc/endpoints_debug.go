@@ -12,7 +12,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/0xPolygon/cdk-validium-node/jsonrpc/client"
 	"github.com/0xPolygon/cdk-validium-node/jsonrpc/types"
 	"github.com/0xPolygon/cdk-validium-node/log"
 	"github.com/0xPolygon/cdk-validium-node/state"

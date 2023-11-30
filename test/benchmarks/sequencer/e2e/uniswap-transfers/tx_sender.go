@@ -6,9 +6,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/0xPolygonHermez/zkevm-node/test/benchmarks/sequencer/common/transactions"
-	"github.com/0xPolygonHermez/zkevm-node/test/contracts/bin/ERC20"
-	uniswap "github.com/0xPolygonHermez/zkevm-node/test/scripts/uniswap/pkg"
+	"github.com/0xPolygon/cdk-validium-node/test/benchmarks/sequencer/common/transactions"
+	"github.com/0xPolygon/cdk-validium-node/test/contracts/bin/ERC20"
+	uniswap "github.com/0xPolygon/cdk-validium-node/test/scripts/uniswap/pkg"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/ethclient"

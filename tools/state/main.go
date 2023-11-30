@@ -4,8 +4,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/0xPolygonHermez/zkevm-node"
-	"github.com/0xPolygonHermez/zkevm-node/config"
+	zkevm "github.com/0xPolygon/cdk-validium-node"
+	"github.com/0xPolygon/cdk-validium-node/config"
 	"github.com/urfave/cli/v2"
 )
 

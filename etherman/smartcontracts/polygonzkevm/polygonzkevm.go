@@ -29,8 +29,8 @@ var (
 	_ = abi.ConvertType
 )
 
-// PolygonRollupBaseBatchData is an auto generated low-level Go binding around an user-defined struct.
-type PolygonRollupBaseBatchData struct {
+// PolygonDataComitteeValidiumBatchData is an auto generated low-level Go binding around an user-defined struct.
+type PolygonDataComitteeValidiumBatchData struct {
 	Transactions       []byte
 	GlobalExitRoot     [32]byte
 	Timestamp          uint64
@@ -1131,21 +1131,21 @@ func (_Polygonzkevm *PolygonzkevmTransactorSession) OnVerifyBatches(lastVerified
 // SequenceBatches is a paid mutator transaction binding the contract method 0x5e9145c9.
 //
 // Solidity: function sequenceBatches((bytes,bytes32,uint64,uint64)[] batches, address l2Coinbase) returns()
-func (_Polygonzkevm *PolygonzkevmTransactor) SequenceBatches(opts *bind.TransactOpts, batches []PolygonRollupBaseBatchData, l2Coinbase common.Address) (*types.Transaction, error) {
+func (_Polygonzkevm *PolygonzkevmTransactor) SequenceBatches(opts *bind.TransactOpts, batches []PolygonDataComitteeValidiumBatchData, l2Coinbase common.Address) (*types.Transaction, error) {
 	return _Polygonzkevm.contract.Transact(opts, "sequenceBatches", batches, l2Coinbase)
 }
 
 // SequenceBatches is a paid mutator transaction binding the contract method 0x5e9145c9.
 //
 // Solidity: function sequenceBatches((bytes,bytes32,uint64,uint64)[] batches, address l2Coinbase) returns()
-func (_Polygonzkevm *PolygonzkevmSession) SequenceBatches(batches []PolygonRollupBaseBatchData, l2Coinbase common.Address) (*types.Transaction, error) {
+func (_Polygonzkevm *PolygonzkevmSession) SequenceBatches(batches []PolygonDataComitteeValidiumBatchData, l2Coinbase common.Address) (*types.Transaction, error) {
 	return _Polygonzkevm.Contract.SequenceBatches(&_Polygonzkevm.TransactOpts, batches, l2Coinbase)
 }
 
 // SequenceBatches is a paid mutator transaction binding the contract method 0x5e9145c9.
 //
 // Solidity: function sequenceBatches((bytes,bytes32,uint64,uint64)[] batches, address l2Coinbase) returns()
-func (_Polygonzkevm *PolygonzkevmTransactorSession) SequenceBatches(batches []PolygonRollupBaseBatchData, l2Coinbase common.Address) (*types.Transaction, error) {
+func (_Polygonzkevm *PolygonzkevmTransactorSession) SequenceBatches(batches []PolygonDataComitteeValidiumBatchData, l2Coinbase common.Address) (*types.Transaction, error) {
 	return _Polygonzkevm.Contract.SequenceBatches(&_Polygonzkevm.TransactOpts, batches, l2Coinbase)
 }
 

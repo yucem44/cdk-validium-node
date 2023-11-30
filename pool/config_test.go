@@ -3,7 +3,7 @@ package pool
 import (
 	"testing"
 
-	"github.com/0xPolygonHermez/zkevm-node/state"
+	"github.com/0xPolygon/cdk-validium-node/state"
 )
 
 func TestIsWithinConstraints(t *testing.T) {

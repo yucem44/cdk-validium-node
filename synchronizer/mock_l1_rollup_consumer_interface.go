@@ -5,7 +5,7 @@ package synchronizer
 import (
 	context "context"
 
-	state "github.com/0xPolygonHermez/zkevm-node/state"
+	state "github.com/0xPolygon/cdk-validium-node/state"
 	mock "github.com/stretchr/testify/mock"
 )
 

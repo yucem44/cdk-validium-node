@@ -1,8 +1,8 @@
 package sequencer
 
 import (
-	"github.com/0xPolygon/cdk-validium-node/config/log"
 	"github.com/0xPolygon/cdk-validium-node/config/types"
+	"github.com/0xPolygonHermez/zkevm-data-streamer/log"
 )
 
 // Config represents the configuration of a sequencer

@@ -5,16 +5,16 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/0xPolygonHermez/zkevm-node/test/benchmarks/sequencer/scripts/environment"
+	"github.com/0xPolygon/cdk-validium-node/test/benchmarks/sequencer/scripts/environment"
 
-	"github.com/0xPolygonHermez/zkevm-node/pool"
-	"github.com/0xPolygonHermez/zkevm-node/test/benchmarks/sequencer/common/params"
+	"github.com/0xPolygon/cdk-validium-node/pool"
+	"github.com/0xPolygon/cdk-validium-node/test/benchmarks/sequencer/common/params"
 
-	"github.com/0xPolygonHermez/zkevm-node/test/benchmarks/sequencer/common/metrics"
+	"github.com/0xPolygon/cdk-validium-node/test/benchmarks/sequencer/common/metrics"
 
-	"github.com/0xPolygonHermez/zkevm-node/test/benchmarks/sequencer/common/transactions"
-	uniswaptransfers "github.com/0xPolygonHermez/zkevm-node/test/benchmarks/sequencer/e2e/uniswap-transfers"
-	uniswap "github.com/0xPolygonHermez/zkevm-node/test/scripts/uniswap/pkg"
+	"github.com/0xPolygon/cdk-validium-node/test/benchmarks/sequencer/common/transactions"
+	uniswaptransfers "github.com/0xPolygon/cdk-validium-node/test/benchmarks/sequencer/e2e/uniswap-transfers"
+	uniswap "github.com/0xPolygon/cdk-validium-node/test/scripts/uniswap/pkg"
 )
 
 func main() {

@@ -7,12 +7,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/0xPolygon/cdk-validium-node/log"
 	metricsLib "github.com/0xPolygon/cdk-validium-node/metrics"
 	"github.com/0xPolygon/cdk-validium-node/sequencer/metrics"
 	metricsState "github.com/0xPolygon/cdk-validium-node/state/metrics"
 	"github.com/0xPolygon/cdk-validium-node/test/benchmarks/sequencer/common/params"
 	"github.com/0xPolygon/cdk-validium-node/test/testutils"
+	"github.com/ethereum/go-ethereum/core/types"
+	"github.com/ethereum/go-ethereum/ethclient"
 )
 
 const (

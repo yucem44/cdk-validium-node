@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/0xPolygonHermez/zkevm-node/state"
+	"github.com/0xPolygon/cdk-validium-node/state"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 )

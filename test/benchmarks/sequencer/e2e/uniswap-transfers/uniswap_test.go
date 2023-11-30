@@ -5,11 +5,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/0xPolygonHermez/zkevm-node/test/benchmarks/sequencer/common/metrics"
-	"github.com/0xPolygonHermez/zkevm-node/test/benchmarks/sequencer/common/params"
-	"github.com/0xPolygonHermez/zkevm-node/test/benchmarks/sequencer/common/setup"
-	"github.com/0xPolygonHermez/zkevm-node/test/benchmarks/sequencer/common/transactions"
-	uniswap "github.com/0xPolygonHermez/zkevm-node/test/scripts/uniswap/pkg"
+	"github.com/0xPolygon/cdk-validium-node/test/benchmarks/sequencer/common/metrics"
+	"github.com/0xPolygon/cdk-validium-node/test/benchmarks/sequencer/common/params"
+	"github.com/0xPolygon/cdk-validium-node/test/benchmarks/sequencer/common/setup"
+	"github.com/0xPolygon/cdk-validium-node/test/benchmarks/sequencer/common/transactions"
+	uniswap "github.com/0xPolygon/cdk-validium-node/test/scripts/uniswap/pkg"
 	"github.com/stretchr/testify/require"
 )
 

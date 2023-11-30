@@ -4,19 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/0xPolygon/cdk-validium-node/encoding"
 	"github.com/0xPolygon/cdk-validium-node/log"
-	ERC20 "github.com/0xPolygon/cdk-validium-node/test/contracts/bin/ERC20"
-	WETH "github.com/0xPolygon/cdk-validium-node/test/contracts/bin/WETH"
-	"github.com/0xPolygon/cdk-validium-node/test/contracts/bin/uniswap/v2/core/UniswapV2Factory"
-	"github.com/0xPolygon/cdk-validium-node/test/contracts/bin/uniswap/v2/core/UniswapV2Pair"
-	"github.com/0xPolygon/cdk-validium-node/test/contracts/bin/uniswap/v2/interface/UniswapInterfaceMulticall"
-	"github.com/0xPolygon/cdk-validium-node/test/contracts/bin/uniswap/v2/periphery/UniswapV2Router02"
 	"github.com/0xPolygon/cdk-validium-node/test/operations"
-	"github.com/ethereum/go-ethereum/accounts/abi/bind"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/crypto"
+	uniswap "github.com/0xPolygon/cdk-validium-node/test/scripts/uniswap/pkg"
 	"github.com/ethereum/go-ethereum/ethclient"
 )
 

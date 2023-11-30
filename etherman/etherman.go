@@ -19,7 +19,6 @@ import (
 	"github.com/0xPolygon/cdk-validium-node/etherman/metrics"
 	"github.com/0xPolygon/cdk-validium-node/etherman/smartcontracts/cdkdatacommittee"
 	"github.com/0xPolygon/cdk-validium-node/etherman/smartcontracts/cdkvalidium"
-	"github.com/0xPolygon/cdk-validium-node/etherman/smartcontracts/matic"
 	"github.com/0xPolygon/cdk-validium-node/etherman/smartcontracts/oldpolygonzkevm"
 	"github.com/0xPolygon/cdk-validium-node/etherman/smartcontracts/pol"
 	"github.com/0xPolygon/cdk-validium-node/etherman/smartcontracts/polygonrollupmanager"
@@ -29,14 +28,6 @@ import (
 	"github.com/0xPolygon/cdk-validium-node/log"
 	"github.com/0xPolygon/cdk-validium-node/state"
 	"github.com/0xPolygon/cdk-validium-node/test/operations"
-	"github.com/0xPolygonHermez/zkevm-node/encoding"
-	"github.com/0xPolygonHermez/zkevm-node/etherman/etherscan"
-	"github.com/0xPolygonHermez/zkevm-node/etherman/ethgasstation"
-	"github.com/0xPolygonHermez/zkevm-node/etherman/metrics"
-	ethmanTypes "github.com/0xPolygonHermez/zkevm-node/etherman/types"
-	"github.com/0xPolygonHermez/zkevm-node/log"
-	"github.com/0xPolygonHermez/zkevm-node/state"
-	"github.com/0xPolygonHermez/zkevm-node/test/operations"
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
@@ -241,7 +232,7 @@ func NewClient(cfg Config, l1Config L1Config) (*Client, error) {
 	}
 	metrics.Register()
 	// Get RollupID
-	rollupID, err := rollupManager.RollupAddressToID(&bind.CallOpts{Pending: false}, l1Config.ZkEVMAddr)
+	rollupID, err := rollupManager.RollupAddressToID(&bind.CallOpts{Pending: false}, l1Config.CDKValidiumAddr)
 	if err != nil {
 		return nil, err
 	}
@@ -756,9 +747,9 @@ func (etherMan *Client) sequenceBatches(
 	l2Coinbase common.Address,
 	committeeSignaturesAndAddrs []byte,
 ) (*types.Transaction, error) {
-	var batches []cdkvalidium.CDKValidiumBatchData
+	var batches []cdkvalidium.PolygonDataComitteeValidiumBatchData
 	for _, seq := range sequences {
-		batch := cdkvalidium.CDKValidiumBatchData{
+		batch := cdkvalidium.PolygonDataComitteeValidiumBatchData{
 			TransactionsHash:   crypto.Keccak256Hash(seq.BatchL2Data),
 			GlobalExitRoot:     seq.GlobalExitRoot,
 			Timestamp:          uint64(seq.Timestamp),
@@ -768,7 +759,7 @@ func (etherMan *Client) sequenceBatches(
 		batches = append(batches, batch)
 	}
 
-	tx, err := etherMan.CDKValidium.SequenceBatches(&opts, batches, l2Coinbase, committeeSignaturesAndAddrs)
+	tx, err := etherMan.CDKValidium.SequenceBatchesDataCommittee(&opts, batches, l2Coinbase, committeeSignaturesAndAddrs)
 	if err != nil {
 		log.Debugf("Batches to send: %+v", batches)
 		log.Debug("l2CoinBase: ", l2Coinbase)
@@ -1029,7 +1020,7 @@ func decodeSequences(txData []byte, lastBatchNumber uint64, sequencer common.Add
 	}
 
 	// Recover Method from signature and ABI
-	method, err := smcAbi.MethodById(txData[:4])
+	method, err := abi.MethodById(txData[:4])
 	if err != nil {
 		return nil, err
 	}
@@ -1039,7 +1030,7 @@ func decodeSequences(txData []byte, lastBatchNumber uint64, sequencer common.Add
 	if err != nil {
 		return nil, err
 	}
-	var sequences []cdkvalidium.CDKValidiumBatchData
+	var sequences []cdkvalidium.PolygonDataComitteeValidiumBatchData
 	bytedata, err := json.Marshal(data[0])
 	if err != nil {
 		return nil, err
@@ -1053,12 +1044,12 @@ func decodeSequences(txData []byte, lastBatchNumber uint64, sequencer common.Add
 	for i, seq := range sequences {
 		bn := lastBatchNumber - uint64(len(sequences)-(i+1))
 		sequencedBatches[i] = SequencedBatch{
-			BatchNumber:          bn,
-			SequencerAddr:        sequencer,
-			TxHash:               txHash,
-			Nonce:                nonce,
-			Coinbase:             coinbase,
-			CDKValidiumBatchData: seq,
+			BatchNumber:                          bn,
+			SequencerAddr:                        sequencer,
+			TxHash:                               txHash,
+			Nonce:                                nonce,
+			Coinbase:                             coinbase,
+			PolygonDataComitteeValidiumBatchData: seq,
 		}
 	}
 
@@ -1078,7 +1069,7 @@ func (etherMan *Client) oldVerifyBatchesTrustedAggregatorEvent(ctx context.Conte
 
 func (etherMan *Client) verifyBatchesEvent(ctx context.Context, vLog types.Log, blocks *[]Block, blocksOrder *map[common.Hash][]Order) error {
 	log.Debug("VerifyBatches event detected")
-	vb, err := etherMan.ZkEVM.ParseVerifyBatches(vLog)
+	vb, err := etherMan.CDKValidium.ParseVerifyBatches(vLog)
 	if err != nil {
 		log.Error("error parsing VerifyBatches event. Error: ", err)
 		return err
@@ -1189,7 +1180,7 @@ func decodeSequencedForceBatches(txData []byte, lastBatchNumber uint64, sequence
 		return nil, err
 	}
 
-	var forceBatches []cdkvalidium.CDKValidiumForcedBatchData
+	var forceBatches []cdkvalidium.PolygonRollupBaseForcedBatchData
 	bytedata, err := json.Marshal(data[0])
 	if err != nil {
 		return nil, err
@@ -1203,12 +1194,12 @@ func decodeSequencedForceBatches(txData []byte, lastBatchNumber uint64, sequence
 	for i, force := range forceBatches {
 		bn := lastBatchNumber - uint64(len(forceBatches)-(i+1))
 		sequencedForcedBatches[i] = SequencedForceBatch{
-			BatchNumber:                bn,
-			Coinbase:                   sequencer,
-			TxHash:                     txHash,
-			Timestamp:                  time.Unix(int64(block.Time()), 0),
-			Nonce:                      nonce,
-			CDKValidiumForcedBatchData: force,
+			BatchNumber:                      bn,
+			Coinbase:                         sequencer,
+			TxHash:                           txHash,
+			Timestamp:                        time.Unix(int64(block.Time()), 0),
+			Nonce:                            nonce,
+			PolygonRollupBaseForcedBatchData: force,
 		}
 	}
 	return sequencedForcedBatches, nil
@@ -1326,7 +1317,7 @@ func (etherMan *Client) ApprovePol(ctx context.Context, account common.Address, 
 	if etherMan.GasProviders.MultiGasProvider {
 		opts.GasPrice = etherMan.GetL1GasPrice(ctx)
 	}
-	tx, err := etherMan.Pol.Approve(&opts, etherMan.l1Cfg.ZkEVMAddr, polAmount)
+	tx, err := etherMan.Pol.Approve(&opts, etherMan.l1Cfg.CDKValidiumAddr, polAmount)
 	if err != nil {
 		if parsedErr, ok := tryParseError(err); ok {
 			err = parsedErr

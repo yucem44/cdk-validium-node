@@ -34,17 +34,19 @@ const (
 
 // Public shared
 const (
-	DefaultSequencerAddress                  = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
-	DefaultSequencerPrivateKey               = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"
-	DefaultSequencerBalance                  = 400000
-	DefaultMaxCumulativeGasUsed              = 800000
-	DefaultL1CDKValidiumSmartContract        = "0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82"
-	DefaultL1DataCommitteeContract           = "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6"
-	DefaultL1RollupManagerSmartContract = "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e"
-	DefaultL1PolSmartContract           = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
-	DefaultL1NetworkURL                      = "http://localhost:8545"
-	DefaultL1NetworkWebSocketURL             = "ws://localhost:8546"
-	DefaultL1ChainID                  uint64 = 1337
+	DefaultSequencerAddress                    = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+	DefaultSequencerPrivateKey                 = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"
+	DefaultForcedBatchesAddress                = "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC"
+	DefaultForcedBatchesPrivateKey             = "0x5de4111afa1a4b94908f83103eb1f1706367c2e68ca870fc3fb9a804cdab365a"
+	DefaultSequencerBalance                    = 400000
+	DefaultMaxCumulativeGasUsed                = 800000
+	DefaultL1CDKValidiumSmartContract          = "0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82"
+	DefaultL1DataCommitteeContract             = "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6"
+	DefaultL1RollupManagerSmartContract        = "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e"
+	DefaultL1PolSmartContract                  = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+	DefaultL1NetworkURL                        = "http://localhost:8545"
+	DefaultL1NetworkWebSocketURL               = "ws://localhost:8546"
+	DefaultL1ChainID                    uint64 = 1337
 
 	DefaultL2NetworkURL                 = "http://localhost:8123"
 	PermissionlessL2NetworkURL          = "http://localhost:8125"
@@ -96,7 +98,7 @@ type Manager struct {
 
 // NewManager returns a manager ready to be used and a potential error caused
 // during its creation (which can come from the setup of the db connection).
-func NewManager(ctx context.Context, cfg *Config,) (*Manager, error) {
+func NewManager(ctx context.Context, cfg *Config) (*Manager, error) {
 	// Init database instance
 	initOrResetDB()
 
@@ -143,7 +145,7 @@ func (m *Manager) CheckConsolidatedRoot(expectedRoot string) error {
 }
 
 // SetGenesisAccountsBalance creates the genesis block in the state.
-func (m *Manager) SetGenesisAccountsBalance(genesisBlockNumber uint64, genesisAccounts map[string]big.Int) error {
+func (m *Manager) SetGenesisAccountsBalance(genesisAccounts map[string]big.Int) error {
 	var genesisActions []*state.GenesisAction
 	for address, balanceValue := range genesisAccounts {
 		action := &state.GenesisAction{
@@ -154,12 +156,12 @@ func (m *Manager) SetGenesisAccountsBalance(genesisBlockNumber uint64, genesisAc
 		genesisActions = append(genesisActions, action)
 	}
 
-	return m.SetGenesis(genesisBlockNumber, genesisActions)
+	return m.SetGenesis(genesisActions)
 }
 
-func (m *Manager) SetGenesis(genesisBlockNumber uint64, genesisActions []*state.GenesisAction) error {
+func (m *Manager) SetGenesis(genesisActions []*state.GenesisAction) error {
 	genesisBlock := state.Block{
-		BlockNumber: genesisBlockNumber,
+		BlockNumber: 102,
 		BlockHash:   state.ZeroHash,
 		ParentHash:  state.ZeroHash,
 		ReceivedAt:  time.Now(),
@@ -173,7 +175,7 @@ func (m *Manager) SetGenesis(genesisBlockNumber uint64, genesisActions []*state.
 		return err
 	}
 
-	_, err = m.st.SetGenesis(m.ctx, genesisBlock, genesis, metrics.SynchronizerCallerLabel, dbTx)
+	_, err = m.st.SetGenesis(m.ctx, genesisBlock, genesis, dbTx)
 
 	errCommit := dbTx.Commit(m.ctx)
 	if errCommit != nil {
@@ -477,7 +479,7 @@ func initState(cfg state.Config) (*state.State, error) {
 
 	stateCfg := state.Config{
 		MaxCumulativeGasUsed: cfg.MaxCumulativeGasUsed,
-		ChainID: cfg.ChainID,
+		ChainID:              cfg.ChainID,
 	}
 
 	ctx := context.Background()
@@ -498,49 +500,6 @@ func initState(cfg state.Config) (*state.State, error) {
 
 func (m *Manager) BeginStateTransaction() (pgx.Tx, error) {
 	return m.st.BeginStateTransaction(m.ctx)
-}
-
-func (m *Manager) SetInitialBatch(genesis state.Genesis, dbTx pgx.Tx) error {
-	log.Debug("Setting initial transaction batch 1")
-	// Process FirstTransaction included in batch 1
-	batchL2Data := common.Hex2Bytes(genesis.FirstBatchData.Transactions[2:])
-	processCtx := state.ProcessingContext{
-		BatchNumber:    1,
-		Coinbase:       genesis.FirstBatchData.Sequencer,
-		Timestamp:      time.Unix(int64(genesis.FirstBatchData.Timestamp), 0),
-		GlobalExitRoot: genesis.FirstBatchData.GlobalExitRoot,
-		BatchL2Data:    &batchL2Data,
-	}
-	_, _, _, err := m.st.ProcessAndStoreClosedBatch(m.ctx, processCtx, batchL2Data, dbTx, stateMetrics.SynchronizerCallerLabel)
-	if err != nil {
-		log.Error("error storing batch 1. Error: ", err)
-		return err
-	}
-
-	// Virtualize Batch and add sequence
-	virtualBatch1 := state.VirtualBatch{
-		BatchNumber:   1,
-		TxHash:        state.ZeroHash,
-		Coinbase:      genesis.FirstBatchData.Sequencer,
-		BlockNumber:   genesis.GenesisBlockNum,
-		SequencerAddr: genesis.FirstBatchData.Sequencer,
-	}
-	err = m.st.AddVirtualBatch(m.ctx, &virtualBatch1, dbTx)
-	if err != nil {
-		log.Errorf("error storing virtualBatch. BatchNumber: %d, BlockNumber: %d, error: %v", virtualBatch1.BatchNumber, genesis.GenesisBlockNum, err)
-		return err
-	}
-	// Insert the sequence to allow the aggregator verify the sequence batches
-	seq := state.Sequence{
-		FromBatchNumber: 1,
-		ToBatchNumber:   1,
-	}
-	err = m.st.AddSequence(m.ctx, seq, dbTx)
-	if err != nil {
-		log.Errorf("error adding sequence. Sequence: %+v", seq)
-		return err
-	}
-	return nil
 }
 
 // StartNetwork starts the L1 network container

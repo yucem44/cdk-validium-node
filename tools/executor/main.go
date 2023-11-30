@@ -14,6 +14,7 @@ import (
 	"github.com/0xPolygon/cdk-validium-node/state"
 	"github.com/0xPolygon/cdk-validium-node/state/runtime/executor"
 	"github.com/0xPolygon/cdk-validium-node/test/testutils"
+	"github.com/google/uuid"
 )
 
 const (

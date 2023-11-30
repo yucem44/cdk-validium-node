@@ -36,7 +36,7 @@ type SequencedBatch struct {
 	TxHash        common.Hash
 	Nonce         uint64
 	Coinbase      common.Address
-	cdkvalidium.CDKValidiumBatchData
+	cdkvalidium.PolygonDataComitteeValidiumBatchData
 }
 
 // ForcedBatch represents a ForcedBatch
@@ -65,7 +65,7 @@ type SequencedForceBatch struct {
 	TxHash      common.Hash
 	Timestamp   time.Time
 	Nonce       uint64
-	cdkvalidium.CDKValidiumForcedBatchData
+	cdkvalidium.PolygonRollupBaseForcedBatchData
 }
 
 // ForkID is a sturct to track the ForkID event.

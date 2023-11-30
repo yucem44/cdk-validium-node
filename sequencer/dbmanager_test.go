@@ -128,7 +128,7 @@ func TestOpenBatch(t *testing.T) {
 	dbTx, err := testState.BeginStateTransaction(ctx)
 	require.NoError(t, err)
 
-	_, err = testState.SetGenesis(ctx, state.Block{}, genesis, metrics.SynchronizerCallerLabel, dbTx)
+	_, err = testState.SetGenesis(ctx, state.Block{}, genesis, dbTx)
 	require.NoError(t, err)
 
 	processingContext := state.ProcessingContext{
@@ -152,7 +152,7 @@ func TestGetLastBatchNumber(t *testing.T) {
 	dbTx, err := testState.BeginStateTransaction(ctx)
 	require.NoError(t, err)
 
-	_, err = testState.SetGenesis(ctx, state.Block{}, genesis, metrics.SynchronizerCallerLabel, dbTx)
+	_, err = testState.SetGenesis(ctx, state.Block{}, genesis, dbTx)
 	require.NoError(t, err)
 
 	processingContext := state.ProcessingContext{
@@ -179,7 +179,7 @@ func TestCreateFirstBatch(t *testing.T) {
 
 	dbTx, err := testState.BeginStateTransaction(ctx)
 	require.NoError(t, err)
-	_, err = testState.SetGenesis(ctx, state.Block{}, genesis, metrics.SynchronizerCallerLabel, dbTx)
+	_, err = testState.SetGenesis(ctx, state.Block{}, genesis, dbTx)
 	require.NoError(t, err)
 	err = dbTx.Commit(ctx)
 	require.NoError(t, err)

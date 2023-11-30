@@ -13,7 +13,7 @@ import (
 
 	"github.com/joho/godotenv"
 
-	"github.com/0xPolygonHermez/zkevm-node/test/benchmarks/sequencer/common/metrics"
+	"github.com/0xPolygon/cdk-validium-node/test/benchmarks/sequencer/common/metrics"
 )
 
 const (

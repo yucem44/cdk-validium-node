@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/0xPolygon/cdk-validium-node/etherman/smartcontracts/cdkvalidium"
+	"github.com/0xPolygon/cdk-validium-node/etherman/smartcontracts/polygonrollupmanager"
 	"github.com/0xPolygon/cdk-validium-node/log"
 	"github.com/0xPolygon/cdk-validium-node/test/operations"
 	"github.com/ethereum/go-ethereum"
@@ -15,10 +16,10 @@ import (
 )
 
 const (
-	flagL1URLName   = "url"
-	flagZkevmAddrName = "zkevm"
+	flagL1URLName             = "url"
+	flagZkevmAddrName         = "zkevm"
 	flagRollupManagerAddrName = "rollupmanager"
-	miningTimeout   = 180
+	miningTimeout             = 180
 )
 
 var (
@@ -84,8 +85,8 @@ func sendForcedBatches(cliCtx *cli.Context) error {
 		return err
 	}
 	// Create smc client
-	poeAddr := common.HexToAddress(cliCtx.String(flagSmcAddrName))
-	poe, err := cdkvalidium.NewCdkvalidium(poeAddr, ethClient)
+	zkevmAddr := common.HexToAddress(cliCtx.String(flagZkevmAddrName))
+	zkevm, err := cdkvalidium.NewCdkvalidium(zkevmAddr, ethClient)
 	if err != nil {
 		return err
 	}
