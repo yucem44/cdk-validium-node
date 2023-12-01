@@ -1,0 +1,1075 @@
+2023-12-01T14:28:03.480Z	[35mDEBUG[0m	state/helper.go:62	4 0 0 <nil> 0 0 9223372036854775790 	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.480Z	[35mDEBUG[0m	state/helper.go:62	284 0 0 <nil> 0 0 9223372036854775790 	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.480Z	[34mINFO[0m	synchronizer/datacommittee.go:58	trying to get data from data committee node	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.480Z	[31mERROR[0m	synchronizer/datacommittee.go:61	couldn't get the data from any committee member
+/home/bros/polygon/cdk-validium-node/log/log.go:142 github.com/0xPolygon/cdk-validium-node/log.appendStackTraceMaybeArgs()
+/home/bros/polygon/cdk-validium-node/log/log.go:217 github.com/0xPolygon/cdk-validium-node/log.Error()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:61 github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:311 github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithoutCommittee.func14()
+/usr/local/go/src/testing/testing.go:1595 testing.tRunner()
+	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:61
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithoutCommittee.func14
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:311
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.481Z	[33mWARN[0m	synchronizer/datacommittee.go:45	missmatch on transaction data for batch num 5. Expected hash 0x0000000000000000000000000000000000000000000000000000000000000000, actual hash: 0x17e48d905ea23a359f83ec6e7e546c2be24ef8593057fd66121f029bd4ed4bdf	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:45
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithoutCommittee.func14
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:311
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.481Z	[34mINFO[0m	synchronizer/datacommittee.go:58	trying to get data from data committee node	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.481Z	[31mERROR[0m	synchronizer/datacommittee.go:61	couldn't get the data from any committee member
+/home/bros/polygon/cdk-validium-node/log/log.go:142 github.com/0xPolygon/cdk-validium-node/log.appendStackTraceMaybeArgs()
+/home/bros/polygon/cdk-validium-node/log/log.go:217 github.com/0xPolygon/cdk-validium-node/log.Error()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:61 github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:311 github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithoutCommittee.func14()
+/usr/local/go/src/testing/testing.go:1595 testing.tRunner()
+	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:61
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithoutCommittee.func14
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:311
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.482Z	[33mWARN[0m	synchronizer/datacommittee.go:45	missmatch on transaction data for batch num 5. Expected hash 0x0000000000000000000000000000000000000000000000000000000000000000, actual hash: 0x17e48d905ea23a359f83ec6e7e546c2be24ef8593057fd66121f029bd4ed4bdf	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:45
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithoutCommittee.func14
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:311
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.482Z	[34mINFO[0m	synchronizer/datacommittee.go:49	trying to get data from trusted sequencer	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.482Z	[31mERROR[0m	synchronizer/datacommittee.go:52	failed to get batch num 5 from trusted sequencer: unexpected trusted
+/home/bros/polygon/cdk-validium-node/log/log.go:142 github.com/0xPolygon/cdk-validium-node/log.appendStackTraceMaybeArgs()
+/home/bros/polygon/cdk-validium-node/log/log.go:217 github.com/0xPolygon/cdk-validium-node/log.Error()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:52 github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:311 github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithoutCommittee.func14()
+/usr/local/go/src/testing/testing.go:1595 testing.tRunner()
+	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:52
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithoutCommittee.func14
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:311
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.482Z	[34mINFO[0m	synchronizer/datacommittee.go:58	trying to get data from data committee node	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.482Z	[31mERROR[0m	synchronizer/datacommittee.go:61	couldn't get the data from any committee member
+/home/bros/polygon/cdk-validium-node/log/log.go:142 github.com/0xPolygon/cdk-validium-node/log.appendStackTraceMaybeArgs()
+/home/bros/polygon/cdk-validium-node/log/log.go:217 github.com/0xPolygon/cdk-validium-node/log.Error()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:61 github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:311 github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithoutCommittee.func14()
+/usr/local/go/src/testing/testing.go:1595 testing.tRunner()
+	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:61
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithoutCommittee.func14
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:311
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.483Z	[33mWARN[0m	synchronizer/datacommittee.go:45	missmatch on transaction data for batch num 5. Expected hash 0x0000000000000000000000000000000000000000000000000000000000000000, actual hash: 0x17e48d905ea23a359f83ec6e7e546c2be24ef8593057fd66121f029bd4ed4bdf	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:45
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithoutCommittee.func14
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:311
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.483Z	[34mINFO[0m	synchronizer/datacommittee.go:49	trying to get data from trusted sequencer	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.483Z	[31mERROR[0m	synchronizer/datacommittee.go:52	missmatch on transaction data for batch num 5. Expected hash 0x0000000000000000000000000000000000000000000000000000000000000000, actual hash: 0xc788b71e7d3ce8859651f966242077b899d2e295062b77285a76e1042b8b270d
+/home/bros/polygon/cdk-validium-node/log/log.go:142 github.com/0xPolygon/cdk-validium-node/log.appendStackTraceMaybeArgs()
+/home/bros/polygon/cdk-validium-node/log/log.go:217 github.com/0xPolygon/cdk-validium-node/log.Error()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:52 github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:311 github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithoutCommittee.func14()
+/usr/local/go/src/testing/testing.go:1595 testing.tRunner()
+	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:52
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithoutCommittee.func14
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:311
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.483Z	[34mINFO[0m	synchronizer/datacommittee.go:58	trying to get data from data committee node	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.483Z	[31mERROR[0m	synchronizer/datacommittee.go:61	couldn't get the data from any committee member
+/home/bros/polygon/cdk-validium-node/log/log.go:142 github.com/0xPolygon/cdk-validium-node/log.appendStackTraceMaybeArgs()
+/home/bros/polygon/cdk-validium-node/log/log.go:217 github.com/0xPolygon/cdk-validium-node/log.Error()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:61 github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:311 github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithoutCommittee.func14()
+/usr/local/go/src/testing/testing.go:1595 testing.tRunner()
+	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:61
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithoutCommittee.func14
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:311
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.483Z	[33mWARN[0m	synchronizer/datacommittee.go:45	missmatch on transaction data for batch num 5. Expected hash 0xc788b71e7d3ce8859651f966242077b899d2e295062b77285a76e1042b8b270d, actual hash: 0x17e48d905ea23a359f83ec6e7e546c2be24ef8593057fd66121f029bd4ed4bdf	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:45
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithoutCommittee.func14
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:311
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.483Z	[34mINFO[0m	synchronizer/datacommittee.go:49	trying to get data from trusted sequencer	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.484Z	[34mINFO[0m	synchronizer/datacommittee.go:49	trying to get data from trusted sequencer	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.484Z	[31mERROR[0m	synchronizer/datacommittee.go:52	failed to get batch num 5 from trusted sequencer: unexpected trusted
+/home/bros/polygon/cdk-validium-node/log/log.go:142 github.com/0xPolygon/cdk-validium-node/log.appendStackTraceMaybeArgs()
+/home/bros/polygon/cdk-validium-node/log/log.go:217 github.com/0xPolygon/cdk-validium-node/log.Error()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:52 github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:311 github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithoutCommittee.func14()
+/usr/local/go/src/testing/testing.go:1595 testing.tRunner()
+	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:52
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithoutCommittee.func14
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:311
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.484Z	[34mINFO[0m	synchronizer/datacommittee.go:58	trying to get data from data committee node	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.484Z	[31mERROR[0m	synchronizer/datacommittee.go:61	couldn't get the data from any committee member
+/home/bros/polygon/cdk-validium-node/log/log.go:142 github.com/0xPolygon/cdk-validium-node/log.appendStackTraceMaybeArgs()
+/home/bros/polygon/cdk-validium-node/log/log.go:217 github.com/0xPolygon/cdk-validium-node/log.Error()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:61 github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:311 github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithoutCommittee.func14()
+/usr/local/go/src/testing/testing.go:1595 testing.tRunner()
+	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:61
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithoutCommittee.func14
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:311
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.485Z	[34mINFO[0m	synchronizer/datacommittee.go:49	trying to get data from trusted sequencer	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.485Z	[31mERROR[0m	synchronizer/datacommittee.go:52	missmatch on transaction data for batch num 5. Expected hash 0x0000000000000000000000000000000000000000000000000000000000000000, actual hash: 0xc788b71e7d3ce8859651f966242077b899d2e295062b77285a76e1042b8b270d
+/home/bros/polygon/cdk-validium-node/log/log.go:142 github.com/0xPolygon/cdk-validium-node/log.appendStackTraceMaybeArgs()
+/home/bros/polygon/cdk-validium-node/log/log.go:217 github.com/0xPolygon/cdk-validium-node/log.Error()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:52 github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:311 github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithoutCommittee.func14()
+/usr/local/go/src/testing/testing.go:1595 testing.tRunner()
+	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:52
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithoutCommittee.func14
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:311
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.485Z	[34mINFO[0m	synchronizer/datacommittee.go:58	trying to get data from data committee node	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.485Z	[31mERROR[0m	synchronizer/datacommittee.go:61	couldn't get the data from any committee member
+/home/bros/polygon/cdk-validium-node/log/log.go:142 github.com/0xPolygon/cdk-validium-node/log.appendStackTraceMaybeArgs()
+/home/bros/polygon/cdk-validium-node/log/log.go:217 github.com/0xPolygon/cdk-validium-node/log.Error()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:61 github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:311 github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithoutCommittee.func14()
+/usr/local/go/src/testing/testing.go:1595 testing.tRunner()
+	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:61
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithoutCommittee.func14
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:311
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.486Z	[34mINFO[0m	synchronizer/datacommittee.go:49	trying to get data from trusted sequencer	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.487Z	[34mINFO[0m	synchronizer/datacommittee.go:49	trying to get data from trusted sequencer	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.488Z	[35mDEBUG[0m	state/helper.go:62	4 0 0 <nil> 0 0 9223372036854775790 	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.488Z	[35mDEBUG[0m	state/helper.go:62	284 0 0 <nil> 0 0 9223372036854775790 	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.488Z	[34mINFO[0m	synchronizer/datacommittee.go:58	trying to get data from data committee node	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.488Z	[34mINFO[0m	synchronizer/datacommittee.go:78	trying to get data from 0x0000000000000000000000000000000000000000 at 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.488Z	[33mWARN[0m	synchronizer/datacommittee.go:97	error getting data from DAC node 0x0000000000000000000000000000000000000000 at 0: missmatch on transaction data for batch num 5. Expected hash 0x0000000000000000000000000000000000000000000000000000000000000000, actual hash: 0x8e2a84e69e24923d32509f6862f9119001090bf65b76637d468c15ab85cb4bbb	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getDataFromCommittee
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:97
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:59
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithCommittee.func5
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:603
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.488Z	[34mINFO[0m	synchronizer/datacommittee.go:78	trying to get data from 0x0000000000000000000000000000000000000001 at 1	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.489Z	[33mWARN[0m	synchronizer/datacommittee.go:82	error getting data from DAC node 0x0000000000000000000000000000000000000001 at 1: not today	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getDataFromCommittee
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:82
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:59
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithCommittee.func5
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:603
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.489Z	[34mINFO[0m	synchronizer/datacommittee.go:78	trying to get data from 0x0000000000000000000000000000000000000002 at 2	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.489Z	[33mWARN[0m	synchronizer/datacommittee.go:97	error getting data from DAC node 0x0000000000000000000000000000000000000002 at 2: missmatch on transaction data for batch num 5. Expected hash 0x0000000000000000000000000000000000000000000000000000000000000000, actual hash: 0x8e2a84e69e24923d32509f6862f9119001090bf65b76637d468c15ab85cb4bbb	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getDataFromCommittee
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:97
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:59
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithCommittee.func5
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:603
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.489Z	[31mERROR[0m	synchronizer/datacommittee.go:61	couldn't get the data from any committee member
+/home/bros/polygon/cdk-validium-node/log/log.go:142 github.com/0xPolygon/cdk-validium-node/log.appendStackTraceMaybeArgs()
+/home/bros/polygon/cdk-validium-node/log/log.go:217 github.com/0xPolygon/cdk-validium-node/log.Error()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:61 github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:603 github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithCommittee.func5()
+/usr/local/go/src/testing/testing.go:1595 testing.tRunner()
+	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:61
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithCommittee.func5
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:603
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.489Z	[34mINFO[0m	synchronizer/datacommittee.go:58	trying to get data from data committee node	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.489Z	[34mINFO[0m	synchronizer/datacommittee.go:78	trying to get data from 0x0000000000000000000000000000000000000000 at 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.489Z	[33mWARN[0m	synchronizer/datacommittee.go:97	error getting data from DAC node 0x0000000000000000000000000000000000000000 at 0: missmatch on transaction data for batch num 5. Expected hash 0x17e48d905ea23a359f83ec6e7e546c2be24ef8593057fd66121f029bd4ed4bdf, actual hash: 0x8e2a84e69e24923d32509f6862f9119001090bf65b76637d468c15ab85cb4bbb	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getDataFromCommittee
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:97
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:59
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithCommittee.func5
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:603
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.490Z	[34mINFO[0m	synchronizer/datacommittee.go:78	trying to get data from 0x0000000000000000000000000000000000000001 at 1	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.490Z	[33mWARN[0m	synchronizer/datacommittee.go:82	error getting data from DAC node 0x0000000000000000000000000000000000000001 at 1: not today	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getDataFromCommittee
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:82
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:59
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithCommittee.func5
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:603
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.490Z	[34mINFO[0m	synchronizer/datacommittee.go:78	trying to get data from 0x0000000000000000000000000000000000000002 at 2	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.490Z	[34mINFO[0m	synchronizer/datacommittee.go:49	trying to get data from trusted sequencer	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.490Z	[31mERROR[0m	synchronizer/datacommittee.go:52	failed to get batch num 5 from trusted sequencer: not today
+/home/bros/polygon/cdk-validium-node/log/log.go:142 github.com/0xPolygon/cdk-validium-node/log.appendStackTraceMaybeArgs()
+/home/bros/polygon/cdk-validium-node/log/log.go:217 github.com/0xPolygon/cdk-validium-node/log.Error()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:52 github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:603 github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithCommittee.func5()
+/usr/local/go/src/testing/testing.go:1595 testing.tRunner()
+	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:52
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithCommittee.func5
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:603
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.490Z	[34mINFO[0m	synchronizer/datacommittee.go:58	trying to get data from data committee node	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.491Z	[34mINFO[0m	synchronizer/datacommittee.go:78	trying to get data from 0x0000000000000000000000000000000000000001 at 1	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.491Z	[33mWARN[0m	synchronizer/datacommittee.go:97	error getting data from DAC node 0x0000000000000000000000000000000000000001 at 1: missmatch on transaction data for batch num 5. Expected hash 0x17e48d905ea23a359f83ec6e7e546c2be24ef8593057fd66121f029bd4ed4bdf, actual hash: 0x8e2a84e69e24923d32509f6862f9119001090bf65b76637d468c15ab85cb4bbb	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getDataFromCommittee
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:97
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:59
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithCommittee.func5
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:603
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.491Z	[34mINFO[0m	synchronizer/datacommittee.go:78	trying to get data from 0x0000000000000000000000000000000000000002 at 2	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.491Z	[33mWARN[0m	synchronizer/datacommittee.go:82	error getting data from DAC node 0x0000000000000000000000000000000000000002 at 2: not today	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getDataFromCommittee
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:82
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:59
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithCommittee.func5
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:603
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.491Z	[34mINFO[0m	synchronizer/datacommittee.go:78	trying to get data from 0x0000000000000000000000000000000000000000 at 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.492Z	[34mINFO[0m	synchronizer/datacommittee.go:49	trying to get data from trusted sequencer	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.492Z	[31mERROR[0m	synchronizer/datacommittee.go:52	failed to get batch num 5 from trusted sequencer: not today
+/home/bros/polygon/cdk-validium-node/log/log.go:142 github.com/0xPolygon/cdk-validium-node/log.appendStackTraceMaybeArgs()
+/home/bros/polygon/cdk-validium-node/log/log.go:217 github.com/0xPolygon/cdk-validium-node/log.Error()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:52 github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:603 github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithCommittee.func5()
+/usr/local/go/src/testing/testing.go:1595 testing.tRunner()
+	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:52
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithCommittee.func5
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:603
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.492Z	[34mINFO[0m	synchronizer/datacommittee.go:58	trying to get data from data committee node	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.492Z	[34mINFO[0m	synchronizer/datacommittee.go:78	trying to get data from 0x0000000000000000000000000000000000000000 at 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.492Z	[33mWARN[0m	synchronizer/datacommittee.go:97	error getting data from DAC node 0x0000000000000000000000000000000000000000 at 0: missmatch on transaction data for batch num 5. Expected hash 0x17e48d905ea23a359f83ec6e7e546c2be24ef8593057fd66121f029bd4ed4bdf, actual hash: 0x8e2a84e69e24923d32509f6862f9119001090bf65b76637d468c15ab85cb4bbb	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getDataFromCommittee
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:97
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:59
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithCommittee.func5
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:603
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.492Z	[34mINFO[0m	synchronizer/datacommittee.go:78	trying to get data from 0x0000000000000000000000000000000000000001 at 1	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.492Z	[33mWARN[0m	synchronizer/datacommittee.go:82	error getting data from DAC node 0x0000000000000000000000000000000000000001 at 1: not today	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getDataFromCommittee
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:82
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:59
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithCommittee.func5
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:603
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.492Z	[34mINFO[0m	synchronizer/datacommittee.go:78	trying to get data from 0x0000000000000000000000000000000000000002 at 2	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.493Z	[33mWARN[0m	synchronizer/datacommittee.go:82	error getting data from DAC node 0x0000000000000000000000000000000000000002 at 2: not today	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getDataFromCommittee
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:82
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:59
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithCommittee.func5
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:603
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.493Z	[31mERROR[0m	synchronizer/datacommittee.go:61	couldn't get the data from any committee member
+/home/bros/polygon/cdk-validium-node/log/log.go:142 github.com/0xPolygon/cdk-validium-node/log.appendStackTraceMaybeArgs()
+/home/bros/polygon/cdk-validium-node/log/log.go:217 github.com/0xPolygon/cdk-validium-node/log.Error()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:61 github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:603 github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithCommittee.func5()
+/usr/local/go/src/testing/testing.go:1595 testing.tRunner()
+	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:61
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithCommittee.func5
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:603
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.493Z	[34mINFO[0m	synchronizer/datacommittee.go:49	trying to get data from trusted sequencer	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.493Z	[31mERROR[0m	synchronizer/datacommittee.go:52	failed to get batch num 5 from trusted sequencer: not today
+/home/bros/polygon/cdk-validium-node/log/log.go:142 github.com/0xPolygon/cdk-validium-node/log.appendStackTraceMaybeArgs()
+/home/bros/polygon/cdk-validium-node/log/log.go:217 github.com/0xPolygon/cdk-validium-node/log.Error()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:52 github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data()
+/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:606 github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithCommittee.func5()
+/usr/local/go/src/testing/testing.go:1595 testing.tRunner()
+	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*ClientSynchronizer).getBatchL2Data
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee.go:52
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGetBatchL2DataWithCommittee.func5
+	/home/bros/polygon/cdk-validium-node/synchronizer/datacommittee_test.go:606
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.493Z	[34mINFO[0m	synchronizer/datacommittee.go:58	trying to get data from data committee node	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.493Z	[34mINFO[0m	synchronizer/datacommittee.go:78	trying to get data from 0x00000000000000000000000000000000000000ff at the time is now	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.495Z	[35mDEBUG[0m	synchronizer/l1_filter_send_orderer_results_to_synchronizer.go:60	The range [131, 141] is not the next block to be send, 	adding to pending results status:lastBlockSenedToSync[100] len(pending_results)[0]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.495Z	[35mDEBUG[0m	synchronizer/l1_filter_send_orderer_results_to_synchronizer.go:60	The range [120, 130] is not the next block to be send, 	adding to pending results status:lastBlockSenedToSync[100] len(pending_results)[0]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.495Z	[35mDEBUG[0m	synchronizer/l1_filter_send_orderer_results_to_synchronizer.go:111	Moving lastBlockSend from 100 to 119	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.495Z	[35mDEBUG[0m	synchronizer/l1_filter_send_orderer_results_to_synchronizer.go:111	Moving lastBlockSend from 119 to 130	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.495Z	[35mDEBUG[0m	synchronizer/l1_filter_send_orderer_results_to_synchronizer.go:60	The range [131, 141] is not the next block to be send, 	adding to pending results status:lastBlockSenedToSync[100] len(pending_results)[0]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.495Z	[35mDEBUG[0m	synchronizer/l1_filter_send_orderer_results_to_synchronizer.go:60	The range [120, 130] is not the next block to be send, 	adding to pending results status:lastBlockSenedToSync[100] len(pending_results)[0]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.495Z	[35mDEBUG[0m	synchronizer/l1_filter_send_orderer_results_to_synchronizer.go:111	Moving lastBlockSend from 100 to 119	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.495Z	[35mDEBUG[0m	synchronizer/l1_filter_send_orderer_results_to_synchronizer.go:111	Moving lastBlockSend from 119 to 130	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.495Z	[35mDEBUG[0m	synchronizer/l1_filter_send_orderer_results_to_synchronizer.go:111	Moving lastBlockSend from 100 to 119	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.496Z	[35mDEBUG[0m	synchronizer/l1_filter_send_orderer_results_to_synchronizer.go:60	The range [102, 119] is not the next block to be send, 	adding to pending results status:lastBlockSenedToSync[100] len(pending_results)[0]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.496Z	[35mDEBUG[0m	synchronizer/l1_filter_send_orderer_results_to_synchronizer.go:60	The range [131, 141] is not the next block to be send, 	adding to pending results status:lastBlockSenedToSync[100] len(pending_results)[0]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.496Z	[35mDEBUG[0m	synchronizer/l1_filter_send_orderer_results_to_synchronizer.go:60	The range [120, 130] is not the next block to be send, 	adding to pending results status:lastBlockSenedToSync[100] len(pending_results)[1]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.496Z	[35mDEBUG[0m	synchronizer/l1_filter_send_orderer_results_to_synchronizer.go:111	Moving lastBlockSend from 100 to 119	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.496Z	[35mDEBUG[0m	synchronizer/l1_filter_send_orderer_results_to_synchronizer.go:111	Moving lastBlockSend from 119 to 130	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.496Z	[35mDEBUG[0m	synchronizer/l1_filter_send_orderer_results_to_synchronizer.go:111	Moving lastBlockSend from 130 to 141	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.496Z	[35mDEBUG[0m	synchronizer/l1_filter_send_orderer_results_to_synchronizer.go:60	The range [131, 141] is not the next block to be send, 	adding to pending results status:lastBlockSenedToSync[100] len(pending_results)[0]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.496Z	[35mDEBUG[0m	synchronizer/l1_filter_send_orderer_results_to_synchronizer.go:60	The range [120, 130] is not the next block to be send, 	adding to pending results status:lastBlockSenedToSync[100] len(pending_results)[2]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.496Z	[35mDEBUG[0m	synchronizer/l1_filter_send_orderer_results_to_synchronizer.go:111	Moving lastBlockSend from 100 to 119	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.496Z	[35mDEBUG[0m	synchronizer/l1_filter_send_orderer_results_to_synchronizer.go:111	Moving lastBlockSend from 119 to 130	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.496Z	[35mDEBUG[0m	synchronizer/l1_filter_send_orderer_results_to_synchronizer.go:111	Moving lastBlockSend from 130 to 141	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.496Z	[35mDEBUG[0m	synchronizer/l1_filter_send_orderer_results_to_synchronizer.go:60	The range [111, 120] is not the next block to be send, 	adding to pending results status:lastBlockSenedToSync[100] len(pending_results)[0]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.496Z	[35mDEBUG[0m	synchronizer/l1_filter_send_orderer_results_to_synchronizer.go:60	The range [121, 130] is not the next block to be send, 	adding to pending results status:lastBlockSenedToSync[100] len(pending_results)[1]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.496Z	[35mDEBUG[0m	synchronizer/l1_filter_send_orderer_results_to_synchronizer.go:60	The range [131, 140] is not the next block to be send, 	adding to pending results status:lastBlockSenedToSync[100] len(pending_results)[2]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.496Z	[35mDEBUG[0m	synchronizer/l1_filter_send_orderer_results_to_synchronizer.go:111	Moving lastBlockSend from 100 to 110	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.496Z	[35mDEBUG[0m	synchronizer/l1_filter_send_orderer_results_to_synchronizer.go:111	Moving lastBlockSend from 110 to 120	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.496Z	[35mDEBUG[0m	synchronizer/l1_filter_send_orderer_results_to_synchronizer.go:111	Moving lastBlockSend from 120 to 130	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.496Z	[35mDEBUG[0m	synchronizer/l1_filter_send_orderer_results_to_synchronizer.go:111	Moving lastBlockSend from 130 to 140	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.497Z	[33mWARN[0m	synchronizer/l1_rollup_info_consumer_statistics.go:45	consumer:: Too much wasted time (waiting to receive a new data):wasted waiting for new rollupInfo from L1: 97ns last_process: 2s new range: [1, 10] block_per_second: 0.000000	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*l1RollupInfoConsumerStatistics).onStartProcessIncommingRollupInfoData
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_consumer_statistics.go:45
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestL1RollupInfoConsumerStatisticsWithExceedTimeButAndWarningGenerated
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_consumer_statistics_test.go:111
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.497Z	[34mINFO[0m	synchronizer/l1_rollup_info_consumer.go:77	consumer: Starting consumer. HighestBlockProcessed: 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.497Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_consumer.go:121	consumer: processing controlPackage: action:eventIsFullySynced	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.497Z	[34mINFO[0m	synchronizer/l1_rollup_info_consumer.go:131	consumer: received a fullSync and nothing pending in channel to process, so stopping consumer	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.497Z	[34mINFO[0m	synchronizer/l1_rollup_info_consumer.go:115	consumer: processed ControlData[action:eventIsFullySynced]. Result: consumer:stopped because is synchronized	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.497Z	[34mINFO[0m	synchronizer/l1_rollup_info_consumer.go:77	consumer: Starting consumer. HighestBlockProcessed: 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.497Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_consumer.go:121	consumer: processing controlPackage: action:eventIsFullySynced	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.497Z	[34mINFO[0m	synchronizer/l1_rollup_info_consumer.go:134	consumer: received a fullSync but still have 1 items in channel to process, so not stopping consumer	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.497Z	[34mINFO[0m	synchronizer/l1_rollup_info_consumer.go:115	consumer: processed ControlData[action:eventIsFullySynced]. Result: %!s(<nil>)	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.497Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_consumer.go:121	consumer: processing controlPackage: action:actionNone	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.497Z	[34mINFO[0m	synchronizer/l1_rollup_info_consumer.go:115	consumer: processed ControlData[action:actionNone]. Result: %!s(<nil>)	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.598Z	[34mINFO[0m	synchronizer/l1_rollup_info_consumer.go:77	consumer: Starting consumer. HighestBlockProcessed: 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.598Z	[34mINFO[0m	synchronizer/l1_rollup_info_consumer.go:153	consumer: processing rollupInfo #1: range:[100, 200] num_blocks [0] statistics:wasted_time_waiting_for_data [0s] last_process_time [0s] block_per_second [0.000000]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.598Z	[31mERROR[0m	synchronizer/l1_rollup_info_consumer.go:199	consumer: Error processing last block of range: {100 200} err:error
+/home/bros/polygon/cdk-validium-node/log/log.go:142 github.com/0xPolygon/cdk-validium-node/log.appendStackTraceMaybeArgs()
+/home/bros/polygon/cdk-validium-node/log/log.go:217 github.com/0xPolygon/cdk-validium-node/log.Error()
+/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_consumer.go:199 github.com/0xPolygon/cdk-validium-node/synchronizer.(*l1RollupInfoConsumer).processUnsafe()
+/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_consumer.go:155 github.com/0xPolygon/cdk-validium-node/synchronizer.(*l1RollupInfoConsumer).processIncommingRollupInfoData()
+/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_consumer.go:105 github.com/0xPolygon/cdk-validium-node/synchronizer.(*l1RollupInfoConsumer).step()
+/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_consumer.go:79 github.com/0xPolygon/cdk-validium-node/synchronizer.(*l1RollupInfoConsumer).Start()
+/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_consumer_test.go:62 github.com/0xPolygon/cdk-validium-node/synchronizer.TestGivenConsumerWhenFailsToProcessRollupThenDontKnownLastEthBlock()
+/usr/local/go/src/testing/testing.go:1595 testing.tRunner()
+	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*l1RollupInfoConsumer).processUnsafe
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_consumer.go:199
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*l1RollupInfoConsumer).processIncommingRollupInfoData
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_consumer.go:155
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*l1RollupInfoConsumer).step
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_consumer.go:105
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*l1RollupInfoConsumer).Start
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_consumer.go:79
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGivenConsumerWhenFailsToProcessRollupThenDontKnownLastEthBlock
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_consumer_test.go:62
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.598Z	[34mINFO[0m	synchronizer/l1_rollup_info_consumer.go:158	consumer: error processing rollupInfo [100, 200]. Error: error	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.599Z	[31mERROR[0m	synchronizer/l1_rollup_info_consumer.go:107	consumer: error processing package.RollupInfoData. Error: error
+/home/bros/polygon/cdk-validium-node/log/log.go:142 github.com/0xPolygon/cdk-validium-node/log.appendStackTraceMaybeArgs()
+/home/bros/polygon/cdk-validium-node/log/log.go:217 github.com/0xPolygon/cdk-validium-node/log.Error()
+/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_consumer.go:107 github.com/0xPolygon/cdk-validium-node/synchronizer.(*l1RollupInfoConsumer).step()
+/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_consumer.go:79 github.com/0xPolygon/cdk-validium-node/synchronizer.(*l1RollupInfoConsumer).Start()
+/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_consumer_test.go:62 github.com/0xPolygon/cdk-validium-node/synchronizer.TestGivenConsumerWhenFailsToProcessRollupThenDontKnownLastEthBlock()
+/usr/local/go/src/testing/testing.go:1595 testing.tRunner()
+	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*l1RollupInfoConsumer).step
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_consumer.go:107
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*l1RollupInfoConsumer).Start
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_consumer.go:79
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGivenConsumerWhenFailsToProcessRollupThenDontKnownLastEthBlock
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_consumer_test.go:62
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.599Z	[34mINFO[0m	synchronizer/l1_rollup_info_consumer.go:77	consumer: Starting consumer. HighestBlockProcessed: 1234	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.599Z	[33mWARN[0m	synchronizer/l1_rollup_info_consumer.go:145	consumer: received a rollupInfo with a wrong block range.  Ignoring it. Highest block synced: 1234. RollupInfo block range: [100, 200]	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*l1RollupInfoConsumer).processIncommingRollupInfoData
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_consumer.go:145
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*l1RollupInfoConsumer).step
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_consumer.go:105
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*l1RollupInfoConsumer).Start
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_consumer.go:79
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGivenConsumerWhenReceiveNoNextBlockThenDoNothing
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_consumer_test.go:85
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.599Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_consumer.go:121	consumer: processing controlPackage: action:eventIsFullySynced	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.599Z	[34mINFO[0m	synchronizer/l1_rollup_info_consumer.go:131	consumer: received a fullSync and nothing pending in channel to process, so stopping consumer	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.599Z	[34mINFO[0m	synchronizer/l1_rollup_info_consumer.go:115	consumer: processed ControlData[action:eventIsFullySynced]. Result: consumer:stopped because is synchronized	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.599Z	[34mINFO[0m	synchronizer/l1_rollup_info_consumer.go:77	consumer: Starting consumer. HighestBlockProcessed: 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.599Z	[34mINFO[0m	synchronizer/l1_rollup_info_consumer.go:153	consumer: processing rollupInfo #1: range:[100, 200] num_blocks [0] statistics:wasted_time_waiting_for_data [0s] last_process_time [0s] block_per_second [0.000000]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.600Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_consumer.go:204	consumer: Storing empty block. BlockNumber: 123. BlockHash: 0x5b4c465a9e2c1e354d81dd51f3c5a878b9ccca1111ba9b07d77f38fb14c3586a	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.600Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_consumer.go:121	consumer: processing controlPackage: action:eventIsFullySynced	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.600Z	[34mINFO[0m	synchronizer/l1_rollup_info_consumer.go:131	consumer: received a fullSync and nothing pending in channel to process, so stopping consumer	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.600Z	[34mINFO[0m	synchronizer/l1_rollup_info_consumer.go:115	consumer: processed ControlData[action:eventIsFullySynced]. Result: consumer:stopped because is synchronized	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.600Z	[34mINFO[0m	synchronizer/l1_rollup_info_consumer.go:77	consumer: Starting consumer. HighestBlockProcessed: 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.601Z	[34mINFO[0m	synchronizer/l1_rollup_info_consumer.go:153	consumer: processing rollupInfo #1: range:[100, 200] num_blocks [0] statistics:wasted_time_waiting_for_data [0s] last_process_time [0s] block_per_second [0.000000]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.601Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_consumer.go:204	consumer: Storing empty block. BlockNumber: 123. BlockHash: 0x5b4c465a9e2c1e354d81dd51f3c5a878b9ccca1111ba9b07d77f38fb14c3586a	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.601Z	[33mWARN[0m	synchronizer/l1_rollup_info_consumer.go:145	consumer: received a rollupInfo with a wrong block range.  Ignoring it. Highest block synced: 200. RollupInfo block range: [100, 200]	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*l1RollupInfoConsumer).processIncommingRollupInfoData
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_consumer.go:145
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*l1RollupInfoConsumer).step
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_consumer.go:105
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*l1RollupInfoConsumer).Start
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_consumer.go:80
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGivenConsumerWhenNextBlockNumberIsNoSetThenFirstRollupInfoSetIt
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_consumer_test.go:140
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.601Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_consumer.go:121	consumer: processing controlPackage: action:eventIsFullySynced	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.601Z	[34mINFO[0m	synchronizer/l1_rollup_info_consumer.go:131	consumer: received a fullSync and nothing pending in channel to process, so stopping consumer	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.601Z	[34mINFO[0m	synchronizer/l1_rollup_info_consumer.go:115	consumer: processed ControlData[action:eventIsFullySynced]. Result: consumer:stopped because is synchronized	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.602Z	[33mWARN[0m	synchronizer/l1_rollup_info_producer.go:117	producer:config: timeRequestInitialValueOfLastBlock is too low (0s) minimum recomender value1s	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*configProducer).normalize
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:117
+github.com/0xPolygon/cdk-validium-node/synchronizer.newL1DataRetriever
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:178
+github.com/0xPolygon/cdk-validium-node/synchronizer.setupNoResetCall
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:113
+github.com/0xPolygon/cdk-validium-node/synchronizer.setup
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:99
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGivenNeedSyncWhenStartThenAskForRollupInfo
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:31
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.602Z	[33mWARN[0m	synchronizer/l1_rollup_info_producer.go:120	producer:config: retriesForRequestnitialValueOfLastBlock is too low (0) minimum recomender value 1	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*configProducer).normalize
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:120
+github.com/0xPolygon/cdk-validium-node/synchronizer.newL1DataRetriever
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:178
+github.com/0xPolygon/cdk-validium-node/synchronizer.setupNoResetCall
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:113
+github.com/0xPolygon/cdk-validium-node/synchronizer.setup
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:99
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGivenNeedSyncWhenStartThenAskForRollupInfo
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:31
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.602Z	[33mWARN[0m	synchronizer/l1_rollup_info_producer.go:123	producer:config: timeOutMainLoop is too low (0s) minimum recomender value 5m0s	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*configProducer).normalize
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:123
+github.com/0xPolygon/cdk-validium-node/synchronizer.newL1DataRetriever
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:178
+github.com/0xPolygon/cdk-validium-node/synchronizer.setupNoResetCall
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:113
+github.com/0xPolygon/cdk-validium-node/synchronizer.setup
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:99
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGivenNeedSyncWhenStartThenAskForRollupInfo
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:31
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.602Z	[33mWARN[0m	synchronizer/l1_rollup_info_producer.go:126	producer:config: minTimeBetweenRetriesForRollup is too low (0s)	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*configProducer).normalize
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:126
+github.com/0xPolygon/cdk-validium-node/synchronizer.newL1DataRetriever
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:178
+github.com/0xPolygon/cdk-validium-node/synchronizer.setupNoResetCall
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:113
+github.com/0xPolygon/cdk-validium-node/synchronizer.setup
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:99
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGivenNeedSyncWhenStartThenAskForRollupInfo
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:31
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.602Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:199	producer: Reset(100) queue cmd and discarding all info in channel	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.602Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:241	producer: Status changed from [no_running] to [reseting]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.603Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:279	producer: initialize	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.603Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:282	producer: initialize, syncstatus not ready: %sstartingBlockNumber must be defined, call producer ResetAndStop() to set a new starting point	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.603Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:285	producer: start called and need to create a new context	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.603Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:126	Last block is no valid: 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.603Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:479	producer: launch_worker:  num of launched workers: 0  result: [inFilter:0 + inChannel:0 > maximum:100? ==> allow new req] [NoNextRange]  status_comm:outgoint_channel[0/100], filter:lastBlockSenedToSync[0] len(pending_results)[0] workers:[FILTERED_LRBT Active/0s]num_workers:1 ch[0,0] 	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.603Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:318	producer: build_time:Fri, 17 Jun 1988 01:58:00 +0200 step: status:status:reseting syncStatus:[ lastBlockStoreOnStateDB: 0, highestBlockRequested:0, lastBlockOnL1: 0, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 0, errorRanges: len(ranges): 0] workers:[[FILTERED_LRBT Active/0s]num_workers:1 ch[0,0] ] filter:[lastBlockSenedToSync[0] len(pending_results)[0]] cfg:[syncChunkSize:100 ttlOfLastBlockOnL1:1s timeoutForRequestLastBlockOnL1:0s numOfAllowedRetriesForRequestLastBlockOnL1:0 timeOutMainLoop:0s timeForShowUpStatisticsLog:0s]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.604Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:324	producer: received a command	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.604Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:392	producer: received a reset(100)	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.604Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:206	producer: Reset L1 sync process to blockNumber 100 st=status:reseting syncStatus:[ lastBlockStoreOnStateDB: 0, highestBlockRequested:0, lastBlockOnL1: 0, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 0, errorRanges: len(ranges): 0] workers:[[FILTERED_LRBT Active/0s]num_workers:1 ch[0,0] ] filter:[lastBlockSenedToSync[0] len(pending_results)[0]] cfg:[syncChunkSize:100 ttlOfLastBlockOnL1:1s timeoutForRequestLastBlockOnL1:0s numOfAllowedRetriesForRequestLastBlockOnL1:0 timeOutMainLoop:0s timeForShowUpStatisticsLog:0s]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.604Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:208	producer: Reset(100): stop previous run (state=reseting)	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.604Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:209	producer: Reset(100): syncStatus.reset	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.604Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:212	producer: Reset(100): stopping workers	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.604Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:215	producer: Reset(100): emptyChannel	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.604Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:217	producer: Reset(100): reset Filter	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.604Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:241	producer: Status changed from [reseting] to [idle]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.604Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:220	producer: Reset(100): reset done!	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.604Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:493	producer: Need a new value for Last Block On L1, doing the request	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.604Z	[35mDEBUG[0m	synchronizer/l1_workers.go:121	workers: Retrieving last block on L1 (remaining tries=0, timeout=0s)	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.604Z	[35mDEBUG[0m	synchronizer/l1_workers.go:149	workers: worker : launching requestLatBlock (timeout=0s)	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.604Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:495	producer: Need a new value for Last Block On L1, doing the request old_block:0 -> new block:150	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.605Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:234	onNewLastBlockOnL1(150) initial_status:  lastBlockStoreOnStateDB: 100, highestBlockRequested:100, lastBlockOnL1: 0, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 0, errorRanges: len(ranges): 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.605Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:430	producer: New last block on L1: 150 -> fullRange: [100, 150] extendedRange: [100, 150]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.605Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:341	producer: producerIdle: have all the data to work, moving to working status.  status: lastBlockStoreOnStateDB: 100, highestBlockRequested:100, lastBlockOnL1: 150, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 0, errorRanges: len(ranges): 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.605Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:241	producer: Status changed from [idle] to [working]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.605Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:380	producer: Next timeout: 0s status:status:working syncStatus:[ lastBlockStoreOnStateDB: 100, highestBlockRequested:100, lastBlockOnL1: 150, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 0, errorRanges: len(ranges): 0] workers:[[FILTERED_LRBT Active/0s]num_workers:1 ch[0,0] ] filter:[lastBlockSenedToSync[100] len(pending_results)[0]] cfg:[syncChunkSize:100 ttlOfLastBlockOnL1:1s timeoutForRequestLastBlockOnL1:0s numOfAllowedRetriesForRequestLastBlockOnL1:0 timeOutMainLoop:0s timeForShowUpStatisticsLog:0s] 	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.605Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:318	producer: build_time:Fri, 17 Jun 1988 01:58:00 +0200 step: status:status:working syncStatus:[ lastBlockStoreOnStateDB: 100, highestBlockRequested:100, lastBlockOnL1: 150, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 0, errorRanges: len(ranges): 0] workers:[[FILTERED_LRBT Active/0s]num_workers:1 ch[0,0] ] filter:[lastBlockSenedToSync[100] len(pending_results)[0]] cfg:[syncChunkSize:100 ttlOfLastBlockOnL1:1s timeoutForRequestLastBlockOnL1:0s numOfAllowedRetriesForRequestLastBlockOnL1:0 timeOutMainLoop:0s timeForShowUpStatisticsLog:0s]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.605Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:324	producer: received a command	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.605Z	[35mDEBUG[0m	synchronizer/l1_workers.go:181	workers: launching goroutine to route response for worker[0]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.605Z	[35mDEBUG[0m	synchronizer/l1_workers.go:173	workers: worker[0] started call:[GetRollupInfoByBlockRange([101, 150], sleep=0s)]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.605Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:476	producer: launch_worker: Launched worker for segment [101, 150], num_workers_in_this_iteration: 1	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.605Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:130	No blocks to ask, we have requested all blocks from L1!	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.605Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:479	producer: launch_worker:  num of launched workers: 1  result: [inFilter:0 + inChannel:0 > maximum:100? ==> allow new req]  segment [101, 150] -> [LAUNCHED] [NoNextRange]  status_comm:outgoint_channel[0/100], filter:lastBlockSenedToSync[100] len(pending_results)[0] workers:[FILTERED_LRBT Active/0s]num_workers:1 ch[0,0]  worker[0]: status:working br:[101, 150] time:0s	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.605Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:353	producer: producerWorking: haveRequiredAllBlocksToBeSynchronized -> renewLastBlockOnL1IfNeeded	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.605Z	[35mDEBUG[0m	synchronizer/l1_worker_etherman.go:176	worker: RollUpInfo([101, 150]) calling EthBlockByNumber(150)	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.605Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:360	producer: producerWorking: still not synchronized with the new block range launch workers again	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.606Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:130	No blocks to ask, we have requested all blocks from L1!	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.606Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:479	producer: launch_worker:  num of launched workers: 0  result: [inFilter:0 + inChannel:0 > maximum:100? ==> allow new req] [NoNextRange]  status_comm:outgoint_channel[0/100], filter:lastBlockSenedToSync[100] len(pending_results)[0] workers:[FILTERED_LRBT Active/0s]num_workers:1 ch[0,0]  worker[0]: status:working br:[101, 150] time:0s	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.606Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:380	producer: Next timeout: 0s status:status:working syncStatus:[ lastBlockStoreOnStateDB: 100, highestBlockRequested:150, lastBlockOnL1: 150, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 1, errorRanges: len(ranges): 0] workers:[[FILTERED_LRBT Active/0s]num_workers:1 ch[1,0] ] filter:[lastBlockSenedToSync[100] len(pending_results)[0]] cfg:[syncChunkSize:100 ttlOfLastBlockOnL1:1s timeoutForRequestLastBlockOnL1:0s numOfAllowedRetriesForRequestLastBlockOnL1:0 timeOutMainLoop:0s timeForShowUpStatisticsLog:0s] 	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.606Z	[35mDEBUG[0m	synchronizer/l1_workers.go:202	workers: waiting for waitGroup[0]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.606Z	[35mDEBUG[0m	synchronizer/l1_workers.go:202	workers: waiting for waitGroup[1]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.606Z	[35mDEBUG[0m	synchronizer/l1_workers.go:202	workers: waiting for waitGroup[2]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.606Z	[33mWARN[0m	synchronizer/l1_rollup_info_producer.go:117	producer:config: timeRequestInitialValueOfLastBlock is too low (0s) minimum recomender value1s	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*configProducer).normalize
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:117
+github.com/0xPolygon/cdk-validium-node/synchronizer.newL1DataRetriever
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:178
+github.com/0xPolygon/cdk-validium-node/synchronizer.setupNoResetCall
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:113
+github.com/0xPolygon/cdk-validium-node/synchronizer.setup
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:99
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGivenNoNeedSyncWhenStartsSendAndEventOfSynchronized
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:45
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.606Z	[33mWARN[0m	synchronizer/l1_rollup_info_producer.go:120	producer:config: retriesForRequestnitialValueOfLastBlock is too low (0) minimum recomender value 1	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*configProducer).normalize
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:120
+github.com/0xPolygon/cdk-validium-node/synchronizer.newL1DataRetriever
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:178
+github.com/0xPolygon/cdk-validium-node/synchronizer.setupNoResetCall
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:113
+github.com/0xPolygon/cdk-validium-node/synchronizer.setup
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:99
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGivenNoNeedSyncWhenStartsSendAndEventOfSynchronized
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:45
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.606Z	[33mWARN[0m	synchronizer/l1_rollup_info_producer.go:123	producer:config: timeOutMainLoop is too low (0s) minimum recomender value 5m0s	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*configProducer).normalize
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:123
+github.com/0xPolygon/cdk-validium-node/synchronizer.newL1DataRetriever
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:178
+github.com/0xPolygon/cdk-validium-node/synchronizer.setupNoResetCall
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:113
+github.com/0xPolygon/cdk-validium-node/synchronizer.setup
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:99
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGivenNoNeedSyncWhenStartsSendAndEventOfSynchronized
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:45
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.606Z	[33mWARN[0m	synchronizer/l1_rollup_info_producer.go:126	producer:config: minTimeBetweenRetriesForRollup is too low (0s)	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*configProducer).normalize
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:126
+github.com/0xPolygon/cdk-validium-node/synchronizer.newL1DataRetriever
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:178
+github.com/0xPolygon/cdk-validium-node/synchronizer.setupNoResetCall
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:113
+github.com/0xPolygon/cdk-validium-node/synchronizer.setup
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:99
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGivenNoNeedSyncWhenStartsSendAndEventOfSynchronized
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:45
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.607Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:199	producer: Reset(100) queue cmd and discarding all info in channel	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.607Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:241	producer: Status changed from [no_running] to [reseting]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.607Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:298	producer: starting L1 sync from: lastBlockStoreOnStateDB: 0, highestBlockRequested:0, lastBlockOnL1: 0, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 0, errorRanges: len(ranges): 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.607Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:279	producer: initialize	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.607Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:282	producer: initialize, syncstatus not ready: %sstartingBlockNumber must be defined, call producer ResetAndStop() to set a new starting point	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.607Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:285	producer: start called and need to create a new context	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.607Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:241	producer: Status changed from [reseting] to [idle]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.607Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:305	producer:  starting configuration: syncChunkSize:100 ttlOfLastBlockOnL1:1s timeoutForRequestLastBlockOnL1:0s numOfAllowedRetriesForRequestLastBlockOnL1:0 timeOutMainLoop:0s timeForShowUpStatisticsLog:0s	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.607Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:318	producer: build_time:Fri, 17 Jun 1988 01:58:00 +0200 step: status:status:idle syncStatus:[ lastBlockStoreOnStateDB: 0, highestBlockRequested:0, lastBlockOnL1: 0, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 0, errorRanges: len(ranges): 0] workers:[[FILTERED_LRBT Active/0s]num_workers:1 ch[0,0] ] filter:[lastBlockSenedToSync[0] len(pending_results)[0]] cfg:[syncChunkSize:100 ttlOfLastBlockOnL1:1s timeoutForRequestLastBlockOnL1:0s numOfAllowedRetriesForRequestLastBlockOnL1:0 timeOutMainLoop:0s timeForShowUpStatisticsLog:0s]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.607Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:324	producer: received a command	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.607Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:392	producer: received a reset(100)	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.607Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:206	producer: Reset L1 sync process to blockNumber 100 st=status:idle syncStatus:[ lastBlockStoreOnStateDB: 0, highestBlockRequested:0, lastBlockOnL1: 0, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 0, errorRanges: len(ranges): 0] workers:[[FILTERED_LRBT Active/0s]num_workers:1 ch[0,0] ] filter:[lastBlockSenedToSync[0] len(pending_results)[0]] cfg:[syncChunkSize:100 ttlOfLastBlockOnL1:1s timeoutForRequestLastBlockOnL1:0s numOfAllowedRetriesForRequestLastBlockOnL1:0 timeOutMainLoop:0s timeForShowUpStatisticsLog:0s]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.607Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:241	producer: Status changed from [idle] to [reseting]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.607Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:208	producer: Reset(100): stop previous run (state=reseting)	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.607Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:209	producer: Reset(100): syncStatus.reset	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.607Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:212	producer: Reset(100): stopping workers	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.608Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:215	producer: Reset(100): emptyChannel	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.608Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:217	producer: Reset(100): reset Filter	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.608Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:241	producer: Status changed from [reseting] to [idle]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.608Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:220	producer: Reset(100): reset done!	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.608Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:493	producer: Need a new value for Last Block On L1, doing the request	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.608Z	[35mDEBUG[0m	synchronizer/l1_workers.go:121	workers: Retrieving last block on L1 (remaining tries=0, timeout=0s)	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.608Z	[35mDEBUG[0m	synchronizer/l1_workers.go:149	workers: worker : launching requestLatBlock (timeout=0s)	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.608Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:495	producer: Need a new value for Last Block On L1, doing the request old_block:0 -> new block:100	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.608Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:234	onNewLastBlockOnL1(100) initial_status:  lastBlockStoreOnStateDB: 100, highestBlockRequested:100, lastBlockOnL1: 0, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 0, errorRanges: len(ranges): 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.608Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:430	producer: New last block on L1: 100 -> fullRange: [100, 100] extendedRange: [100, 100]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.608Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:341	producer: producerIdle: have all the data to work, moving to working status.  status: lastBlockStoreOnStateDB: 100, highestBlockRequested:100, lastBlockOnL1: 100, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 0, errorRanges: len(ranges): 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.608Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:241	producer: Status changed from [idle] to [working]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.608Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:380	producer: Next timeout: 0s status:status:working syncStatus:[ lastBlockStoreOnStateDB: 100, highestBlockRequested:100, lastBlockOnL1: 100, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 0, errorRanges: len(ranges): 0] workers:[[FILTERED_LRBT Active/0s]num_workers:1 ch[0,0] ] filter:[lastBlockSenedToSync[100] len(pending_results)[0]] cfg:[syncChunkSize:100 ttlOfLastBlockOnL1:1s timeoutForRequestLastBlockOnL1:0s numOfAllowedRetriesForRequestLastBlockOnL1:0 timeOutMainLoop:0s timeForShowUpStatisticsLog:0s] 	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.609Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:318	producer: build_time:Fri, 17 Jun 1988 01:58:00 +0200 step: status:status:working syncStatus:[ lastBlockStoreOnStateDB: 100, highestBlockRequested:100, lastBlockOnL1: 100, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 0, errorRanges: len(ranges): 0] workers:[[FILTERED_LRBT Active/0s]num_workers:1 ch[0,0] ] filter:[lastBlockSenedToSync[100] len(pending_results)[0]] cfg:[syncChunkSize:100 ttlOfLastBlockOnL1:1s timeoutForRequestLastBlockOnL1:0s numOfAllowedRetriesForRequestLastBlockOnL1:0 timeOutMainLoop:0s timeForShowUpStatisticsLog:0s]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.609Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:324	producer: received a command	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.609Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:130	No blocks to ask, we have requested all blocks from L1!	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.609Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:479	producer: launch_worker:  num of launched workers: 0  result: [inFilter:0 + inChannel:0 > maximum:100? ==> allow new req] [NoNextRange]  status_comm:outgoint_channel[0/100], filter:lastBlockSenedToSync[100] len(pending_results)[0] workers:[FILTERED_LRBT Active/0s]num_workers:1 ch[0,0] 	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.609Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:353	producer: producerWorking: haveRequiredAllBlocksToBeSynchronized -> renewLastBlockOnL1IfNeeded	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.609Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:90	No blocks to ask, we have requested and responsed all blocks from L1!	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.609Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:241	producer: Status changed from [working] to [synchronized]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.609Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:243	producer: send a message to consumer to indicate that we are synchronized	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.609Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:530	producer: Sending results [data] to consumer: NO_DATA ctrl:action:eventIsFullySynced :  status_comm:outgoint_channel[0/100], filter:lastBlockSenedToSync[100] len(pending_results)[0] workers:[FILTERED_LRBT Active/0s]num_workers:1 ch[0,0] 	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.609Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:380	producer: Next timeout: 1.000832445s status:status:synchronized syncStatus:[ lastBlockStoreOnStateDB: 100, highestBlockRequested:100, lastBlockOnL1: 100, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 0, errorRanges: len(ranges): 0] workers:[[FILTERED_LRBT Active/0s]num_workers:1 ch[0,0] ] filter:[lastBlockSenedToSync[100] len(pending_results)[0]] cfg:[syncChunkSize:100 ttlOfLastBlockOnL1:1s timeoutForRequestLastBlockOnL1:0s numOfAllowedRetriesForRequestLastBlockOnL1:0 timeOutMainLoop:0s timeForShowUpStatisticsLog:0s] 	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.609Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:318	producer: build_time:Fri, 17 Jun 1988 01:58:00 +0200 step: status:status:synchronized syncStatus:[ lastBlockStoreOnStateDB: 100, highestBlockRequested:100, lastBlockOnL1: 100, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 0, errorRanges: len(ranges): 0] workers:[[FILTERED_LRBT Active/0s]num_workers:1 ch[0,0] ] filter:[lastBlockSenedToSync[100] len(pending_results)[0]] cfg:[syncChunkSize:100 ttlOfLastBlockOnL1:1s timeoutForRequestLastBlockOnL1:0s numOfAllowedRetriesForRequestLastBlockOnL1:0 timeOutMainLoop:0s timeForShowUpStatisticsLog:0s]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.707Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:321	producer: context canceled	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.707Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:241	producer: Status changed from [synchronized] to [no_running]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.707Z	[35mDEBUG[0m	synchronizer/l1_workers.go:202	workers: waiting for waitGroup[0]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.707Z	[35mDEBUG[0m	synchronizer/l1_workers.go:202	workers: waiting for waitGroup[1]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.707Z	[35mDEBUG[0m	synchronizer/l1_workers.go:202	workers: waiting for waitGroup[2]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.708Z	[33mWARN[0m	synchronizer/l1_rollup_info_producer.go:117	producer:config: timeRequestInitialValueOfLastBlock is too low (0s) minimum recomender value1s	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*configProducer).normalize
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:117
+github.com/0xPolygon/cdk-validium-node/synchronizer.newL1DataRetriever
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:178
+github.com/0xPolygon/cdk-validium-node/synchronizer.setupNoResetCall
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:113
+github.com/0xPolygon/cdk-validium-node/synchronizer.setup
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:99
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGivenNeedSyncWhenReachLastBlockThenSendAndEventOfSynchronized
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:68
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.708Z	[33mWARN[0m	synchronizer/l1_rollup_info_producer.go:120	producer:config: retriesForRequestnitialValueOfLastBlock is too low (0) minimum recomender value 1	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*configProducer).normalize
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:120
+github.com/0xPolygon/cdk-validium-node/synchronizer.newL1DataRetriever
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:178
+github.com/0xPolygon/cdk-validium-node/synchronizer.setupNoResetCall
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:113
+github.com/0xPolygon/cdk-validium-node/synchronizer.setup
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:99
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGivenNeedSyncWhenReachLastBlockThenSendAndEventOfSynchronized
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:68
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.708Z	[33mWARN[0m	synchronizer/l1_rollup_info_producer.go:123	producer:config: timeOutMainLoop is too low (0s) minimum recomender value 5m0s	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*configProducer).normalize
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:123
+github.com/0xPolygon/cdk-validium-node/synchronizer.newL1DataRetriever
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:178
+github.com/0xPolygon/cdk-validium-node/synchronizer.setupNoResetCall
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:113
+github.com/0xPolygon/cdk-validium-node/synchronizer.setup
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:99
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGivenNeedSyncWhenReachLastBlockThenSendAndEventOfSynchronized
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:68
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.708Z	[33mWARN[0m	synchronizer/l1_rollup_info_producer.go:126	producer:config: minTimeBetweenRetriesForRollup is too low (0s)	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*configProducer).normalize
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:126
+github.com/0xPolygon/cdk-validium-node/synchronizer.newL1DataRetriever
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:178
+github.com/0xPolygon/cdk-validium-node/synchronizer.setupNoResetCall
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:113
+github.com/0xPolygon/cdk-validium-node/synchronizer.setup
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:99
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGivenNeedSyncWhenReachLastBlockThenSendAndEventOfSynchronized
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:68
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.708Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:199	producer: Reset(100) queue cmd and discarding all info in channel	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.708Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:241	producer: Status changed from [no_running] to [reseting]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.708Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:298	producer: starting L1 sync from: lastBlockStoreOnStateDB: 0, highestBlockRequested:0, lastBlockOnL1: 0, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 0, errorRanges: len(ranges): 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.708Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:279	producer: initialize	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.708Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:282	producer: initialize, syncstatus not ready: %sstartingBlockNumber must be defined, call producer ResetAndStop() to set a new starting point	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.709Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:285	producer: start called and need to create a new context	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.709Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:241	producer: Status changed from [reseting] to [idle]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.709Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:305	producer:  starting configuration: syncChunkSize:100 ttlOfLastBlockOnL1:1s timeoutForRequestLastBlockOnL1:0s numOfAllowedRetriesForRequestLastBlockOnL1:0 timeOutMainLoop:0s timeForShowUpStatisticsLog:0s	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.709Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:318	producer: build_time:Fri, 17 Jun 1988 01:58:00 +0200 step: status:status:idle syncStatus:[ lastBlockStoreOnStateDB: 0, highestBlockRequested:0, lastBlockOnL1: 0, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 0, errorRanges: len(ranges): 0] workers:[[FILTERED_LRBT Active/0s]num_workers:1 ch[0,0] ] filter:[lastBlockSenedToSync[0] len(pending_results)[0]] cfg:[syncChunkSize:100 ttlOfLastBlockOnL1:1s timeoutForRequestLastBlockOnL1:0s numOfAllowedRetriesForRequestLastBlockOnL1:0 timeOutMainLoop:0s timeForShowUpStatisticsLog:0s]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.709Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:324	producer: received a command	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.709Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:392	producer: received a reset(100)	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.709Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:206	producer: Reset L1 sync process to blockNumber 100 st=status:idle syncStatus:[ lastBlockStoreOnStateDB: 0, highestBlockRequested:0, lastBlockOnL1: 0, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 0, errorRanges: len(ranges): 0] workers:[[FILTERED_LRBT Active/0s]num_workers:1 ch[0,0] ] filter:[lastBlockSenedToSync[0] len(pending_results)[0]] cfg:[syncChunkSize:100 ttlOfLastBlockOnL1:1s timeoutForRequestLastBlockOnL1:0s numOfAllowedRetriesForRequestLastBlockOnL1:0 timeOutMainLoop:0s timeForShowUpStatisticsLog:0s]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.709Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:241	producer: Status changed from [idle] to [reseting]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.709Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:208	producer: Reset(100): stop previous run (state=reseting)	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.709Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:209	producer: Reset(100): syncStatus.reset	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.709Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:212	producer: Reset(100): stopping workers	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.710Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:215	producer: Reset(100): emptyChannel	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.710Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:217	producer: Reset(100): reset Filter	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.710Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:241	producer: Status changed from [reseting] to [idle]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.710Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:220	producer: Reset(100): reset done!	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.710Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:493	producer: Need a new value for Last Block On L1, doing the request	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.710Z	[35mDEBUG[0m	synchronizer/l1_workers.go:121	workers: Retrieving last block on L1 (remaining tries=0, timeout=0s)	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.710Z	[35mDEBUG[0m	synchronizer/l1_workers.go:149	workers: worker : launching requestLatBlock (timeout=0s)	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.710Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:495	producer: Need a new value for Last Block On L1, doing the request old_block:0 -> new block:101	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.710Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:234	onNewLastBlockOnL1(101) initial_status:  lastBlockStoreOnStateDB: 100, highestBlockRequested:100, lastBlockOnL1: 0, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 0, errorRanges: len(ranges): 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.711Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:430	producer: New last block on L1: 101 -> fullRange: [100, 101] extendedRange: [100, 101]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.711Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:341	producer: producerIdle: have all the data to work, moving to working status.  status: lastBlockStoreOnStateDB: 100, highestBlockRequested:100, lastBlockOnL1: 101, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 0, errorRanges: len(ranges): 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.711Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:241	producer: Status changed from [idle] to [working]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.711Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:380	producer: Next timeout: 0s status:status:working syncStatus:[ lastBlockStoreOnStateDB: 100, highestBlockRequested:100, lastBlockOnL1: 101, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 0, errorRanges: len(ranges): 0] workers:[[FILTERED_LRBT Active/0s]num_workers:1 ch[0,0] ] filter:[lastBlockSenedToSync[100] len(pending_results)[0]] cfg:[syncChunkSize:100 ttlOfLastBlockOnL1:1s timeoutForRequestLastBlockOnL1:0s numOfAllowedRetriesForRequestLastBlockOnL1:0 timeOutMainLoop:0s timeForShowUpStatisticsLog:0s] 	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.711Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:318	producer: build_time:Fri, 17 Jun 1988 01:58:00 +0200 step: status:status:working syncStatus:[ lastBlockStoreOnStateDB: 100, highestBlockRequested:100, lastBlockOnL1: 101, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 0, errorRanges: len(ranges): 0] workers:[[FILTERED_LRBT Active/0s]num_workers:1 ch[0,0] ] filter:[lastBlockSenedToSync[100] len(pending_results)[0]] cfg:[syncChunkSize:100 ttlOfLastBlockOnL1:1s timeoutForRequestLastBlockOnL1:0s numOfAllowedRetriesForRequestLastBlockOnL1:0 timeOutMainLoop:0s timeForShowUpStatisticsLog:0s]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.711Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:324	producer: received a command	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.711Z	[35mDEBUG[0m	synchronizer/l1_workers.go:181	workers: launching goroutine to route response for worker[0]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.711Z	[35mDEBUG[0m	synchronizer/l1_workers.go:173	workers: worker[0] started call:[GetRollupInfoByBlockRange([101, 101], sleep=0s)]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.711Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:476	producer: launch_worker: Launched worker for segment [101, 101], num_workers_in_this_iteration: 1	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.712Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:130	No blocks to ask, we have requested all blocks from L1!	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.712Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:479	producer: launch_worker:  num of launched workers: 1  result: [inFilter:0 + inChannel:0 > maximum:100? ==> allow new req]  segment [101, 101] -> [LAUNCHED] [NoNextRange]  status_comm:outgoint_channel[0/100], filter:lastBlockSenedToSync[100] len(pending_results)[0] workers:[FILTERED_LRBT Active/0s]num_workers:1 ch[0,0]  worker[0]: status:working br:[101, 101] time:0s	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.712Z	[35mDEBUG[0m	synchronizer/l1_worker_etherman.go:176	worker: RollUpInfo([101, 101]) calling EthBlockByNumber(101)	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.712Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:353	producer: producerWorking: haveRequiredAllBlocksToBeSynchronized -> renewLastBlockOnL1IfNeeded	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.712Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:360	producer: producerWorking: still not synchronized with the new block range launch workers again	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.712Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:130	No blocks to ask, we have requested all blocks from L1!	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.712Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:479	producer: launch_worker:  num of launched workers: 0  result: [inFilter:0 + inChannel:0 > maximum:100? ==> allow new req] [NoNextRange]  status_comm:outgoint_channel[0/100], filter:lastBlockSenedToSync[100] len(pending_results)[0] workers:[FILTERED_LRBT Active/0s]num_workers:1 ch[0,0]  worker[0]: status:working br:[101, 101] time:0s	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.712Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:380	producer: Next timeout: 0s status:status:working syncStatus:[ lastBlockStoreOnStateDB: 100, highestBlockRequested:101, lastBlockOnL1: 101, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 1, errorRanges: len(ranges): 0] workers:[[FILTERED_LRBT Active/0s]num_workers:1 ch[1,0] ] filter:[lastBlockSenedToSync[100] len(pending_results)[0]] cfg:[syncChunkSize:100 ttlOfLastBlockOnL1:1s timeoutForRequestLastBlockOnL1:0s numOfAllowedRetriesForRequestLastBlockOnL1:0 timeOutMainLoop:0s timeForShowUpStatisticsLog:0s] 	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.712Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:318	producer: build_time:Fri, 17 Jun 1988 01:58:00 +0200 step: status:status:working syncStatus:[ lastBlockStoreOnStateDB: 100, highestBlockRequested:101, lastBlockOnL1: 101, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 1, errorRanges: len(ranges): 0] workers:[[FILTERED_LRBT Active/0s]num_workers:1 ch[1,0] ] filter:[lastBlockSenedToSync[100] len(pending_results)[0]] cfg:[syncChunkSize:100 ttlOfLastBlockOnL1:1s timeoutForRequestLastBlockOnL1:0s numOfAllowedRetriesForRequestLastBlockOnL1:0 timeOutMainLoop:0s timeForShowUpStatisticsLog:0s]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.712Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:505	producer: Received responseRollupInfoByBlockRange:  generic:[typeOfRequest: [rollup] duration: [628.362µs] err: [<nil>]  ]  result:[ blockRange: [101, 101] len_blocks: [0] len_order:[0] lastBlockOfRangeSet [false]]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.713Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:166	onFinishWorker(br=[101, 101], successful=true) initial_status:  lastBlockStoreOnStateDB: 100, highestBlockRequested:101, lastBlockOnL1: 101, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 1, errorRanges: len(ranges): 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.713Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:183	Moving s.lastBlockStoreOnStateDB from 100 to 101 (diff 1)	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.713Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:194	onFinishWorker final_status:  lastBlockStoreOnStateDB: 101, highestBlockRequested:101, lastBlockOnL1: 101, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 0, errorRanges: len(ranges): 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.713Z	[35mDEBUG[0m	synchronizer/l1_filter_send_orderer_results_to_synchronizer.go:111	Moving lastBlockSend from 100 to 101	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.713Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:530	producer: Sending results [data] to consumer:data: blockRange: [101, 101] len_blocks: [0] len_order:[0] lastBlockOfRangeSet [false]  NO_CTRL :  status_comm:outgoint_channel[0/100], filter:lastBlockSenedToSync[101] len(pending_results)[0] workers:[FILTERED_LRBT Active/0s]num_workers:1 ch[0,0] 	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.713Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:130	No blocks to ask, we have requested all blocks from L1!	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.713Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:479	producer: launch_worker:  num of launched workers: 0  result: [inFilter:0 + inChannel:1 > maximum:100? ==> allow new req] [NoNextRange]  status_comm:outgoint_channel[1/100], filter:lastBlockSenedToSync[101] len(pending_results)[0] workers:[FILTERED_LRBT Active/0s]num_workers:1 ch[0,0] 	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.713Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:353	producer: producerWorking: haveRequiredAllBlocksToBeSynchronized -> renewLastBlockOnL1IfNeeded	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.713Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:90	No blocks to ask, we have requested and responsed all blocks from L1!	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.713Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:241	producer: Status changed from [working] to [synchronized]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.713Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:243	producer: send a message to consumer to indicate that we are synchronized	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.713Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:530	producer: Sending results [data] to consumer: NO_DATA ctrl:action:eventIsFullySynced :  status_comm:outgoint_channel[1/100], filter:lastBlockSenedToSync[101] len(pending_results)[0] workers:[FILTERED_LRBT Active/0s]num_workers:1 ch[0,0] 	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.714Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:380	producer: Next timeout: 1.002883629s status:status:synchronized syncStatus:[ lastBlockStoreOnStateDB: 101, highestBlockRequested:101, lastBlockOnL1: 101, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 0, errorRanges: len(ranges): 0] workers:[[FILTERED_LRBT Active/0s]num_workers:1 ch[0,0] ] filter:[lastBlockSenedToSync[101] len(pending_results)[0]] cfg:[syncChunkSize:100 ttlOfLastBlockOnL1:1s timeoutForRequestLastBlockOnL1:0s numOfAllowedRetriesForRequestLastBlockOnL1:0 timeOutMainLoop:0s timeForShowUpStatisticsLog:0s] 	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.714Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:318	producer: build_time:Fri, 17 Jun 1988 01:58:00 +0200 step: status:status:synchronized syncStatus:[ lastBlockStoreOnStateDB: 101, highestBlockRequested:101, lastBlockOnL1: 101, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 0, errorRanges: len(ranges): 0] workers:[[FILTERED_LRBT Active/0s]num_workers:1 ch[0,0] ] filter:[lastBlockSenedToSync[101] len(pending_results)[0]] cfg:[syncChunkSize:100 ttlOfLastBlockOnL1:1s timeoutForRequestLastBlockOnL1:0s numOfAllowedRetriesForRequestLastBlockOnL1:0 timeOutMainLoop:0s timeForShowUpStatisticsLog:0s]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.809Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:321	producer: context canceled	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.809Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:241	producer: Status changed from [synchronized] to [no_running]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.809Z	[35mDEBUG[0m	synchronizer/l1_workers.go:202	workers: waiting for waitGroup[0]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.809Z	[35mDEBUG[0m	synchronizer/l1_workers.go:202	workers: waiting for waitGroup[1]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.809Z	[35mDEBUG[0m	synchronizer/l1_workers.go:202	workers: waiting for waitGroup[2]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.810Z	[33mWARN[0m	synchronizer/l1_rollup_info_producer.go:117	producer:config: timeRequestInitialValueOfLastBlock is too low (0s) minimum recomender value1s	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*configProducer).normalize
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:117
+github.com/0xPolygon/cdk-validium-node/synchronizer.newL1DataRetriever
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:178
+github.com/0xPolygon/cdk-validium-node/synchronizer.setupNoResetCall
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:113
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGivenNoSetFirstBlockWhenCallStartThenDontReturnError
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:90
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.810Z	[33mWARN[0m	synchronizer/l1_rollup_info_producer.go:120	producer:config: retriesForRequestnitialValueOfLastBlock is too low (0) minimum recomender value 1	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*configProducer).normalize
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:120
+github.com/0xPolygon/cdk-validium-node/synchronizer.newL1DataRetriever
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:178
+github.com/0xPolygon/cdk-validium-node/synchronizer.setupNoResetCall
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:113
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGivenNoSetFirstBlockWhenCallStartThenDontReturnError
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:90
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.810Z	[33mWARN[0m	synchronizer/l1_rollup_info_producer.go:123	producer:config: timeOutMainLoop is too low (0s) minimum recomender value 5m0s	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*configProducer).normalize
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:123
+github.com/0xPolygon/cdk-validium-node/synchronizer.newL1DataRetriever
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:178
+github.com/0xPolygon/cdk-validium-node/synchronizer.setupNoResetCall
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:113
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGivenNoSetFirstBlockWhenCallStartThenDontReturnError
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:90
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.810Z	[33mWARN[0m	synchronizer/l1_rollup_info_producer.go:126	producer:config: minTimeBetweenRetriesForRollup is too low (0s)	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*configProducer).normalize
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:126
+github.com/0xPolygon/cdk-validium-node/synchronizer.newL1DataRetriever
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer.go:178
+github.com/0xPolygon/cdk-validium-node/synchronizer.setupNoResetCall
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:113
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGivenNoSetFirstBlockWhenCallStartThenDontReturnError
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_rollup_info_producer_test.go:90
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.811Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:298	producer: starting L1 sync from: lastBlockStoreOnStateDB: 0, highestBlockRequested:0, lastBlockOnL1: 0, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 0, errorRanges: len(ranges): 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.811Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:279	producer: initialize	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.811Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:282	producer: initialize, syncstatus not ready: %sstartingBlockNumber must be defined, call producer ResetAndStop() to set a new starting point	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.811Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:285	producer: start called and need to create a new context	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.811Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:241	producer: Status changed from [no_running] to [idle]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.811Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:305	producer:  starting configuration: syncChunkSize:100 ttlOfLastBlockOnL1:1s timeoutForRequestLastBlockOnL1:0s numOfAllowedRetriesForRequestLastBlockOnL1:0 timeOutMainLoop:0s timeForShowUpStatisticsLog:0s	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.811Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:318	producer: build_time:Fri, 17 Jun 1988 01:58:00 +0200 step: status:status:idle syncStatus:[ lastBlockStoreOnStateDB: 0, highestBlockRequested:0, lastBlockOnL1: 0, amountOfBlocksInEachRange: 100, processingRanges: len(ranges): 0, errorRanges: len(ranges): 0] workers:[[FILTERED_LRBT Active/0s]num_workers:1 ch[0,0] ] filter:[lastBlockSenedToSync[0] len(pending_results)[0]] cfg:[syncChunkSize:100 ttlOfLastBlockOnL1:1s timeoutForRequestLastBlockOnL1:0s numOfAllowedRetriesForRequestLastBlockOnL1:0 timeOutMainLoop:0s timeForShowUpStatisticsLog:0s]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.811Z	[35mDEBUG[0m	synchronizer/l1_rollup_info_producer.go:321	producer: context canceled	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.811Z	[34mINFO[0m	synchronizer/l1_rollup_info_producer.go:241	producer: Status changed from [idle] to [no_running]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.811Z	[35mDEBUG[0m	synchronizer/l1_workers.go:202	workers: waiting for waitGroup[0]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.812Z	[35mDEBUG[0m	synchronizer/l1_workers.go:202	workers: waiting for waitGroup[1]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.812Z	[35mDEBUG[0m	synchronizer/l1_workers.go:202	workers: waiting for waitGroup[2]	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.812Z	[33mWARN[0m	synchronizer/l1_sync_orchestration.go:64	orchestration: Reset L1 sync process to blockNumber 123	{"pid": 1584538, "version": "v0.1.0"}
+github.com/0xPolygon/cdk-validium-node/synchronizer.(*l1SyncOrchestration).reset
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_sync_orchestration.go:64
+github.com/0xPolygon/cdk-validium-node/synchronizer.TestGivenOrquestrationWhenHappyPathThenReturnsBlockAndNoErrorAndProducerIsRunning
+	/home/bros/polygon/cdk-validium-node/synchronizer/l1_sync_orchestration_test.go:34
+testing.tRunner
+	/usr/local/go/src/testing/testing.go:1595
+2023-12-01T14:28:03.813Z	[34mINFO[0m	synchronizer/l1_sync_orchestration.go:126	orchestration: starting consumer	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.813Z	[34mINFO[0m	synchronizer/l1_sync_orchestration.go:100	orchestration: starting producer	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.914Z	[34mINFO[0m	synchronizer/l1_sync_orchestration.go:134	orchestration: consumer finished	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.914Z	[34mINFO[0m	synchronizer/l1_sync_orchestration.go:156	orchestration: consumer has finished. No error	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.914Z	[34mINFO[0m	synchronizer/l1_sync_orchestration.go:166	orchestration: finished L1 sync orchestration With LastBlock. Last block synced: 0 err:nil	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.915Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:130	No blocks to ask, we have requested all blocks from L1!	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.916Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:166	onFinishWorker(br=[1618, 1628], successful=true) initial_status:  lastBlockStoreOnStateDB: 1617, highestBlockRequested:1617, lastBlockOnL1: 1982, amountOfBlocksInEachRange: 10, processingRanges: len(ranges): 0, errorRanges: len(ranges): 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.916Z	[34mINFO[0m	synchronizer/l1_syncstatus.go:171	Unexpected finished block_range [1618, 1628], ignoring it: block Range not found	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.916Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:130	No blocks to ask, we have requested all blocks from L1!	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.916Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:166	onFinishWorker(br=[101, 111], successful=true) initial_status:  lastBlockStoreOnStateDB: 100, highestBlockRequested:111, lastBlockOnL1: 150, amountOfBlocksInEachRange: 10, processingRanges: len(ranges): 1, errorRanges: len(ranges): 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.916Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:183	Moving s.lastBlockStoreOnStateDB from 100 to 111 (diff 11)	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.917Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:194	onFinishWorker final_status:  lastBlockStoreOnStateDB: 111, highestBlockRequested:111, lastBlockOnL1: 150, amountOfBlocksInEachRange: 10, processingRanges: len(ranges): 0, errorRanges: len(ranges): 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.917Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:166	onFinishWorker(br=[112, 122], successful=true) initial_status:  lastBlockStoreOnStateDB: 100, highestBlockRequested:133, lastBlockOnL1: 150, amountOfBlocksInEachRange: 10, processingRanges: len(ranges): 3, errorRanges: len(ranges): 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.917Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:194	onFinishWorker final_status:  lastBlockStoreOnStateDB: 100, highestBlockRequested:133, lastBlockOnL1: 150, amountOfBlocksInEachRange: 10, processingRanges: len(ranges): 2, errorRanges: len(ranges): 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.917Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:166	onFinishWorker(br=[101, 111], successful=true) initial_status:  lastBlockStoreOnStateDB: 100, highestBlockRequested:133, lastBlockOnL1: 150, amountOfBlocksInEachRange: 10, processingRanges: len(ranges): 3, errorRanges: len(ranges): 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.917Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:183	Moving s.lastBlockStoreOnStateDB from 100 to 111 (diff 11)	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.917Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:194	onFinishWorker final_status:  lastBlockStoreOnStateDB: 111, highestBlockRequested:133, lastBlockOnL1: 150, amountOfBlocksInEachRange: 10, processingRanges: len(ranges): 2, errorRanges: len(ranges): 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.918Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:166	onFinishWorker(br=[123, 133], successful=true) initial_status:  lastBlockStoreOnStateDB: 100, highestBlockRequested:133, lastBlockOnL1: 150, amountOfBlocksInEachRange: 10, processingRanges: len(ranges): 3, errorRanges: len(ranges): 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.918Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:194	onFinishWorker final_status:  lastBlockStoreOnStateDB: 100, highestBlockRequested:133, lastBlockOnL1: 150, amountOfBlocksInEachRange: 10, processingRanges: len(ranges): 2, errorRanges: len(ranges): 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.918Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:166	onFinishWorker(br=[123, 133], successful=true) initial_status:  lastBlockStoreOnStateDB: 100, highestBlockRequested:133, lastBlockOnL1: 200, amountOfBlocksInEachRange: 10, processingRanges: len(ranges): 3, errorRanges: len(ranges): 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.918Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:194	onFinishWorker final_status:  lastBlockStoreOnStateDB: 100, highestBlockRequested:133, lastBlockOnL1: 200, amountOfBlocksInEachRange: 10, processingRanges: len(ranges): 2, errorRanges: len(ranges): 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.918Z	[35mDEBUG[0m	synchronizer/l1_syncstatus.go:130	No blocks to ask, we have requested all blocks from L1!	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.919Z	[35mDEBUG[0m	synchronizer/l1_worker_etherman.go:183	worker: RollUpInfo([100, 20000]) cancelled result err=error	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.920Z	[35mDEBUG[0m	synchronizer/l1_worker_etherman.go:176	worker: RollUpInfo([100, 20000]) calling EthBlockByNumber(20000)	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:03.920Z	[35mDEBUG[0m	synchronizer/l1_worker_etherman.go:154	worker: RollUpInfo([100, 20000]) sleeping 500ms before executing...	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.422Z	[35mDEBUG[0m	synchronizer/l1_worker_etherman.go:176	worker: RollUpInfo([100, 20000]) calling EthBlockByNumber(20000)	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.425Z	[34mINFO[0m	synchronizer/l1_workers_decorator_limit_retries_by_time.go:54	workerDecoratorLimitRetriesByTime: br:[1, 10] retries:0 last call elapsed time 513.064µs < 1s, sleeping 999.486936ms	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.427Z	[35mDEBUG[0m	state/helper.go:62	8 1000000000 21000 0x530C75b2E17ac4d1DF146845cF905AEfB31c3607 2000000000000000000 0 1001 	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.427Z	[35mDEBUG[0m	state/helper.go:62	8 1000000000 21000 0x530C75b2E17ac4d1DF146845cF905AEfB31c3607 2000000000000000000 0 1001 	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.427Z	[35mDEBUG[0m	state/helper.go:62	8 1000000000 21000 0x530C75b2E17ac4d1DF146845cF905AEfB31c3607 2000000000000000000 0 1001 	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.428Z	[35mDEBUG[0m	state/helper.go:62	8 1000000000 21000 0x530C75b2E17ac4d1DF146845cF905AEfB31c3607 2000000000000000000 0 1001 	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.428Z	[35mDEBUG[0m	state/helper.go:62	8 1000000000 21000 0x530C75b2E17ac4d1DF146845cF905AEfB31c3607 2000000000000000000 0 1001 	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.428Z	[35mDEBUG[0m	state/helper.go:62	8 1000000000 21000 0x530C75b2E17ac4d1DF146845cF905AEfB31c3607 2000000000000000000 0 1001 	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.429Z	[34mINFO[0m	synchronizer/synchronizer.go:473	Getting trusted state info	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.429Z	[35mDEBUG[0m	synchronizer/synchronizer.go:482	lastTrustedStateBatchNumber 10	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.429Z	[35mDEBUG[0m	synchronizer/synchronizer.go:483	latestSyncedBatch 10	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.430Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1350	Processing trusted batch: 10	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.430Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1353	len(batches): 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.430Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1699	Updating batch[0] value!	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.431Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1707	Updating batch[1] value!	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.431Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1716	batch: <nil>	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.431Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1717	prevBatch: &{9 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 [237 8 132 59 154 202 0 130 82 8 148 83 12 117 178 225 122 196 209 223 20 104 69 207 144 90 239 179 28 54 7 136 27 193 109 103 78 200 0 0 128 130 3 233 128 128 7 68 92 193 16 3 61 106 68 173 23 54 236 223 118 210 108 171 138 178 11 157 171 177 2 46 169 191 7 7 161 78 103 95 32 66 230 12 45 9 164 185 196 134 38 147 89 106 117 221 229 8 252 216 230 199 169 82 131 250 217 67 114 236 27] 0x0000000000000000000000000000000000000000000000000000000000000000 0x0000000000000000000000000000000000000000000000000000000000000000 0x0000000000000000000000000000000000000000000000000000000000000000 2023-06-27 08:27:54 +0000 UTC [] 0x0000000000000000000000000000000000000000000000000000000000000000 <nil>}	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.431Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1374	Setting stateRoot of previous batch. StateRoot: 0x0000000000000000000000000000000000000000000000000000000000000000	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.431Z	[34mINFO[0m	synchronizer/synchronizer.go:1509	Batch 10 needs to be synchronized	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.431Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1636	Opening batch 10	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.432Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1519	Processing sequencer for batch 10	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.433Z	[34mINFO[0m	synchronizer/synchronizer.go:1724	pending flushID: 1	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.433Z	[34mINFO[0m	synchronizer/synchronizer.go:1735	Current proverID is PROVER_ID-EXE001	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.433Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1614	Storing transactions 1 for batch 10	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.433Z	[34mINFO[0m	synchronizer/synchronizer.go:1624	TrustedBatch info: &{NewStateRoot:0x0000000000000000000000000000000000000000000000000000000000000000 NewAccInputHash:0x0000000000000000000000000000000000000000000000000000000000000000 NewLocalExitRoot:0x0000000000000000000000000000000000000000000000000000000000000000 NewBatchNumber:0 UsedZkCounters:{CumulativeGasUsed:0 UsedKeccakHashes:0 UsedPoseidonHashes:0 UsedPoseidonPaddings:0 UsedMemAligns:0 UsedArithmetics:0 UsedBinaries:0 UsedSteps:0} Responses:[0xc0001726c0] ExecutorError:<nil> ReadWriteAddresses:map[] IsRomLevelError:false IsExecutorLevelError:false IsRomOOCError:false FlushID:1 StoredFlushID:0 ProverID:PROVER_ID-EXE001}	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.433Z	[34mINFO[0m	synchronizer/synchronizer.go:1625	Storing trusted tx &{TxHash:0x0000000000000000000000000000000000000000000000000000000000000000 Type:0 ReturnValue:[] GasLeft:0 GasUsed:0 GasRefunded:0 RomError:<nil> CreateAddress:0x0000000000000000000000000000000000000000 StateRoot:0x0000000000000000000000000000000000000000000000000000000000000000 Logs:[] ChangesStateRoot:false Tx:{inner:<nil> time:{wall:0 ext:0 loc:<nil>} hash:{v:<nil>} size:{v:<nil>} from:{v:<nil>}} ExecutionTrace:[] CallTrace:{Context:{Type: From: To: Input:[] Gas:0 Value:<nil> Output:[] Nonce:0 GasPrice: OldStateRoot:0x0000000000000000000000000000000000000000000000000000000000000000 Time:0 GasUsed:0} Steps:[]} EffectiveGasPrice: EffectivePercentage:0}	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.434Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1527	TrustedBatch.StateRoot 0x0000000000000000000000000000000000000000000000000000000000000000	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.434Z	[34mINFO[0m	synchronizer/synchronizer.go:1565	Batch 10 synchronized	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.434Z	[35mDEBUG[0m	synchronizer/synchronizer.go:519	Checking FlushID to commit trustedState data to db	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.434Z	[34mINFO[0m	synchronizer/synchronizer.go:1769	executor vs local: flushid=1/1, proverID=PROVER_ID-EXE001/PROVER_ID-EXE001	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.434Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1776	storedFlushID (executor reported): 1, latestFlushID (pending): 1	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.434Z	[34mINFO[0m	synchronizer/synchronizer.go:1794	Pending Flushid fullfiled: 1, executor have write 1	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.435Z	[34mINFO[0m	synchronizer/synchronizer.go:540	Trusted state fully synchronized	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.436Z	[34mINFO[0m	synchronizer/synchronizer.go:473	Getting trusted state info	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.436Z	[35mDEBUG[0m	synchronizer/synchronizer.go:482	lastTrustedStateBatchNumber 10	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.437Z	[35mDEBUG[0m	synchronizer/synchronizer.go:483	latestSyncedBatch 10	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.437Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1350	Processing trusted batch: 10	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.437Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1353	len(batches): 2	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.437Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1699	Updating batch[0] value!	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.437Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1707	Updating batch[1] value!	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.438Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1716	batch: &{10 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 [237 8 132 59 154 202 0 130 82 8 148 83 12 117 178 225 122 196 209 223 20 104 69 207 144 90 239 179 28 54 7 136 27 193 109 103 78 200 0 0 128 130 3 233 128 128 7 68 92 193 16 3 61 106 68 173 23 54 236 223 118 210 108 171 138 178 11 157 171 177 2 46 169 191 7 7 161 78 103 95 32 66 230 12 45 9 164 185 196 134 38 147 89 106 117 221 229 8 252 216 230 199 169 82 131 250 217 67 114 236 27 237 8 132 59 154 202 0 130 82 8 148 83 12 117 178 225 122 196 209 223 20 104 69 207 144 90 239 179 28 54 7 136 27 193 109 103 78 200 0 0 128 130 3 233 128 128 7 68 92 193 16 3 61 106 68 173 23 54 236 223 118 210 108 171 138 178 11 157 171 177 2 46 169 191 7 7 161 78 103 95 32 66 230 12 45 9 164 185 196 134 38 147 89 106 117 221 229 8 252 216 230 199 169 82 131 250 217 67 114 236 27] 0x0000000000000000000000000000000000000000000000000000000000000000 0x0000000000000000000000000000000000000000000000000000000000000000 0x0000000000000000000000000000000000000000000000000000000000000000 2023-06-27 08:27:54 +0000 UTC [] 0x0000000000000000000000000000000000000000000000000000000000000000 <nil>}	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.438Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1717	prevBatch: &{9 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 [237 8 132 59 154 202 0 130 82 8 148 83 12 117 178 225 122 196 209 223 20 104 69 207 144 90 239 179 28 54 7 136 27 193 109 103 78 200 0 0 128 130 3 233 128 128 7 68 92 193 16 3 61 106 68 173 23 54 236 223 118 210 108 171 138 178 11 157 171 177 2 46 169 191 7 7 161 78 103 95 32 66 230 12 45 9 164 185 196 134 38 147 89 106 117 221 229 8 252 216 230 199 169 82 131 250 217 67 114 236 27] 0x0000000000000000000000000000000000000000000000000000000000000000 0x0000000000000000000000000000000000000000000000000000000000000000 0x0000000000000000000000000000000000000000000000000000000000000000 2023-06-27 08:27:54 +0000 UTC [] 0x0000000000000000000000000000000000000000000000000000000000000000 <nil>}	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.439Z	[34mINFO[0m	synchronizer/synchronizer.go:1687	matchNumber true 10 10	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.439Z	[34mINFO[0m	synchronizer/synchronizer.go:1688	matchGER true 0x0000000000000000000000000000000000000000000000000000000000000000 0x0000000000000000000000000000000000000000000000000000000000000000	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.439Z	[34mINFO[0m	synchronizer/synchronizer.go:1689	matchLER true 0x0000000000000000000000000000000000000000000000000000000000000000 0x0000000000000000000000000000000000000000000000000000000000000000	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.439Z	[34mINFO[0m	synchronizer/synchronizer.go:1690	matchSR true 0x0000000000000000000000000000000000000000000000000000000000000000 0x0000000000000000000000000000000000000000000000000000000000000000	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.439Z	[34mINFO[0m	synchronizer/synchronizer.go:1691	matchCoinbase true 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.439Z	[34mINFO[0m	synchronizer/synchronizer.go:1692	matchTimestamp true 1687854474 1687854474	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.439Z	[34mINFO[0m	synchronizer/synchronizer.go:1693	matchL2Data false	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.439Z	[34mINFO[0m	synchronizer/synchronizer.go:1395	Batch 10 needs to be updated	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.439Z	[34mINFO[0m	synchronizer/synchronizer.go:1400	ResetTrustedState: processTrustedBatch: 10 Cleaning state until batch:9  	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.439Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1636	Opening batch 10	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.441Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1507	BatchL2Data updated for batch: 10	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.441Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1519	Processing sequencer for batch 10	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.442Z	[34mINFO[0m	synchronizer/synchronizer.go:1724	pending flushID: 1	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.442Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1614	Storing transactions 1 for batch 10	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.442Z	[34mINFO[0m	synchronizer/synchronizer.go:1624	TrustedBatch info: &{NewStateRoot:0x0000000000000000000000000000000000000000000000000000000000000000 NewAccInputHash:0x0000000000000000000000000000000000000000000000000000000000000000 NewLocalExitRoot:0x0000000000000000000000000000000000000000000000000000000000000000 NewBatchNumber:0 UsedZkCounters:{CumulativeGasUsed:0 UsedKeccakHashes:0 UsedPoseidonHashes:0 UsedPoseidonPaddings:0 UsedMemAligns:0 UsedArithmetics:0 UsedBinaries:0 UsedSteps:0} Responses:[0xc000173b00] ExecutorError:<nil> ReadWriteAddresses:map[] IsRomLevelError:false IsExecutorLevelError:false IsRomOOCError:false FlushID:1 StoredFlushID:0 ProverID:PROVER_ID-EXE001}	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.442Z	[34mINFO[0m	synchronizer/synchronizer.go:1625	Storing trusted tx &{TxHash:0x0000000000000000000000000000000000000000000000000000000000000000 Type:0 ReturnValue:[] GasLeft:0 GasUsed:0 GasRefunded:0 RomError:<nil> CreateAddress:0x0000000000000000000000000000000000000000 StateRoot:0x0000000000000000000000000000000000000000000000000000000000000000 Logs:[] ChangesStateRoot:false Tx:{inner:<nil> time:{wall:0 ext:0 loc:<nil>} hash:{v:<nil>} size:{v:<nil>} from:{v:<nil>}} ExecutionTrace:[] CallTrace:{Context:{Type: From: To: Input:[] Gas:0 Value:<nil> Output:[] Nonce:0 GasPrice: OldStateRoot:0x0000000000000000000000000000000000000000000000000000000000000000 Time:0 GasUsed:0} Steps:[]} EffectiveGasPrice: EffectivePercentage:0}	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.443Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1527	TrustedBatch.StateRoot 0x0000000000000000000000000000000000000000000000000000000000000000	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.443Z	[34mINFO[0m	synchronizer/synchronizer.go:1565	Batch 10 synchronized	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.443Z	[35mDEBUG[0m	synchronizer/synchronizer.go:519	Checking FlushID to commit trustedState data to db	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.443Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1772	executor vs local: flushid=1/1, proverID=PROVER_ID-EXE001/PROVER_ID-EXE001	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.443Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1776	storedFlushID (executor reported): 1, latestFlushID (pending): 1	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.443Z	[34mINFO[0m	synchronizer/synchronizer.go:1794	Pending Flushid fullfiled: 1, executor have write 1	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.443Z	[34mINFO[0m	synchronizer/synchronizer.go:540	Trusted state fully synchronized	{"pid": 1584538, "version": "v0.1.0"}
+--- FAIL: TestGivenPermissionlessNodeWhenSyncronizeAgainSameBatchThenUseTheOneInMemoryInstaeadOfGettingFromDb (0.02s)
+    mock_zkevmclient.go:78: PASS:	BatchNumber(string)
+    mock_zkevmclient.go:78: PASS:	BatchByNumber(string,mock.AnythingOfTypeArgument)
+    mock_zkevmclient.go:78: PASS:	BatchNumber(string)
+    mock_zkevmclient.go:78: PASS:	BatchByNumber(string,mock.AnythingOfTypeArgument)
+    mock_dbtx.go:295: PASS:	Commit(string)
+    mock_dbtx.go:295: PASS:	Commit(string)
+    mock_state.go:772: PASS:	BeginStateTransaction(string)
+    mock_state.go:772: PASS:	GetBatchByNumber(string,uint64,string)
+    mock_state.go:772: PASS:	GetBatchByNumber(string,uint64,string)
+    mock_state.go:772: PASS:	ResetTrustedState(*context.cancelCtx,uint64,*synchronizer.dbTxMock)
+    mock_state.go:772: PASS:	OpenBatch(*context.cancelCtx,state.ProcessingContext,*synchronizer.dbTxMock)
+    mock_state.go:772: FAIL:	UpdateBatchL2Data(*context.cancelCtx,uint64,[]uint8,string)
+        		at: [/home/bros/polygon/cdk-validium-node/synchronizer/synchronizer_test.go:786 /home/bros/polygon/cdk-validium-node/synchronizer/synchronizer_test.go:58]
+    mock_state.go:772: PASS:	ProcessBatch(string,string,bool)
+    mock_state.go:772: PASS:	StoreTransaction(*context.cancelCtx,uint64,string,common.Address,uint64,*synchronizer.dbTxMock)
+    mock_state.go:772: PASS:	GetStoredFlushID(string)
+    mock_state.go:772: PASS:	OpenBatch(*context.cancelCtx,string,*synchronizer.dbTxMock)
+    mock_state.go:772: PASS:	BeginStateTransaction(string)
+    mock_state.go:772: PASS:	GetBatchByNumber(string,uint64,string)
+    mock_state.go:772: PASS:	GetBatchByNumber(string,uint64,string)
+    mock_state.go:772: FAIL:	ResetTrustedState(*context.cancelCtx,uint64,string)
+        		at: [/home/bros/polygon/cdk-validium-node/synchronizer/synchronizer_test.go:758 /home/bros/polygon/cdk-validium-node/synchronizer/synchronizer_test.go:63]
+    mock_state.go:772: PASS:	UpdateBatchL2Data(string,uint64,[]uint8,string)
+    mock_state.go:772: FAIL:	ResetTrustedState(*context.cancelCtx,uint64,*synchronizer.dbTxMock)
+        		at: [/home/bros/polygon/cdk-validium-node/synchronizer/synchronizer_test.go:769 /home/bros/polygon/cdk-validium-node/synchronizer/synchronizer_test.go:63]
+    mock_state.go:772: FAIL:	OpenBatch(*context.cancelCtx,state.ProcessingContext,*synchronizer.dbTxMock)
+        		at: [/home/bros/polygon/cdk-validium-node/synchronizer/synchronizer_test.go:781 /home/bros/polygon/cdk-validium-node/synchronizer/synchronizer_test.go:63]
+    mock_state.go:772: FAIL:	UpdateBatchL2Data(*context.cancelCtx,uint64,[]uint8,string)
+        		at: [/home/bros/polygon/cdk-validium-node/synchronizer/synchronizer_test.go:786 /home/bros/polygon/cdk-validium-node/synchronizer/synchronizer_test.go:63]
+    mock_state.go:772: PASS:	ProcessBatch(string,string,bool)
+    mock_state.go:772: PASS:	StoreTransaction(*context.cancelCtx,uint64,string,common.Address,uint64,*synchronizer.dbTxMock)
+    mock_state.go:772: PASS:	GetStoredFlushID(string)
+    mock_state.go:772: FAIL:	OpenBatch(*context.cancelCtx,string,*synchronizer.dbTxMock)
+        		at: [/home/bros/polygon/cdk-validium-node/synchronizer/synchronizer_test.go:699 /home/bros/polygon/cdk-validium-node/synchronizer/synchronizer_test.go:64]
+    mock_state.go:772: FAIL: 16 out of 22 expectation(s) were met.
+        	The code you are testing needs to make 6 more call(s).
+        	at: [/home/bros/polygon/cdk-validium-node/synchronizer/mock_state.go:772 /usr/local/go/src/testing/testing.go:1169 /usr/local/go/src/testing/testing.go:1347 /usr/local/go/src/testing/testing.go:1589]
+    mock_etherman.go:241: PASS:	GetCurrentDataCommittee()
+2023-12-01T14:28:04.448Z	[35mDEBUG[0m	state/helper.go:62	8 1000000000 21000 0x530C75b2E17ac4d1DF146845cF905AEfB31c3607 2000000000000000000 0 1001 	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.448Z	[35mDEBUG[0m	state/helper.go:62	8 1000000000 21000 0x530C75b2E17ac4d1DF146845cF905AEfB31c3607 2000000000000000000 0 1001 	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.448Z	[35mDEBUG[0m	state/helper.go:62	8 1000000000 21000 0x530C75b2E17ac4d1DF146845cF905AEfB31c3607 2000000000000000000 0 1001 	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.448Z	[35mDEBUG[0m	state/helper.go:62	8 1000000000 21000 0x530C75b2E17ac4d1DF146845cF905AEfB31c3607 2000000000000000000 0 1001 	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.449Z	[34mINFO[0m	synchronizer/synchronizer.go:473	Getting trusted state info	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.449Z	[35mDEBUG[0m	synchronizer/synchronizer.go:482	lastTrustedStateBatchNumber 10	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.449Z	[35mDEBUG[0m	synchronizer/synchronizer.go:483	latestSyncedBatch 10	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.449Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1350	Processing trusted batch: 10	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.449Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1353	len(batches): 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.449Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1699	Updating batch[0] value!	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.449Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1707	Updating batch[1] value!	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.450Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1716	batch: &{10 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 [237 8 132 59 154 202 0 130 82 8 148 83 12 117 178 225 122 196 209 223 20 104 69 207 144 90 239 179 28 54 7 136 27 193 109 103 78 200 0 0 128 130 3 233 128 128 7 68 92 193 16 3 61 106 68 173 23 54 236 223 118 210 108 171 138 178 11 157 171 177 2 46 169 191 7 7 161 78 103 95 32 66 230 12 45 9 164 185 196 134 38 147 89 106 117 221 229 8 252 216 230 199 169 82 131 250 217 67 114 236 27] 0x0000000000000000000000000000000000000000000000000000000000000000 0x0000000000000000000000000000000000000000000000000000000000000000 0x0000000000000000000000000000000000000000000000000000000000000000 2023-06-27 08:27:54 +0000 UTC [] 0x0000000000000000000000000000000000000000000000000000000000000000 <nil>}	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.450Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1717	prevBatch: &{9 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 [237 8 132 59 154 202 0 130 82 8 148 83 12 117 178 225 122 196 209 223 20 104 69 207 144 90 239 179 28 54 7 136 27 193 109 103 78 200 0 0 128 130 3 233 128 128 7 68 92 193 16 3 61 106 68 173 23 54 236 223 118 210 108 171 138 178 11 157 171 177 2 46 169 191 7 7 161 78 103 95 32 66 230 12 45 9 164 185 196 134 38 147 89 106 117 221 229 8 252 216 230 199 169 82 131 250 217 67 114 236 27] 0x0000000000000000000000000000000000000000000000000000000000000000 0x0000000000000000000000000000000000000000000000000000000000000000 0x0000000000000000000000000000000000000000000000000000000000000000 2023-06-27 08:27:54 +0000 UTC [] 0x0000000000000000000000000000000000000000000000000000000000000000 <nil>}	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.450Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1374	Setting stateRoot of previous batch. StateRoot: 0x0000000000000000000000000000000000000000000000000000000000000000	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.450Z	[34mINFO[0m	synchronizer/synchronizer.go:1687	matchNumber true 10 10	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.450Z	[34mINFO[0m	synchronizer/synchronizer.go:1688	matchGER true 0x0000000000000000000000000000000000000000000000000000000000000000 0x0000000000000000000000000000000000000000000000000000000000000000	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.450Z	[34mINFO[0m	synchronizer/synchronizer.go:1689	matchLER true 0x0000000000000000000000000000000000000000000000000000000000000000 0x0000000000000000000000000000000000000000000000000000000000000000	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.450Z	[34mINFO[0m	synchronizer/synchronizer.go:1690	matchSR true 0x0000000000000000000000000000000000000000000000000000000000000000 0x0000000000000000000000000000000000000000000000000000000000000000	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.450Z	[34mINFO[0m	synchronizer/synchronizer.go:1691	matchCoinbase true 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.450Z	[34mINFO[0m	synchronizer/synchronizer.go:1692	matchTimestamp true 1687854474 1687854474	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.450Z	[34mINFO[0m	synchronizer/synchronizer.go:1693	matchL2Data false	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.450Z	[34mINFO[0m	synchronizer/synchronizer.go:1395	Batch 10 needs to be updated	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.450Z	[34mINFO[0m	synchronizer/synchronizer.go:1400	ResetTrustedState: processTrustedBatch: 10 Cleaning state until batch:9  	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.451Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1636	Opening batch 10	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.451Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1507	BatchL2Data updated for batch: 10	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.451Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1519	Processing sequencer for batch 10	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.452Z	[34mINFO[0m	synchronizer/synchronizer.go:1724	pending flushID: 1	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.452Z	[34mINFO[0m	synchronizer/synchronizer.go:1735	Current proverID is PROVER_ID-EXE001	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.452Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1614	Storing transactions 1 for batch 10	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.452Z	[34mINFO[0m	synchronizer/synchronizer.go:1624	TrustedBatch info: &{NewStateRoot:0x0000000000000000000000000000000000000000000000000000000000000000 NewAccInputHash:0x0000000000000000000000000000000000000000000000000000000000000000 NewLocalExitRoot:0x0000000000000000000000000000000000000000000000000000000000000000 NewBatchNumber:0 UsedZkCounters:{CumulativeGasUsed:0 UsedKeccakHashes:0 UsedPoseidonHashes:0 UsedPoseidonPaddings:0 UsedMemAligns:0 UsedArithmetics:0 UsedBinaries:0 UsedSteps:0} Responses:[0xc000562b40] ExecutorError:<nil> ReadWriteAddresses:map[] IsRomLevelError:false IsExecutorLevelError:false IsRomOOCError:false FlushID:1 StoredFlushID:0 ProverID:PROVER_ID-EXE001}	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.452Z	[34mINFO[0m	synchronizer/synchronizer.go:1625	Storing trusted tx &{TxHash:0x0000000000000000000000000000000000000000000000000000000000000000 Type:0 ReturnValue:[] GasLeft:0 GasUsed:0 GasRefunded:0 RomError:<nil> CreateAddress:0x0000000000000000000000000000000000000000 StateRoot:0x0000000000000000000000000000000000000000000000000000000000000000 Logs:[] ChangesStateRoot:false Tx:{inner:<nil> time:{wall:0 ext:0 loc:<nil>} hash:{v:<nil>} size:{v:<nil>} from:{v:<nil>}} ExecutionTrace:[] CallTrace:{Context:{Type: From: To: Input:[] Gas:0 Value:<nil> Output:[] Nonce:0 GasPrice: OldStateRoot:0x0000000000000000000000000000000000000000000000000000000000000000 Time:0 GasUsed:0} Steps:[]} EffectiveGasPrice: EffectivePercentage:0}	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.452Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1527	TrustedBatch.StateRoot 0x0000000000000000000000000000000000000000000000000000000000000000	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.452Z	[34mINFO[0m	synchronizer/synchronizer.go:1565	Batch 10 synchronized	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.452Z	[35mDEBUG[0m	synchronizer/synchronizer.go:519	Checking FlushID to commit trustedState data to db	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.452Z	[34mINFO[0m	synchronizer/synchronizer.go:1769	executor vs local: flushid=1/1, proverID=PROVER_ID-EXE001/PROVER_ID-EXE001	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.452Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1776	storedFlushID (executor reported): 1, latestFlushID (pending): 1	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.452Z	[34mINFO[0m	synchronizer/synchronizer.go:1794	Pending Flushid fullfiled: 1, executor have write 1	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.452Z	[34mINFO[0m	synchronizer/synchronizer.go:540	Trusted state fully synchronized	{"pid": 1584538, "version": "v0.1.0"}
+--- FAIL: TestGivenPermissionlessNodeWhenSyncronizeFirstTimeABatchThenStoreItInALocalVar (0.01s)
+    mock_zkevmclient.go:78: PASS:	BatchNumber(string)
+    mock_zkevmclient.go:78: PASS:	BatchByNumber(string,mock.AnythingOfTypeArgument)
+    mock_dbtx.go:295: PASS:	Commit(string)
+    mock_state.go:772: PASS:	BeginStateTransaction(string)
+    mock_state.go:772: PASS:	GetBatchByNumber(string,uint64,string)
+    mock_state.go:772: PASS:	GetBatchByNumber(string,uint64,string)
+    mock_state.go:772: PASS:	ResetTrustedState(*context.cancelCtx,uint64,string)
+    mock_state.go:772: PASS:	UpdateBatchL2Data(string,uint64,[]uint8,string)
+    mock_state.go:772: FAIL:	ResetTrustedState(*context.cancelCtx,uint64,*synchronizer.dbTxMock)
+        		at: [/home/bros/polygon/cdk-validium-node/synchronizer/synchronizer_test.go:769 /home/bros/polygon/cdk-validium-node/synchronizer/synchronizer_test.go:88]
+    mock_state.go:772: PASS:	OpenBatch(*context.cancelCtx,state.ProcessingContext,*synchronizer.dbTxMock)
+    mock_state.go:772: FAIL:	UpdateBatchL2Data(*context.cancelCtx,uint64,[]uint8,string)
+        		at: [/home/bros/polygon/cdk-validium-node/synchronizer/synchronizer_test.go:786 /home/bros/polygon/cdk-validium-node/synchronizer/synchronizer_test.go:88]
+    mock_state.go:772: PASS:	ProcessBatch(string,string,bool)
+    mock_state.go:772: PASS:	StoreTransaction(*context.cancelCtx,uint64,string,common.Address,uint64,*synchronizer.dbTxMock)
+    mock_state.go:772: PASS:	GetStoredFlushID(string)
+    mock_state.go:772: FAIL:	OpenBatch(*context.cancelCtx,string,*synchronizer.dbTxMock)
+        		at: [/home/bros/polygon/cdk-validium-node/synchronizer/synchronizer_test.go:699 /home/bros/polygon/cdk-validium-node/synchronizer/synchronizer_test.go:89]
+    mock_state.go:772: FAIL: 9 out of 12 expectation(s) were met.
+        	The code you are testing needs to make 3 more call(s).
+        	at: [/home/bros/polygon/cdk-validium-node/synchronizer/mock_state.go:772 /usr/local/go/src/testing/testing.go:1169 /usr/local/go/src/testing/testing.go:1347 /usr/local/go/src/testing/testing.go:1589]
+    mock_etherman.go:241: PASS:	GetCurrentDataCommittee()
+2023-12-01T14:28:04.454Z	[34mINFO[0m	synchronizer/synchronizer.go:152	Sync started	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.456Z	[34mINFO[0m	synchronizer/synchronizer.go:296	latestSequencedBatchNumber: 10, latestSyncedBatch: 10, lastVerifiedBatchNumber: 10	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.456Z	[34mINFO[0m	synchronizer/synchronizer.go:300	Syncing trusted state	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.456Z	[34mINFO[0m	synchronizer/synchronizer.go:473	Getting trusted state info	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.456Z	[35mDEBUG[0m	synchronizer/synchronizer.go:482	lastTrustedStateBatchNumber 1	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.456Z	[35mDEBUG[0m	synchronizer/synchronizer.go:483	latestSyncedBatch 10	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.457Z	[34mINFO[0m	synchronizer/synchronizer.go:317	Syncing L1 blocks sequentially lastEthBlockSynced=1	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.457Z	[34mINFO[0m	synchronizer/synchronizer.go:399	Syncing block 2 of 1	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.457Z	[34mINFO[0m	synchronizer/synchronizer.go:400	Getting rollup info from block 2 to block 12	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.457Z	[34mINFO[0m	synchronizer/synchronizer.go:1247	processForcedBatch: Storing forcedBatch. BatchNumber: 1  BlockNumber: 1	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.458Z	[35mDEBUG[0m	synchronizer/synchronizer.go:907	FORCED BATCH SEQUENCED!	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.458Z	[35mDEBUG[0m	synchronizer/synchronizer.go:941	Setting forcedBatchNum: 1	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.458Z	[34mINFO[0m	synchronizer/synchronizer.go:1072	processSequenceBatches: Storing virtualBatch. BatchNumber: 2, BlockNumber: 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.459Z	[35mDEBUG[0m	synchronizer/synchronizer.go:609	Checking FlushID to commit L1 data to db	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.459Z	[34mINFO[0m	synchronizer/synchronizer.go:1769	executor vs local: flushid=1/0, proverID=PROVER_ID-EXE001/	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.459Z	[34mINFO[0m	synchronizer/synchronizer.go:1735	Current proverID is PROVER_ID-EXE001	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.459Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1776	storedFlushID (executor reported): 1, latestFlushID (pending): 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.459Z	[34mINFO[0m	synchronizer/synchronizer.go:1794	Pending Flushid fullfiled: 0, executor have write 1	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.459Z	[35mDEBUG[0m	synchronizer/synchronizer.go:426	Position: 0. BlockNumber: 0. BlockHash: 0xb14c74e4dddf25627a745f46cae6ac98782e2783c3ccc28107c8210e60d58861	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.459Z	[34mINFO[0m	synchronizer/synchronizer.go:337	L1 state fully synchronized	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:04.461Z	[34mINFO[0m	synchronizer/synchronizer.go:152	Sync started	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:05.466Z	[34mINFO[0m	synchronizer/synchronizer.go:296	latestSequencedBatchNumber: 10, latestSyncedBatch: 10, lastVerifiedBatchNumber: 10	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:05.467Z	[34mINFO[0m	synchronizer/synchronizer.go:300	Syncing trusted state	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:05.467Z	[34mINFO[0m	synchronizer/synchronizer.go:317	Syncing L1 blocks sequentially lastEthBlockSynced=1	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:05.468Z	[34mINFO[0m	synchronizer/synchronizer.go:399	Syncing block 2 of 1	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:05.468Z	[34mINFO[0m	synchronizer/synchronizer.go:400	Getting rollup info from block 2 to block 12	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:05.470Z	[34mINFO[0m	synchronizer/synchronizer.go:1247	processForcedBatch: Storing forcedBatch. BatchNumber: 1  BlockNumber: 1	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:05.472Z	[34mINFO[0m	synchronizer/synchronizer.go:1127	ResetTrustedState: processSequenceForceBatch: Resetting trusted state. delete batch > (lastVirtualizedBatchNumber)1, 	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:05.473Z	[34mINFO[0m	synchronizer/synchronizer.go:1190	processSequenceFoceBatches: ProcessAndStoreClosedBatch . BatchNumber: 2, BlockNumber: 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:05.474Z	[34mINFO[0m	synchronizer/synchronizer.go:1724	pending flushID: 1	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:05.475Z	[34mINFO[0m	synchronizer/synchronizer.go:1735	Current proverID is PROVER_ID-EXE001	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:05.475Z	[34mINFO[0m	synchronizer/synchronizer.go:1205	processSequenceFoceBatches: Storing virtualBatch. BatchNumber: 2, BlockNumber: 0	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:05.477Z	[35mDEBUG[0m	synchronizer/synchronizer.go:609	Checking FlushID to commit L1 data to db	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:05.477Z	[34mINFO[0m	synchronizer/synchronizer.go:1769	executor vs local: flushid=1/1, proverID=PROVER_ID-EXE001/PROVER_ID-EXE001	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:05.477Z	[35mDEBUG[0m	synchronizer/synchronizer.go:1776	storedFlushID (executor reported): 1, latestFlushID (pending): 1	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:05.477Z	[34mINFO[0m	synchronizer/synchronizer.go:1794	Pending Flushid fullfiled: 1, executor have write 1	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:05.478Z	[35mDEBUG[0m	synchronizer/synchronizer.go:426	Position: 0. BlockNumber: 0. BlockHash: 0xb14c74e4dddf25627a745f46cae6ac98782e2783c3ccc28107c8210e60d58861	{"pid": 1584538, "version": "v0.1.0"}
+2023-12-01T14:28:05.478Z	[34mINFO[0m	synchronizer/synchronizer.go:337	L1 state fully synchronized	{"pid": 1584538, "version": "v0.1.0"}
+FAIL
+FAIL	github.com/0xPolygon/cdk-validium-node/synchronizer	2.173s
+FAIL

@@ -102,7 +102,7 @@ func NewSimulatedEtherman(cfg Config, auth *bind.TransactOpts) (
 		return nil, nil, common.Address{}, nil, nil, fmt.Errorf("RollupManagerAddr (%s) is different from the expected contract address (%s)",
 			mockRollupManagerAddr.String(), calculatedRollupManagerAddr.String())
 	}
-	initZkevmAddr, _, _, err := cdkvalidium.DeployCdkvalidium(auth, client, exitManagerAddr, polAddr, bridgeAddr, mockRollupManagerAddr, dataCommitteeAddr)
+	initZkevmAddr, _, _, err := cdkvalidium.DeployCdkvalidium(auth, client, exitManagerAddr, polAddr, bridgeAddr, mockRollupManagerAddr)
 	if err != nil {
 		log.Error("error: ", err)
 		return nil, nil, common.Address{}, nil, nil, err
@@ -118,7 +118,7 @@ func NewSimulatedEtherman(cfg Config, auth *bind.TransactOpts) (
 		log.Error("error: ", err)
 		return nil, nil, common.Address{}, nil, nil, err
 	}
-	_, err = mockRollupManager.AddNewRollupType(auth, initZkevmAddr, rollupVerifierAddr, 5, 0, genesis, "PolygonZkEvm Validium") //nolint:gomnd
+	_, err = mockRollupManager.AddNewRollupType(auth, initZkevmAddr, rollupVerifierAddr, 5, 0, genesis, "Polygon CDK Validium") //nolint:gomnd
 	if err != nil {
 		log.Error("error: ", err)
 		return nil, nil, common.Address{}, nil, nil, err
@@ -131,7 +131,7 @@ func NewSimulatedEtherman(cfg Config, auth *bind.TransactOpts) (
 		return nil, nil, common.Address{}, nil, nil, err
 	}
 	var zkevmChainID uint64 = 100
-	_, err = mockRollupManager.CreateNewRollup(auth, rollUpTypeID, zkevmChainID, auth.From, auth.From, common.Address{}, 0, "http://localhost", "PolygonZkEvm Rollup")
+	_, err = mockRollupManager.CreateNewRollup(auth, rollUpTypeID, zkevmChainID, auth.From, auth.From, common.Address{}, "http://localhost", "Validium Unit Test")
 	if err != nil {
 		log.Error("error: ", err)
 		return nil, nil, common.Address{}, nil, nil, err

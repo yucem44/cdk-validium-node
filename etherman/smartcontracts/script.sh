@@ -8,6 +8,7 @@ gen() {
     abigen --bin bin/${package}.bin --abi abi/${package}.abi --pkg=${package} --out=${package}/${package}.go
 }
 
+gen polygonzkevm
 gen oldpolygonzkevm
 gen polygonzkevmbridge
 gen oldpolygonzkevmbridge
