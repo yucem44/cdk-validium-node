@@ -4,12 +4,13 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/0xPolygon/cdk-validium-node/pool"
 	"github.com/0xPolygon/cdk-validium-node/test/benchmarks/sequencer/common/metrics"
+	"github.com/0xPolygon/cdk-validium-node/test/benchmarks/sequencer/scripts/environment"
+
+	"github.com/0xPolygon/cdk-validium-node/pool"
 	"github.com/0xPolygon/cdk-validium-node/test/benchmarks/sequencer/common/params"
 	"github.com/0xPolygon/cdk-validium-node/test/benchmarks/sequencer/common/transactions"
-	erc20transfers "github.com/0xPolygon/cdk-validium-node/test/benchmarks/sequencer/erc20-transfers"
-	"github.com/0xPolygon/cdk-validium-node/test/benchmarks/sequencer/scripts/common/environment"
+	erc20transfers "github.com/0xPolygon/cdk-validium-node/test/benchmarks/sequencer/e2e/erc20-transfers"
 )
 
 func main() {

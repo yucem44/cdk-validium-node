@@ -3,121 +3,145 @@ package e2e
 import (
 	"context"
 	"math/big"
-	"sync"
+	"os"
+	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 
 	"github.com/0xPolygon/cdk-validium-node/etherman/smartcontracts/polygonrollupmanager"
 	"github.com/0xPolygon/cdk-validium-node/etherman/smartcontracts/polygonzkevm"
-	"github.com/0xPolygon/cdk-validium-node/etherman/smartcontracts/polygonzkevmglobalexitroot"
+	"github.com/0xPolygon/cdk-validium-node/hex"
 	"github.com/0xPolygon/cdk-validium-node/log"
 	"github.com/0xPolygon/cdk-validium-node/state"
 	"github.com/0xPolygon/cdk-validium-node/test/constants"
 	"github.com/0xPolygon/cdk-validium-node/test/operations"
+	"github.com/0xPolygon/cdk-validium-node/test/vectors"
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/stretchr/testify/require"
 )
 
-func TestForcedBatches(t *testing.T) {
+const (
+	forkID5 = 5
+)
+
+func TestForcedBatchesVectorFiles(t *testing.T) {
+
 	if testing.Short() {
 		t.Skip()
 	}
-
-	defer func() {
-		require.NoError(t, operations.Teardown())
-	}()
-
-	var err error
-	nTxs := 10
+	vectorFilesDir := "./../vectors/src/state-transition/forced-tx/group3"
 	ctx := context.Background()
-	opsman, auth, client, amount, gasLimit, gasPrice, nonce := setupEnvironment(ctx, t)
+	err := filepath.Walk(vectorFilesDir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if !info.IsDir() && !strings.HasSuffix(info.Name(), "list.json") {
 
-	txs := make([]*types.Transaction, 0, nTxs)
-	for i := 0; i < nTxs; i++ {
-		tx := types.NewTransaction(nonce, toAddress, amount, gasLimit, gasPrice, nil)
-		nonce = nonce + 1
-		txs = append(txs, tx)
-	}
+			t.Run(info.Name(), func(t *testing.T) {
 
-	wgNormalL2Transfers := new(sync.WaitGroup)
-	wgNormalL2Transfers.Add(1)
-	var l2BlockNumbers []*big.Int
-	go func() {
-		defer wgNormalL2Transfers.Done()
-		l2BlockNumbers, err = operations.ApplyL2Txs(ctx, txs, auth, client, operations.VerifiedConfirmationLevel)
-		require.NoError(t, err)
-	}()
+				defer func() {
+					require.NoError(t, operations.Teardown())
+				}()
 
-	time.Sleep(2 * time.Second)
-	amount = big.NewInt(0).Add(amount, big.NewInt(10))
-	unsignedTx := types.NewTransaction(nonce, toAddress, amount, gasLimit, gasPrice, nil)
-	signedTx, err := auth.Signer(auth.From, unsignedTx)
+				// Load test vectors
+				log.Info("=====================================================================")
+				log.Info(path)
+				log.Info("=====================================================================")
+				testCase, err := vectors.LoadStateTransitionTestCaseV2(path)
+				require.NoError(t, err)
+
+				opsCfg := operations.GetDefaultOperationsConfig()
+				opsCfg.State.MaxCumulativeGasUsed = 80000000000
+				opsman, err := operations.NewManager(ctx, opsCfg)
+				require.NoError(t, err)
+
+				// Setting Genesis
+				log.Info("###################")
+				log.Info("# Setting Genesis #")
+				log.Info("###################")
+				genesisActions := vectors.GenerateGenesisActions(testCase.Genesis)
+				require.NoError(t, opsman.SetGenesis(genesisActions))
+				require.NoError(t, opsman.Setup())
+
+				// Check initial root
+				log.Info("################################")
+				log.Info("# Verifying initial state root #")
+				log.Info("################################")
+				actualOldStateRoot, err := opsman.State().GetLastStateRoot(ctx, nil)
+				require.NoError(t, err)
+				require.Equal(t, testCase.ExpectedOldStateRoot, actualOldStateRoot.Hex())
+				decodedData, err := hex.DecodeHex(testCase.BatchL2Data)
+				require.NoError(t, err)
+				_, txBytes, _, err := state.DecodeTxs(decodedData, forkID5)
+				forcedBatch, err := sendForcedBatchForVector(t, txBytes, opsman)
+				require.NoError(t, err)
+				actualNewStateRoot := forcedBatch.StateRoot
+				isClosed, err := opsman.State().IsBatchClosed(ctx, forcedBatch.BatchNumber, nil)
+				require.NoError(t, err)
+
+				// wait until is closed
+				for !isClosed {
+					time.Sleep(1 * time.Second)
+					isClosed, err = opsman.State().IsBatchClosed(ctx, forcedBatch.BatchNumber, nil)
+					require.NoError(t, err)
+				}
+
+				log.Info("#######################")
+				log.Info("# Verifying new leafs #")
+				log.Info("#######################")
+				merkleTree := opsman.State().GetTree()
+				for _, expectedNewLeaf := range testCase.ExpectedNewLeafs {
+					if expectedNewLeaf.IsSmartContract {
+						log.Info("Smart Contract Address: ", expectedNewLeaf.Address)
+					} else {
+						log.Info("Account Address: ", expectedNewLeaf.Address)
+					}
+					log.Info("Verifying Balance...")
+					actualBalance, err := merkleTree.GetBalance(ctx, common.HexToAddress(expectedNewLeaf.Address), actualNewStateRoot.Bytes())
+					require.NoError(t, err)
+					require.Equal(t, expectedNewLeaf.Balance.String(), actualBalance.String())
+
+					log.Info("Verifying Nonce...")
+					actualNonce, err := merkleTree.GetNonce(ctx, common.HexToAddress(expectedNewLeaf.Address), actualNewStateRoot.Bytes())
+					require.NoError(t, err)
+					require.Equal(t, expectedNewLeaf.Nonce, actualNonce.String())
+					if expectedNewLeaf.IsSmartContract {
+						log.Info("Verifying Storage...")
+						for positionHex, expectedNewStorageHex := range expectedNewLeaf.Storage {
+							position, ok := big.NewInt(0).SetString(positionHex[2:], 16)
+							require.True(t, ok)
+							expectedNewStorage, ok := big.NewInt(0).SetString(expectedNewStorageHex[2:], 16)
+							require.True(t, ok)
+							actualStorage, err := merkleTree.GetStorageAt(ctx, common.HexToAddress(expectedNewLeaf.Address), position, actualNewStateRoot.Bytes())
+							require.NoError(t, err)
+							require.Equal(t, expectedNewStorage, actualStorage)
+						}
+
+						log.Info("Verifying HashBytecode...")
+						actualHashByteCode, err := merkleTree.GetCodeHash(ctx, common.HexToAddress(expectedNewLeaf.Address), actualNewStateRoot.Bytes())
+						require.NoError(t, err)
+						require.Equal(t, expectedNewLeaf.HashBytecode, common.BytesToHash(actualHashByteCode).String())
+					}
+				}
+				return
+			})
+
+			return nil
+		}
+		return nil
+	})
 	require.NoError(t, err)
-	encodedTxs, err := state.EncodeTransactions([]types.Transaction{*signedTx}, constants.EffectivePercentage, forkID)
-	require.NoError(t, err)
-	forcedBatch, err := sendForcedBatch(t, encodedTxs, opsman)
-	require.NoError(t, err)
-
-	// Checking if all txs sent before the forced batch were processed within previous closed batch
-	wgNormalL2Transfers.Wait()
-	for _, l2blockNum := range l2BlockNumbers {
-		batch, err := opsman.State().GetBatchByL2BlockNumber(ctx, l2blockNum.Uint64(), nil)
-		require.NoError(t, err)
-		require.Less(t, batch.BatchNumber, forcedBatch.BatchNumber)
-	}
 }
 
-func setupEnvironment(ctx context.Context, t *testing.T) (*operations.Manager, *bind.TransactOpts, *ethclient.Client, *big.Int, uint64, *big.Int, uint64) {
-	err := operations.Teardown()
-	require.NoError(t, err)
-	opsCfg := operations.GetDefaultOperationsConfig()
-	opsCfg.State.MaxCumulativeGasUsed = 80000000000
-	opsman, err := operations.NewManager(ctx, opsCfg)
-	require.NoError(t, err)
-	err = opsman.Setup()
-	require.NoError(t, err)
-	time.Sleep(5 * time.Second)
-	// Load account with balance on local genesis
-	auth, err := operations.GetAuth(operations.DefaultSequencerPrivateKey, operations.DefaultL2ChainID)
-	require.NoError(t, err)
-	// Load eth client
-	client, err := ethclient.Dial(operations.DefaultL2NetworkURL)
-	require.NoError(t, err)
-	// Send txs
-	amount := big.NewInt(10000)
-	senderBalance, err := client.BalanceAt(ctx, auth.From, nil)
-	require.NoError(t, err)
-	senderNonce, err := client.PendingNonceAt(ctx, auth.From)
-	require.NoError(t, err)
-
-	log.Infof("Receiver Addr: %v", toAddress.String())
-	log.Infof("Sender Addr: %v", auth.From.String())
-	log.Infof("Sender Balance: %v", senderBalance.String())
-	log.Infof("Sender Nonce: %v", senderNonce)
-
-	gasLimit, err := client.EstimateGas(ctx, ethereum.CallMsg{From: auth.From, To: &toAddress, Value: amount})
-	require.NoError(t, err)
-
-	gasPrice, err := client.SuggestGasPrice(ctx)
-	require.NoError(t, err)
-
-	nonce, err := client.PendingNonceAt(ctx, auth.From)
-	require.NoError(t, err)
-	return opsman, auth, client, amount, gasLimit, gasPrice, nonce
-}
-
-func sendForcedBatch(t *testing.T, txs []byte, opsman *operations.Manager) (*state.Batch, error) {
+func sendForcedBatchForVector(t *testing.T, txs []byte, opsman *operations.Manager) (*state.Batch, error) {
 	ctx := context.Background()
 	st := opsman.State()
 	// Connect to ethereum node
 	ethClient, err := ethclient.Dial(operations.DefaultL1NetworkURL)
-	require.NoError(t, err)
-
-	initialGer, _, err := st.GetLatestGer(ctx, gerFinalityBlocks)
 	require.NoError(t, err)
 
 	// Create smc client
@@ -133,25 +157,13 @@ func sendForcedBatch(t *testing.T, txs []byte, opsman *operations.Manager) (*sta
 	require.NoError(t, err)
 
 	log.Info("Using address: ", auth.From)
-
 	num, err := zkEvm.LastForceBatch(&bind.CallOpts{Pending: false})
 	require.NoError(t, err)
-
 	log.Info("Number of forceBatches in the smc: ", num)
 
 	// Get tip
 	tip, err := rollupManager.GetForcedBatchFee(&bind.CallOpts{Pending: false})
 	require.NoError(t, err)
-
-	managerAddress, err := zkEvm.GlobalExitRootManager(&bind.CallOpts{Pending: false})
-	require.NoError(t, err)
-
-	manager, err := polygonzkevmglobalexitroot.NewPolygonzkevmglobalexitroot(managerAddress, ethClient)
-	require.NoError(t, err)
-
-	rootInContract, err := manager.GetLastGlobalExitRoot(&bind.CallOpts{Pending: false})
-	require.NoError(t, err)
-	rootInContractHash := common.BytesToHash(rootInContract[:])
 
 	disallowed, err := zkEvm.IsForcedBatchAllowed(&bind.CallOpts{Pending: false})
 	require.NoError(t, err)
@@ -162,20 +174,19 @@ func sendForcedBatch(t *testing.T, txs []byte, opsman *operations.Manager) (*sta
 		require.NoError(t, err)
 	}
 
-	currentBlock, err := ethClient.BlockByNumber(ctx, nil)
-	require.NoError(t, err)
-
-	log.Debug("currentBlock.Time(): ", currentBlock.Time())
-
 	// Send forceBatch
 	tx, err := zkEvm.ForceBatch(auth, txs, tip)
 	require.NoError(t, err)
 
-	log.Info("TxHash: ", tx.Hash())
+	log.Info("Forced Batch Submit to L1 TxHash: ", tx.Hash())
 	time.Sleep(1 * time.Second)
 
 	err = operations.WaitTxToBeMined(ctx, ethClient, tx, operations.DefaultTimeoutTxToBeMined)
 	require.NoError(t, err)
+
+	currentBlock, err := ethClient.BlockByNumber(ctx, nil)
+	require.NoError(t, err)
+	log.Debug("currentBlock.Time(): ", currentBlock.Time())
 
 	query := ethereum.FilterQuery{
 		FromBlock: currentBlock.Number(),
@@ -210,25 +221,16 @@ func sendForcedBatch(t *testing.T, txs []byte, opsman *operations.Manager) (*sta
 			time.Sleep(1 * time.Second)
 			forcedBatch, err = st.GetBatchByForcedBatchNum(ctx, fb.ForceBatchNum, nil)
 		}
-		log.Info("ForcedBatchNum: ", forcedBatch.BatchNumber)
 		require.NoError(t, err)
 		require.NotNil(t, forcedBatch)
 
-		log.Info("Waiting for batch to be virtualized...")
+		log.Info("Waiting Forced Batch to be virtualized ...")
 		err = operations.WaitBatchToBeVirtualized(forcedBatch.BatchNumber, 4*time.Minute, st)
 		require.NoError(t, err)
 
-		log.Info("Waiting for batch to be consolidated...")
+		log.Info("Waiting Forced Batch to be consolidated ...")
 		err = operations.WaitBatchToBeConsolidated(forcedBatch.BatchNumber, 4*time.Minute, st)
 		require.NoError(t, err)
-
-		if rootInContractHash != initialGer.GlobalExitRoot {
-			finalGer, _, err := st.GetLatestGer(ctx, gerFinalityBlocks)
-			require.NoError(t, err)
-			if finalGer.GlobalExitRoot != rootInContractHash {
-				log.Fatal("global exit root is not updated")
-			}
-		}
 	}
 
 	return forcedBatch, nil

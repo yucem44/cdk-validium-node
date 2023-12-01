@@ -8,9 +8,7 @@ import (
 	"strings"
 
 	"github.com/0xPolygon/cdk-validium-node/db"
-	"github.com/0xPolygon/cdk-validium-node/log"
 	"github.com/0xPolygon/cdk-validium-node/pool/pgpoolstorage"
-	"github.com/0xPolygon/cdk-validium-node/state"
 	"github.com/0xPolygon/cdk-validium-node/test/benchmarks/sequencer/common/params"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/crypto"

@@ -3489,7 +3489,7 @@ func TestSendRawTransactionJSONRPCCallWithPolicyApplied(t *testing.T) {
 	contractDenied := types.NewRPCError(types.AccessDeniedCode, "contract disallowed send_tx by policy")
 	deployDenied := types.NewRPCError(types.AccessDeniedCode, "sender disallowed deploy by policy")
 
-	cfg := getDefaultConfig()
+	cfg := getSequencerDefaultConfig()
 	s, m, _ := newMockedServer(t, cfg)
 	defer s.Stop()
 

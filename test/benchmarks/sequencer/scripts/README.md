@@ -7,7 +7,7 @@ This repository contains scripts to benchmark a sequencer. The main script is wr
 
 ### 1. Clone the repository:
    ```
-   git clone git@github.com:0xPolygon/cdk-validium-node.git
+   git clone git@github.com:0xPolygonHermez/zkevm-node.git
    cd zkevm-node/test/benchmarks/sequencer/scripts
    ```
 

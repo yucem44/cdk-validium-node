@@ -666,25 +666,25 @@ func (_m *stateMock) ResetTrustedState(ctx context.Context, batchNumber uint64, 
 	return r0
 }
 
-// SetGenesis provides a mock function with given fields: ctx, block, genesis, m, dbTx
-func (_m *stateMock) SetGenesis(ctx context.Context, block state.Block, genesis state.Genesis, m metrics.CallerLabel, dbTx pgx.Tx) (common.Hash, error) {
-	ret := _m.Called(ctx, block, genesis, m, dbTx)
+// SetGenesis provides a mock function with given fields: ctx, block, genesis, dbTx
+func (_m *stateMock) SetGenesis(ctx context.Context, block state.Block, genesis state.Genesis, dbTx pgx.Tx) ([]byte, error) {
+	ret := _m.Called(ctx, block, genesis, dbTx)
 
-	var r0 common.Hash
+	var r0 []byte
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, state.Block, state.Genesis, metrics.CallerLabel, pgx.Tx) (common.Hash, error)); ok {
-		return rf(ctx, block, genesis, m, dbTx)
+	if rf, ok := ret.Get(0).(func(context.Context, state.Block, state.Genesis, pgx.Tx) ([]byte, error)); ok {
+		return rf(ctx, block, genesis, dbTx)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, state.Block, state.Genesis, metrics.CallerLabel, pgx.Tx) common.Hash); ok {
-		r0 = rf(ctx, block, genesis, m, dbTx)
+	if rf, ok := ret.Get(0).(func(context.Context, state.Block, state.Genesis, pgx.Tx) []byte); ok {
+		r0 = rf(ctx, block, genesis, dbTx)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(common.Hash)
+			r0 = ret.Get(0).([]byte)
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, state.Block, state.Genesis, metrics.CallerLabel, pgx.Tx) error); ok {
-		r1 = rf(ctx, block, genesis, m, dbTx)
+	if rf, ok := ret.Get(1).(func(context.Context, state.Block, state.Genesis, pgx.Tx) error); ok {
+		r1 = rf(ctx, block, genesis, dbTx)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -761,7 +761,11 @@ func (_m *stateMock) UpdateBatchL2Data(ctx context.Context, batchNumber uint64, 
 }
 
 // newStateMock creates a new instance of stateMock. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.
-func newStateMock(t mockConstructorTestingTnewStateMock) *stateMock {
+// The first argument is typically a *testing.T value.
+func newStateMock(t interface {
+	mock.TestingT
+	Cleanup(func())
+}) *stateMock {
 	mock := &stateMock{}
 	mock.Mock.Test(t)
 

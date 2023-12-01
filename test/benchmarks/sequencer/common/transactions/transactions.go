@@ -10,9 +10,11 @@ import (
 
 	"github.com/0xPolygon/cdk-validium-node/pool"
 	"github.com/0xPolygon/cdk-validium-node/state"
+
 	"github.com/0xPolygon/cdk-validium-node/test/benchmarks/sequencer/common/params"
-	"github.com/0xPolygon/cdk-validium-node/test/contracts/bin/ERC20"
 	"github.com/0xPolygon/cdk-validium-node/test/operations"
+
+	"github.com/0xPolygon/cdk-validium-node/test/contracts/bin/ERC20"
 	"github.com/0xPolygon/cdk-validium-node/test/scripts/uniswap/pkg"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/core/types"

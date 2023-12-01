@@ -2,9 +2,8 @@ package config
 
 // DefaultValues is the default configuration
 const DefaultValues = `
-QuerySize = 1000
 [StreamServer]
-Port = 6901
+Port = 8080
 Filename = "datastreamer.bin"
 	[Log]
 	Environment = "development" # "production" or "development"

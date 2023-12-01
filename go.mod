@@ -1,9 +1,9 @@
 module github.com/0xPolygon/cdk-validium-node
 
-go 1.21
+go 1.19
 
 require (
-	github.com/0xPolygonHermez/zkevm-data-streamer v0.1.11
+	github.com/0xPolygonHermez/zkevm-data-streamer v0.0.10
 	github.com/didip/tollbooth/v6 v6.1.2
 	github.com/dop251/goja v0.0.0-20230806174421-c933cf95e127
 	github.com/ethereum/go-ethereum v1.13.2
@@ -106,8 +106,6 @@ require (
 	github.com/markbates/errx v1.1.0 // indirect
 	github.com/markbates/oncer v1.0.0 // indirect
 	github.com/markbates/safe v1.0.1 // indirect
-	github.com/mattn/go-colorable v0.1.13 // indirect
-	github.com/mattn/go-isatty v0.0.17 // indirect
 	github.com/mattn/go-runewidth v0.0.9 // indirect
 	github.com/matttproud/golang_protobuf_extensions/v2 v2.0.0 // indirect
 	github.com/miguelmota/go-solidity-sha3 v0.1.1 // indirect
@@ -162,7 +160,6 @@ require (
 
 require (
 	github.com/0xPolygon/cdk-data-availability v0.0.0-20230830141533-4064ada790a6
-	github.com/fatih/color v1.15.0
 	github.com/golang/protobuf v1.5.3
 	github.com/joho/godotenv v1.5.1
 	github.com/prometheus/client_golang v1.17.0

@@ -14,6 +14,7 @@ import (
 	"github.com/0xPolygon/cdk-validium-node/sequencer/metrics"
 	"github.com/0xPolygon/cdk-validium-node/state"
 	stateMetrics "github.com/0xPolygon/cdk-validium-node/state/metrics"
+	"github.com/0xPolygonHermez/zkevm-data-streamer/datastreamer"
 	"github.com/ethereum/go-ethereum/common"
 )
 
@@ -88,7 +89,7 @@ func (s *Sequencer) Start(ctx context.Context) {
 
 	// Start stream server if enabled
 	if s.cfg.StreamServer.Enabled {
-		streamServer, err := datastreamer.NewServer(s.cfg.StreamServer.Port, state.StreamTypeSequencer, s.cfg.StreamServer.Filename, &s.cfg.StreamServer.Log)
+		streamServer, err := datastreamer.New(s.cfg.StreamServer.Port, state.StreamTypeSequencer, s.cfg.StreamServer.Filename, &s.cfg.StreamServer.Log)
 		if err != nil {
 			log.Fatalf("failed to create stream server, err: %v", err)
 		}
@@ -158,7 +159,6 @@ func (s *Sequencer) Start(ctx context.Context) {
 }
 
 func (s *Sequencer) updateDataStreamerFile(ctx context.Context, streamServer *datastreamer.StreamServer) {
-	var skipBookMark, skipL2BlockStart bool
 	var currentL2Block uint64
 	var currentTxIndex uint64
 	var err error
@@ -227,17 +227,9 @@ func (s *Sequencer) updateDataStreamerFile(ctx context.Context, streamServer *da
 		log.Infof("Latest entry: %+v", latestEntry)
 
 		switch latestEntry.Type {
-		case state.EntryTypeBookMark:
-			log.Info("Latest entry type is BookMark")
-			currentL2Block = binary.LittleEndian.Uint64(latestEntry.Data[1:9])
-			skipBookMark = true
-			currentL2Block--
 		case state.EntryTypeL2BlockStart:
 			log.Info("Latest entry type is L2BlockStart")
 			currentL2Block = binary.LittleEndian.Uint64(latestEntry.Data[8:16])
-			skipBookMark = true
-			skipL2BlockStart = true
-			currentL2Block--
 		case state.EntryTypeL2Tx:
 			log.Info("Latest entry type is L2Tx")
 			for latestEntry.Type == state.EntryTypeL2Tx {
@@ -251,7 +243,6 @@ func (s *Sequencer) updateDataStreamerFile(ctx context.Context, streamServer *da
 				log.Fatal("Latest entry is not a L2BlockStart")
 			}
 			currentL2Block = binary.LittleEndian.Uint64(latestEntry.Data[8:16])
-			currentL2Block--
 		case state.EntryTypeL2BlockEnd:
 			log.Info("Latest entry type is L2BlockEnd")
 			currentL2Block = binary.LittleEndian.Uint64(latestEntry.Data[0:8])
@@ -300,13 +291,9 @@ func (s *Sequencer) updateDataStreamerFile(ctx context.Context, streamServer *da
 				L2BlockNumber: l2block.L2BlockNumber,
 			}
 
-			if !skipBookMark {
-				_, err = streamServer.AddStreamBookmark(bookMark.Encode())
-				if err != nil {
-					log.Fatal(err)
-				}
-			} else {
-				skipBookMark = false
+			_, err = streamServer.AddStreamBookmark(bookMark.Encode())
+			if err != nil {
+				log.Fatal(err)
 			}
 
 			blockStart := state.DSL2BlockStart{
@@ -318,13 +305,9 @@ func (s *Sequencer) updateDataStreamerFile(ctx context.Context, streamServer *da
 				ForkID:         l2block.ForkID,
 			}
 
-			if !skipL2BlockStart {
-				_, err = streamServer.AddStreamEntry(state.EntryTypeL2BlockStart, blockStart.Encode())
-				if err != nil {
-					log.Fatal(err)
-				}
-			} else {
-				skipL2BlockStart = false
+			_, err = streamServer.AddStreamEntry(state.EntryTypeL2BlockStart, blockStart.Encode())
+			if err != nil {
+				log.Fatal(err)
 			}
 
 			entry, err = streamServer.AddStreamEntry(state.EntryTypeL2Tx, l2Transactions[x].Encode())

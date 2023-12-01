@@ -1,11 +1,10 @@
-QuerySize = 10000
 
 [StreamServer]
 Port = 6901
 Filename = "datastream.bin"
     [StreamServer.Log]
     Environment = "development"
-    Level = "error"
+    Level = "info"
     Outputs = ["stdout"]
 
 [StateDB]

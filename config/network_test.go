@@ -79,17 +79,11 @@ func TestLoadCustomNetworkConfig(t *testing.T) {
 				L1Config: etherman.L1Config{
 					L1ChainID:                 420,
 					CDKValidiumAddr:           common.HexToAddress("0xc949254d682d8c9ad5682521675b8f43b102aec4"),
-					PolAddr:                 common.HexToAddress("0xc949254d682d8c9ad5682521675b8f43b102aec4"),
+					PolAddr:                   common.HexToAddress("0xc949254d682d8c9ad5682521675b8f43b102aec4"),
 					GlobalExitRootManagerAddr: common.HexToAddress("0xc949254d682d8c9ad5682521675b8f43b102aec4"),
 					DataCommitteeAddr:         common.HexToAddress("0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6"),
 				},
 				Genesis: state.Genesis{
-					FirstBatchData: &state.BatchData{
-						Transactions:   "0xf8c380808401c9c380942a3dd3eb832af982ec71669e178424b10dca2ede80b8a4d3476afe000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a40d5f56745a118d0906a34e69aec8c0db1cb8fa000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005ca1ab1e0000000000000000000000000000000000000000000000000000000005ca1ab1e1bff",
-						GlobalExitRoot: common.Hash{},
-						Timestamp:      1697640780,
-						Sequencer:      common.HexToAddress("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"),
-					},
 					Root:            common.HexToHash("0xBEEF"),
 					GenesisBlockNum: 69,
 					GenesisActions: []*state.GenesisAction{
